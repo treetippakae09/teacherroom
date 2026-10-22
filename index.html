@@ -392,6 +392,8 @@ button.note:hover{transform:rotate(0deg) translateY(-3px)}
 .copyrow{display:flex;gap:8px;align-items:center;margin-top:6px}
 .copyrow input{flex:1;min-width:0;font-size:13px;padding:8px 10px}
 .net-pill{cursor:pointer;border-style:solid}
+.hint{margin:0;font-size:12.5px;line-height:1.5;color:var(--ink-soft);background:var(--sky-soft);border-radius:10px;padding:7px 10px}
+.ver{margin:0;text-align:center;font-size:11px;color:var(--ink-soft)}
 .linkbtn{border:0;background:none;color:var(--ink-soft);text-decoration:underline;font-size:13px;padding:4px}
 .net-pill{font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--pri-soft);border:2px solid var(--pri);white-space:nowrap;font-weight:600}
 .net-pill.off{background:#f3f5f6;border-color:#d5dde0;color:var(--ink-soft)}
@@ -446,6 +448,60 @@ button.note:hover{transform:rotate(0deg) translateY(-3px)}
 .searchrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .searchrow .txt{flex:1;min-width:160px;padding:8px 12px;font-size:14px}
 .searchrow select{border:2.5px solid var(--line);border-radius:14px;padding:8px 10px;background:#fff;font-size:14px;max-width:100%}
+/* PLC */
+.tag.inplc .nm::after{content:" · PLC";color:#2e86de}
+.plc-panel{position:fixed;z-index:65;top:calc(76px + env(safe-area-inset-top,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));width:min(380px,calc(100% - 24px));background:#fff;border-radius:22px;box-shadow:0 6px 0 #bcd9f2,0 16px 40px #2f3e4633;border:3px solid #d8ebfb;display:flex;flex-direction:column;overflow:hidden}
+.plc-head{display:flex;gap:10px;align-items:flex-start;padding:12px 12px 8px;background:#eef6ff}
+.plc-title{flex:1;min-width:0}
+.plc-title b{display:block;font-family:var(--f-display);font-weight:400;font-size:20px;line-height:1.25;overflow-wrap:anywhere}
+.plc-title small{display:block;color:var(--ink-soft);font-size:12px}
+.plc-mode{display:inline-block;font-size:11px;font-weight:700;border-radius:99px;padding:1px 8px;background:#2e86de;color:#fff;margin-bottom:3px}
+.plc-people{display:flex;gap:8px;overflow-x:auto;padding:8px 12px;border-bottom:2px dotted #d8ebfb;flex:none}
+.plc-people div{flex:none;display:flex;flex-direction:column;align-items:center;font-size:10.5px;max-width:60px;text-align:center}
+.plc-people img{width:38px;height:38px;border-radius:50%;background:var(--sky-soft);box-shadow:0 0 0 2px #fff,0 0 0 4px #d8ebfb;transition:box-shadow .15s}
+.plc-people .speaking img{box-shadow:0 0 0 2px #fff,0 0 0 5px #3bd18a}
+.plc-people span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60px}
+.plc-voice{display:flex;gap:10px;align-items:center;padding:8px 12px;flex:none;flex-wrap:wrap}
+.plc-vstat{font-size:12px;color:var(--ink-soft)}
+.plc-log{flex:1;min-height:0;overflow:auto;padding:8px 12px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.plc-panel .chat-form{padding:0 12px;flex:none}
+.plc-foot{display:flex;gap:8px;justify-content:space-between;padding:8px 12px 12px;flex:none}
+.plc-pill{position:fixed;z-index:65;right:max(12px,env(safe-area-inset-right,0px));bottom:calc(70px + env(safe-area-inset-bottom,0px));border:0;border-radius:999px;background:#2e86de;color:#fff;font-weight:700;padding:10px 16px;box-shadow:0 4px 0 #1f5f9e;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plc-invite{position:fixed;z-index:95;left:50%;transform:translateX(-50%);top:calc(84px + env(safe-area-inset-top,0px));width:min(440px,calc(100% - 24px));background:#fff;border-radius:20px;border:3px solid #bcd9f2;box-shadow:0 6px 0 #bcd9f2,0 16px 40px #2f3e4640;padding:14px;display:grid;gap:10px;animation:tin .3s ease-out}
+.plc-invite b{display:block;font-family:var(--f-display);font-weight:400;font-size:21px;margin-top:6px;line-height:1.3}
+.plc-invite small{display:block;color:var(--ink-soft);font-size:12.5px;margin-top:2px}
+.plc-h{font-family:var(--f-display);font-weight:400;font-size:20px;margin:0 0 8px}
+.plc-card{background:#eef6ff;border-radius:16px;padding:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.plc-card div{flex:1;min-width:200px}
+.plc-card b{display:block;font-size:16px}
+.plc-card small{display:block;color:var(--ink-soft);font-size:12.5px;line-height:1.45}
+.plc-list{display:grid;gap:8px;margin-bottom:18px}
+.modecards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.modecard{text-align:left;border:2px solid var(--line);background:#fff;border-radius:14px;padding:10px 12px;box-shadow:0 3px 0 var(--line)}
+.modecard b{display:block;font-size:15px}
+.modecard small{display:block;color:var(--ink-soft);font-size:12px;line-height:1.45;margin-top:2px}
+.modecard[aria-pressed="true"]{border-color:#2e86de;background:#eef6ff;box-shadow:0 3px 0 #2e86de}
+.past{background:#f7f9fa;border-radius:14px;padding:10px 12px;font-size:13.5px;line-height:1.55}
+.past b{display:block}
+.past p{margin:4px 0 0;white-space:pre-wrap}
+@media (max-width:640px){ .plc-panel{top:auto;height:62%} }
+.chip.proven{background:#2a8a70;color:#fff}
+.rv-line{font-size:12px;color:#2f3e46cc;font-weight:600}
+.hearts-sm{color:#e8603c;letter-spacing:1px}
+.rv-sum{display:flex;gap:14px;align-items:center;background:#fff6ef;border-radius:16px;padding:10px 14px;margin-bottom:10px}
+.rv-sum small{display:block;color:var(--ink-soft);font-size:12.5px;line-height:1.45;margin-top:2px}
+.rv-big{display:flex;flex-direction:column;align-items:center;flex:none}
+.rv-big b{font-family:var(--f-display);font-weight:400;font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+.hearts-lg{color:#e8603c;font-size:16px;letter-spacing:2px}
+.rv-form{display:grid;gap:8px;background:#fbfefd;border:2px dashed var(--line);border-radius:16px;padding:10px 12px}
+.rv-hearts{display:flex;align-items:center;gap:2px;flex-wrap:wrap}
+.rv-hearts button{border:0;background:none;font-size:28px;line-height:1;color:#f2ddd2;padding:2px 3px;transition:transform .1s}
+.rv-hearts button.on{color:#e8603c}
+.rv-hearts button:hover{transform:scale(1.15)}
+.rv-hearts span{margin-left:8px;font-size:13px;color:var(--ink-soft)}
+.rv-tried{display:flex;gap:8px;align-items:center;font-size:14px;font-weight:600}
+.rv-tried input{width:18px;height:18px;accent-color:var(--pri)}
+.mic-on{background:var(--danger)!important;box-shadow:0 4px 0 #9b3530!important;animation:bob 1s ease-in-out infinite}
 .msgtext a{color:var(--pri-deep);font-weight:600;overflow-wrap:anywhere}
 @media (max-width:640px){
   .quests{top:auto;bottom:calc(76px + env(safe-area-inset-bottom,0px));right:max(12px,env(safe-area-inset-right,0px));left:auto;width:170px;max-height:130px}
@@ -486,6 +542,7 @@ button.note:hover{transform:rotate(0deg) translateY(-3px)}
     <nav class="tabs" role="tablist" aria-label="เมนูหลัก">
       <button class="tab" role="tab" id="tabRoom" data-tab="room" aria-selected="false">ห้องพักครู</button>
       <button class="tab" role="tab" data-tab="board" aria-selected="false">กระดานปักหมุด</button>
+      <button class="tab" role="tab" data-tab="plc" aria-selected="false">วง PLC</button>
       <button class="tab" role="tab" data-tab="notebook" aria-selected="false">สมุดของฉัน</button>
       <button class="tab" role="tab" data-tab="dress" aria-selected="true">แต่งตัวครู</button>
       <button class="tab" role="tab" data-tab="help" aria-selected="false">วิธีเล่น</button>
@@ -524,18 +581,21 @@ button.note:hover{transform:rotate(0deg) translateY(-3px)}
     <section class="screen login" id="scrLogin" hidden>
       <div class="login-card">
         <span class="eyebrow">ห้องพักครูออนไลน์</span>
-        <h2>เข้าสู่ระบบเพื่อเจอเพื่อนครูแบบ realtime</h2>
-        <p class="lead">เมื่อเข้าสู่ระบบ คุณจะเห็นเพื่อนครูที่ออนไลน์เดินอยู่ในห้องเดียวกัน แชตคุยกันได้ทันที และตัวละครของคุณจะถูกจำไว้ เปิดจากเครื่องไหนก็เจอ</p>
+        <h2 id="lTitle">เข้าห้องพักครู แล้วเจอเพื่อนครูแบบ realtime</h2>
+        <p class="lead" id="lLead">สมาชิกจะได้สมุดส่วนตัวที่เก็บในบัญชี (จดหมาย ไพ่ โพสต์ที่บันทึกไว้) เปิดจากเครื่องไหนก็เจอ ส่วนผู้เยี่ยมชมเข้าร่วมแชตและวง PLC ได้ทันทีโดยไม่ต้องสมัคร</p>
         <button class="btn google" type="button" id="gBtn" hidden><span>G</span> เข้าสู่ระบบด้วย Google</button>
-        <div class="filters" id="loginTabs"><button type="button" class="seg" data-v="login" aria-pressed="true">เข้าสู่ระบบ</button><button type="button" class="seg" data-v="register" aria-pressed="false">สมัครสมาชิก</button></div>
+        <div class="filters" id="loginTabs" role="tablist"><button type="button" class="seg" data-v="login" aria-pressed="true">เข้าสู่ระบบ</button><button type="button" class="seg" data-v="register" aria-pressed="false">สมัครสมาชิก</button><button type="button" class="seg" data-v="guest" aria-pressed="false">ผู้เยี่ยมชม</button></div>
         <form class="form-grid" id="loginForm" autocomplete="on">
           <div class="fld" style="margin:0" id="fName" hidden><label for="lName">ชื่อที่ใช้ในห้อง</label><input class="txt" id="lName" maxlength="24" autocomplete="nickname" placeholder="เช่น แพรว"></div>
-          <div class="fld" style="margin:0"><label for="lEmail">อีเมล</label><input class="txt" id="lEmail" type="email" autocomplete="email" required placeholder="name@school.ac.th"></div>
-          <div class="fld" style="margin:0"><label for="lPass">รหัสผ่าน</label><input class="txt" id="lPass" type="password" minlength="6" autocomplete="current-password" required placeholder="อย่างน้อย 6 ตัวอักษร"></div>
+          <div class="fld" style="margin:0" id="fEmail"><label for="lEmail">อีเมล</label><input class="txt" id="lEmail" type="email" autocomplete="email" placeholder="name@school.ac.th"></div>
+          <div class="fld" style="margin:0" id="fCode" hidden><label for="lCode">รหัส 6 หลักจากอีเมล</label><input class="txt" id="lCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="123456"></div>
+          <div class="fld" style="margin:0" id="fPass"><label for="lPass" id="lPassLbl">รหัสผ่าน</label><input class="txt" id="lPass" type="password" minlength="6" autocomplete="current-password" placeholder="อย่างน้อย 6 ตัวอักษร"></div>
+          <p class="hint" id="lHint" hidden></p>
           <button class="btn" type="submit" id="lGo">เข้าสู่ระบบ</button>
           <div class="err" id="lErr" hidden></div>
         </form>
-        <button class="linkbtn" type="button" id="offlineBtn">เล่นแบบออฟไลน์คนเดียวก่อน (ดูกระดานได้ แต่ยังโพสต์ไม่ได้)</button>
+        <div class="row" style="justify-content:space-between"><button class="linkbtn" type="button" id="forgotBtn">ลืมรหัสผ่าน?</button><button class="linkbtn" type="button" id="offlineBtn">เล่นคนเดียวแบบออฟไลน์</button></div>
+        <p class="ver" id="verLabel"></p>
       </div>
     </section>
     <section class="screen" id="scrCreator" hidden>
@@ -618,7 +678,7 @@ button.note:hover{transform:rotate(0deg) translateY(-3px)}
           <div class="chat-body" id="chatBody">
             <div class="online-list" id="onlineList"></div>
             <div class="rt-log" id="rtLog" aria-live="polite"></div>
-            <form class="chat-form" id="rtForm"><input class="txt" id="rtInput" maxlength="300" placeholder="คุยกับเพื่อนครู… (กด Enter)" aria-label="ข้อความแชต"><button class="btn sm" type="submit">ส่ง</button></form>
+            <form class="chat-form" id="rtForm"><input class="txt" id="rtInput" maxlength="300" placeholder="คุยกับเพื่อนครู… (กด Enter)" aria-label="ข้อความแชต"><button class="btn sm" type="button" data-mic-for="rtInput" title="พิมพ์ด้วยเสียง" aria-label="พิมพ์ด้วยเสียง">🎤</button><button class="btn sm" type="submit">ส่ง</button></form>
           </div>
         </div>
         <div class="card quests" id="questBox">
@@ -660,6 +720,27 @@ button.note:hover{transform:rotate(0deg) translateY(-3px)}
 </div>
 
 <div class="toasts" id="toasts" aria-live="polite"></div>
+
+<aside class="plc-panel" id="plcPanel" hidden aria-label="วง PLC">
+  <div class="plc-head">
+    <div class="plc-title"><span class="plc-mode" id="plcMode"></span><b id="plcTitle"></b><small id="plcHost"></small></div>
+    <button class="x" type="button" id="plcMin" aria-label="ย่อหน้าต่างวง PLC" title="ย่อ">—</button>
+  </div>
+  <div class="plc-people" id="plcPeople"></div>
+  <div class="plc-voice" id="plcVoice" hidden>
+    <button class="btn" type="button" id="plcMicBtn">🎙️ เปิดไมค์</button>
+    <span class="plc-vstat" id="plcVStat">กำลังเชื่อมต่อเสียง…</span>
+  </div>
+  <div class="plc-log" id="plcLog" aria-live="polite"></div>
+  <form class="chat-form" id="plcForm"><input class="txt" id="plcInput" maxlength="500" placeholder="พิมพ์ในวง PLC…" aria-label="ข้อความในวง PLC"><button class="btn sm" type="button" data-mic-for="plcInput" title="พิมพ์ด้วยเสียง" aria-label="พิมพ์ด้วยเสียง">🎤</button><button class="btn sm" type="submit">ส่ง</button></form>
+  <div class="plc-foot"><button class="btn ghost sm" type="button" id="plcLeave">ออกจากวง</button><button class="btn sun sm" type="button" id="plcClose" hidden>ปิดวงและบันทึกสรุป</button></div>
+  <div id="plcAudio" hidden></div>
+</aside>
+<button class="plc-pill" type="button" id="plcPill" hidden></button>
+<div class="plc-invite" id="plcInvite" hidden role="alertdialog" aria-labelledby="plcInvTitle">
+  <div><span class="eyebrow">📣 มีวง PLC เปิดแล้ว</span><b id="plcInvTitle"></b><small id="plcInvMeta"></small></div>
+  <div class="row"><button class="btn sm" type="button" id="plcInvJoin">เข้าร่วมวง PLC</button><button class="btn ghost sm" type="button" id="plcInvLater">ไว้ทีหลัง</button></div>
+</div>
 
 <div class="modal" id="mBoard" hidden>
   <div class="panel" role="dialog" aria-labelledby="bTitle">
@@ -715,7 +796,7 @@ button.note:hover{transform:rotate(0deg) translateY(-3px)}
    ถ้าเว้นว่างไว้ หน้าเว็บจะมีหน้าตั้งค่าให้วาง URL และทดสอบการเชื่อมต่อ แล้วสร้างลิงก์ ?api=... ไว้แจกครูได้
    ========================================================= */
 const API_URL_DEFAULT = 'https://script.google.com/macros/s/AKfycbw01JxQ5pnPUD7XUwCfA2UnqgEVhYPJk0ObfENDGKc_ihkLU_boZOJ80k7lFUwgiN02/exec';
-const APP_VERSION = '2026.10.22';
+const APP_VERSION = '2026.10.22.2';
 const API_URL = (() => {
   const okUrl = u => typeof u === 'string' && /^https?:\/\/\S+$/.test(u.trim());
   let ls = null; try { ls = window.localStorage; } catch(e){}
@@ -1121,7 +1202,7 @@ const API = (() => {
   const save = d => store.set('db2', d);
   return {
     mode,
-    async getBoard(){ if (mode !== 'local') return call('getBoard','getBoard',{}); const d = db(); return {topics:d.topics, comments:d.comments}; },
+    async getBoard(){ if (mode !== 'local') return call('getBoard','getBoard',{}); const d = db(); return {topics:d.topics, comments:d.comments, reviews:d.reviews || []}; },
     async addTopic(t){ if (mode !== 'local') return call('addTopic','addTopic',t); const d = db(); const row = Object.assign({id:'T-'+uid(), createdAt:now(), likes:0}, t); delete row.token; d.topics.unshift(row); if (!save(d)){ d.topics.shift(); throw new Error('พื้นที่เก็บในเครื่องเต็ม ลองลดจำนวนรูป'); } return row; },
     async addComment(c){ if (mode !== 'local') return call('addComment','addComment',c); const d = db(); const row = Object.assign({id:'C-'+uid(), createdAt:now()}, c); d.comments.push(row); save(d); return row; },
     async like(id){ if (mode !== 'local') return call('likeTopic','likeTopic',{id}); const d = db(); const t = d.topics.find(x=>x.id===id); if (t) t.likes = (t.likes||0)+1; save(d); return {id, likes:t?t.likes:0}; },
@@ -1142,6 +1223,17 @@ const API = (() => {
     async rtSync(d){ return call('rtSync','rtSync',d); },
     async rtChat(d){ return call('rtChat','rtChat',d); },
     async ping(){ return call('ping','ping',{}); },
+    async guestLogin(d){ return call('guestLogin','guestLogin',d); },
+    async forgotPassword(d){ return call('forgotPassword','forgotPassword',d); },
+    async resetPassword(d){ return call('resetPassword','resetPassword',d); },
+    async getPrivate(){ return call('getPrivate','getPrivate',{}); },
+    async savePrivate(d){ return call('savePrivate','savePrivate',d); },
+    async addReview(d){ if (mode !== 'local') return call('addReview','addReview',d); const x = db(); x.reviews = x.reviews || []; const i = x.reviews.findIndex(r => r.topicId === d.topicId && r.accountId === 'local'); const row = Object.assign({id:'R-'+uid(), accountId:'local', createdAt:now()}, d); if (i >= 0) x.reviews[i] = row; else x.reviews.push(row); save(x); return row; },
+    async getPlcs(){ return call('getPlcs','getPlcs',{}); },
+    async getPlcLog(id){ return call('getPlcLog','getPlcLog',{id}); },
+    async createPlc(d){ return call('createPlc','createPlc',d); },
+    async closePlc(d){ return call('closePlc','closePlc',d); },
+    async rtSignal(d){ return call('rtSignal','rtSignal',d); },
     hasGAS
   };
 })();
@@ -1252,8 +1344,74 @@ const P = (() => {
   const s = store.get('save', null);
   return Object.assign({day:1, min:450, energy:80, mood:70, work:4, carry:[], quests:{}, hearts:{}, talked:{}, flags:{}, planCount:0, feeling:null, cup:null}, s || {});
 })();
-const NB = Object.assign({cards:[], tree:{level:0, logs:[]}, letters:[], art:[], vents:[], cups:[]}, store.get('nb', {}));
-function saveNB(){ if (!store.set('nb', NB)) toast('พื้นที่เก็บในเครื่องเต็ม ลองลบผลงานเก่าในสมุดบางชิ้น', 'bad'); }
+const NB_EMPTY = () => ({cards:[], tree:{level:0, logs:[]}, letters:[], art:[], vents:[], cups:[], saved:[]});
+let NB_KEY = 'nb';
+const NB = Object.assign(NB_EMPTY(), store.get('nb', {}));
+function setNB(obj){ Object.keys(NB).forEach(k => delete NB[k]); Object.assign(NB, NB_EMPTY(), obj || {}); }
+function saveNB(){ NB._u = Date.now(); if (!store.set(NB_KEY, NB)) toast('พื้นที่เก็บในเครื่องเต็ม ลองลบผลงานเก่าในสมุดบางชิ้น', 'bad'); PRIV.schedule(); }
+
+/* สมุดส่วนตัวของสมาชิก: เข้ารหัสด้วย AES-GCM (กุญแจได้จากรหัสผ่าน) ก่อนส่งขึ้นชีต ผู้ดูแลอ่านไม่ได้ */
+const b64e = buf => { const a = new Uint8Array(buf); let s = ''; for (let i=0;i<a.length;i+=8192) s += String.fromCharCode.apply(null, a.subarray(i, i+8192)); return btoa(s); };
+const b64d = str => Uint8Array.from(atob(str), c => c.charCodeAt(0));
+const PRIV = {
+  acct:null, state:'off', timer:0, pushing:false, err:'', listeners:[],
+  on(fn){ this.listeners.push(fn); },
+  set(st, err){ this.state = st; this.err = err || ''; this.listeners.forEach(f => { try { f(); } catch(e){} }); },
+  async deriveKey(id, password, isReset){
+    if (!(window.crypto && crypto.subtle)) return;
+    const enc = new TextEncoder();
+    const base = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']);
+    const bits = await crypto.subtle.deriveBits({name:'PBKDF2', salt:enc.encode('kkp-notebook:' + id), iterations:150000, hash:'SHA-256'}, base, 256);
+    store.set('nbk_' + id, b64e(bits)); if (isReset) store.set('nbreset_' + id, true);
+  },
+  async key(){ const raw = this.acct && store.get('nbk_' + this.acct.id, null); if (!raw) return null; return crypto.subtle.importKey('raw', b64d(raw), 'AES-GCM', false, ['encrypt','decrypt']); },
+  async encrypt(key, text){ const iv = crypto.getRandomValues(new Uint8Array(12)); const ct = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, new TextEncoder().encode(text)); return 'v1.' + b64e(iv) + '.' + b64e(ct); },
+  async decrypt(key, blob){ const [v, iv, ct] = blob.split('.'); if (v !== 'v1') throw new Error('format'); return new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM', iv:b64d(iv)}, key, b64d(ct))); },
+  useAccount(acct){
+    if (!acct || acct.guest || NET.kind !== 'gas'){ this.acct = null; this.set(acct && acct.guest ? 'guest' : 'off'); return; }
+    NB_KEY = 'nb_' + acct.id;
+    const mine = store.get(NB_KEY, null);
+    if (mine) setNB(mine);
+    else { const legacy = store.get('nb', null); if (legacy && !store.get('nb_claimed', null)){ setNB(legacy); store.set('nb_claimed', acct.id); } else setNB({}); store.set(NB_KEY, NB); }
+    this.acct = acct; this.pull();
+  },
+  async pull(){
+    if (!this.acct) return;
+    const key = await this.key();
+    if (!key){ this.set('locked'); return; }
+    this.set('syncing');
+    let r; try { r = await API.getPrivate(); } catch(e){ this.set('error', e.message); return; }
+    if (r.blob){
+      let data = null;
+      try { data = JSON.parse(await this.decrypt(key, r.blob)); }
+      catch(e){
+        if (store.get('nbreset_' + this.acct.id, false)){ store.set('nbreset_' + this.acct.id, false); this.schedule(0); return; }
+        this.set('mismatch'); return;
+      }
+      if ((data._u || 0) > (NB._u || 0)){ setNB(data); store.set(NB_KEY, NB); if (G.started && typeof buildTree === 'function') buildTree(); toast('โหลดสมุดส่วนตัวจากบัญชีแล้ว', 'good'); }
+      else if ((NB._u || 0) > (data._u || 0)){ this.schedule(0); return; }
+    } else if (NB._u){ this.schedule(0); return; }
+    this.set('synced');
+  },
+  schedule(ms){ if (!this.acct || this.state === 'mismatch' || this.state === 'locked') return; clearTimeout(this.timer); this.set('pending'); this.timer = setTimeout(() => this.push(), ms == null ? 2500 : ms); },
+  async push(){
+    if (!this.acct) return;
+    const key = await this.key(); if (!key){ this.set('locked'); return; }
+    if (this.pushing){ this.schedule(1500); return; }
+    this.pushing = true;
+    try { const blob = await this.encrypt(key, JSON.stringify(NB)); await API.savePrivate({blob, updatedAt:NB._u || Date.now()}); this.set('synced'); }
+    catch(e){ this.set('error', e.message); }
+    this.pushing = false;
+  },
+  async unlock(password){
+    await this.deriveKey(this.acct.id, password, false);
+    const key = await this.key();
+    const r = await API.getPrivate();
+    if (r.blob){ try { await this.decrypt(key, r.blob); } catch(e){ store.set('nbk_' + this.acct.id, null); throw new Error('รหัสผ่านไม่ตรงกับที่ใช้ล็อกสมุด'); } }
+    await this.pull();
+  },
+  async overwrite(password){ await this.deriveKey(this.acct.id, password, false); NB._u = Date.now(); store.set(NB_KEY, NB); this.state = 'pending'; await this.push(); }
+};
 function saveGame(){ store.set('save', P); }
 const isM = () => player && player.gender === 'm';
 const K = () => isM() ? 'ครับ' : 'ค่ะ';
@@ -2178,7 +2336,8 @@ function tickTime(dt){
 }
 function checkEvents(){
   const f = P.flags, wd = new Date().getDay(), schoolDay = wd !== 0 && wd !== 6;
-  EVENTS.forEach(e => { if (!f[e.key] && P.min >= e.at){ f[e.key] = true; if (schoolDay && P.min < e.at + EVENT_WINDOW) e.run(); } });
+  if (G.startMin == null) G.startMin = P.min;
+  EVENTS.forEach(e => { if (!f[e.key] && P.min >= e.at){ f[e.key] = true; if (schoolDay && P.min < e.at + EVENT_WINDOW && G.startMin < e.at) e.run(); } });
   if (P.energy < 15 && !f.tired){ f.tired = true; toast('ง่วงมาก… ไปมุมกาแฟ หน้าต่าง หรือโซฟาพักหน่อยนะ', 'bad'); }
   if (P.min !== _lastClockMin){ _lastClockMin = P.min; hudUpdate(); if (G.clockTex) redraw(G.clockTex); }
 }
@@ -2690,10 +2849,12 @@ const CIRCLE_TOPICS = [
 function openCircle(){
   const b = station('💬 โต๊ะวงคุย — ครูเจอครู', 'lg');
   let topic = CIRCLE_TOPICS[0];
-  b.innerHTML = `<div class="notice" id="cNotice">กำลังโหลดประกาศรอบวงคุย…</div>
+  b.innerHTML = `<div class="plc-card" style="margin-bottom:12px"><div><b>🧑‍🏫 วง PLC</b><small>อยากคุยเรื่องการสอนแบบจริงจัง ตั้งหัวข้อแล้วชวนเพื่อนครูที่ออนไลน์มาร่วมวง พิมพ์หรือเปิดไมค์คุยกันได้</small></div><button class="btn sm" type="button" id="toPlc">ไปที่วง PLC</button></div>
+    <div class="notice" id="cNotice">กำลังโหลดประกาศรอบวงคุย…</div>
     <p class="lead">เลือกหัวข้อแล้วฟังเพื่อนครูเล่า จะแบ่งปันด้วยหรือขอเป็นผู้ฟังอย่างเดียวก็ได้ คำตอบที่แบ่งปันจะเห็นได้โดยครูทุกคนที่มาที่โต๊ะนี้</p>
     <div class="topics" id="cTopics">${CIRCLE_TOPICS.map((t,i) => `<button type="button" class="seg" data-v="${t.id}" aria-pressed="${i===0}">${esc(t.t)}</button>`).join('')}</div>
     <div id="cBody"></div>`;
+  $('#toPlc').onclick = () => { closeModal('#mSt'); PLC.openLobby(); };
   API.getSettings().then(s => { $('#cNotice').textContent = (s && s.circle_notice) || 'วงคุยแบบมีผู้ดูแล: ติดตามประกาศรอบสดได้ที่นี่'; }).catch(() => { $('#cNotice').hidden = true; });
   const render = async () => {
     const body = $('#cBody'); const ids = Object.keys(topic.npc); const two = ids.sort(() => Math.random()-0.5).slice(0,2);
@@ -2768,11 +2929,35 @@ function openLetters(onDone){
 /* =========================================================
    📓 NOTEBOOK — สมุดของฉัน (เก็บในเครื่องนี้เท่านั้น)
    ========================================================= */
+const NB_STATUS = {
+  off:['📱','เก็บเฉพาะในเครื่องนี้','ถ้าล้างข้อมูลเบราว์เซอร์ สมุดจะหายไปด้วย เชื่อมต่อออนไลน์แล้วสมัครสมาชิกเพื่อเก็บในบัญชี'],
+  guest:['📱','ผู้เยี่ยมชม: เก็บเฉพาะในเครื่องนี้','สมัครสมาชิกด้วยอีเมล เพื่อเก็บสมุดไว้ในบัญชีและเปิดจากเครื่องไหนก็ได้'],
+  synced:['☁️','บันทึกในบัญชีแล้ว · เข้ารหัสด้วยรหัสผ่านของคุณ','ผู้ดูแลระบบเปิดอ่านจดหมายและสมุดนี้ไม่ได้'],
+  pending:['⏳','กำลังบันทึกขึ้นบัญชี…',''], syncing:['⏳','กำลังโหลดสมุดจากบัญชี…',''],
+  error:['⚠️','บันทึกขึ้นบัญชีไม่สำเร็จ','ข้อมูลยังอยู่ในเครื่องนี้ ระบบจะลองใหม่เมื่อมีการแก้ไขครั้งถัดไป'],
+  locked:['🔒','สมุดในบัญชียังล็อกอยู่','ใส่รหัสผ่านอีกครั้งเพื่อปลดล็อก (เกิดเมื่อเข้าจากเครื่องใหม่โดยไม่ได้พิมพ์รหัสผ่าน)'],
+  mismatch:['🔒','เปิดสมุดในบัญชีไม่ได้','อาจล็อกด้วยรหัสผ่านเดิมก่อนตั้งรหัสใหม่ ใส่รหัสผ่านเดิมเพื่อเปิด หรือเริ่มสมุดในบัญชีใหม่จากข้อมูลในเครื่องนี้']
+};
+function nbStatusHTML(){
+  const [ico, t, n] = NB_STATUS[PRIV.state] || NB_STATUS.off;
+  const lock = PRIV.state === 'locked' || PRIV.state === 'mismatch';
+  return `<div class="notice" id="nbStatus"><b>${ico} ${esc(t)}</b>${n ? `<br>${esc(n)}` : ''}${PRIV.err ? `<br><small>${esc(PRIV.err)}</small>` : ''}
+    ${lock ? `<form class="cform" id="nbUnlock" style="margin-top:8px"><input class="txt" id="nbPass" type="password" autocomplete="current-password" placeholder="รหัสผ่าน" aria-label="รหัสผ่าน"><button class="btn sm" type="submit">ปลดล็อก</button></form>
+      ${PRIV.state === 'mismatch' ? '<button class="linkbtn" type="button" id="nbOver">เริ่มสมุดในบัญชีใหม่จากข้อมูลในเครื่องนี้ (ใช้รหัสผ่านปัจจุบัน)</button>' : ''}` : ''}</div>`;
+}
+function bindNbStatus(root, redraw){
+  const f = $('#nbUnlock', root); if (!f) return;
+  f.onsubmit = async e => { e.preventDefault(); try { await PRIV.unlock($('#nbPass').value); toast('ปลดล็อกสมุดแล้ว', 'good'); } catch(ex){ toast(ex.message, 'bad'); } redraw(); };
+  const o = $('#nbOver', root); if (o) o.onclick = async () => { const pw = $('#nbPass').value; if (pw.length < 6){ toast('ใส่รหัสผ่านปัจจุบันในช่องด้านบนก่อน'); return; } await PRIV.overwrite(pw); toast('เริ่มสมุดในบัญชีใหม่แล้ว', 'good'); redraw(); };
+}
+let nbRedraw = null;
+PRIV.on(() => { const st = $('#nbStatus'); if (st && !$('#mSt').hidden && nbRedraw){ if (PRIV.state === 'synced' && st.dataset.s !== 'synced') nbRedraw(); else { st.outerHTML = nbStatusHTML(); bindNbStatus($('#stBody'), nbRedraw); } const n = $('#nbStatus'); if (n) n.dataset.s = PRIV.state; } });
 function openNotebook(){
   setTab('notebook');
   const b = station('📓 สมุดของฉัน', 'lg');
   const draw = () => {
-    b.innerHTML = `<div class="notice">ทุกอย่างในสมุดนี้เก็บเฉพาะในเบราว์เซอร์ของเครื่องนี้ ไม่ได้ส่งขึ้นชีตหรือให้ใครเห็น ถ้าล้างข้อมูลเบราว์เซอร์ สมุดจะหายไปด้วย</div>
+    b.innerHTML = `${nbStatusHTML()}
+      <div class="nb-sec"><h3>🔖 โพสต์ที่บันทึกไว้นำไปใช้ (${(NB.saved || []).length})</h3>${(NB.saved || []).length ? `<div class="minicards">${NB.saved.map((x,i) => `<div class="minicard" style="background:#eef7ff;border-color:#bfe0f7"><b>${esc(x.title)}</b><br><small style="color:var(--ink-soft)">${esc(x.cat || '')} · บันทึก ${esc(x.at)}</small>${x.note ? `<p style="margin:6px 0 0">${esc(x.note)}</p>` : ''}<div class="meta"><button class="stk" type="button" data-open="${esc(x.id)}">เปิดโพสต์</button><span class="sp"></span><button class="stk" type="button" data-rm="saved:${i}">เลิกบันทึก</button></div></div>`).join('')}</div>` : '<div class="empty-q">ยังไม่มี กดปุ่ม 🔖 บันทึกไว้ใช้ ในโพสต์บนกระดานปักหมุด</div>'}</div>
       <div class="nb-sec"><h3>🃏 ไพ่ที่เก็บไว้ (${NB.cards.length})</h3>${NB.cards.length ? `<div class="minicards">${NB.cards.map((c,i) => `<div class="minicard"><b>${c.ico} ${esc(c.msg)}</b><br><small style="color:var(--ink-soft)">${esc(c.q)}</small>${c.ans ? `<p style="margin:6px 0 0">${esc(c.ans)}</p>` : ''}<div class="meta"><span>${esc(c.at)}</span><span class="sp"></span><button class="stk" type="button" data-rm="cards:${i}">ลบ</button></div></div>`).join('')}</div>` : '<div class="empty-q">ยังไม่มีไพ่ที่เก็บไว้ ไปเปิดไพ่ที่โต๊ะไพ่กำลังใจได้นะ</div>'}</div>
       <div class="nb-sec"><h3>✉️ จดหมายในลิ้นชัก (${NB.letters.length})</h3><button class="btn ghost sm" type="button" id="nbMail">เปิดลิ้นชัก</button></div>
       <div class="nb-sec"><h3>🪴 ต้นไม้พักใจ · ดูแลมาแล้ว ${NB.tree.level} วัน</h3><div class="loglist">${NB.tree.logs.slice(0,8).map(l => `<div><small>${esc(l.at)}</small>${esc(l.text)}</div>`).join('') || '<div class="empty-q">ยังไม่มีบันทึก</div>'}</div></div>
@@ -2780,8 +2965,11 @@ function openNotebook(){
       <div class="nb-sec"><h3>🗒️ โพสต์อิทส่วนตัว (${NB.vents.length})</h3><div class="minicards">${NB.vents.map((v,i) => `<div class="minicard" style="background:${esc(v.color)};border-color:#0000000f">${esc(v.message)}<div class="meta"><span>${esc(v.at)}</span><span class="sp"></span><button class="stk" type="button" data-rm="vents:${i}">ฉีกทิ้ง</button></div></div>`).join('') || '<div class="empty-q">ยังไม่มี</div>'}</div></div>
       <div class="nb-sec"><h3>☕ คำตอบจากมุมกาแฟ (${NB.cups.length})</h3><div class="minicards">${NB.cups.map((c,i) => `<div class="minicard"><small style="color:var(--ink-soft)">${esc(c.drink)} · ${esc(c.q)}</small><p style="margin:4px 0 0">${esc(c.ans)}</p><div class="meta"><span>${esc(c.at)}</span><span class="sp"></span><button class="stk" type="button" data-rm="cups:${i}">ลบ</button></div></div>`).join('') || '<div class="empty-q">ยังไม่มี</div>'}</div></div>`;
     $('#nbMail').onclick = () => { closeModal('#mSt'); openLetters(); };
+    $$('[data-open]', b).forEach(x => x.onclick = () => { closeModal('#mSt'); openBoard(); BOARD.view = 'topic'; BOARD.topic = x.dataset.open; renderBoard(); });
+    bindNbStatus(b, draw);
     $$('[data-rm]', b).forEach(x => x.onclick = () => { const [k, i] = x.dataset.rm.split(':'); NB[k].splice(+i, 1); saveNB(); draw(); });
   };
+  nbRedraw = draw;
   draw();
 }
 
@@ -2793,7 +2981,7 @@ const SUBJECTS = ['ทุกกลุ่มสาระ','ภาษาไทย'
 const CAT_COLOR = {'แลกเปลี่ยนการสอน':'#cdeefd','ข่าวดี':'#fff1a8','ชวนคุย':'#c9f2e4','ประกาศ':'#d9ceff'};
 const CAT_HINT = {'แลกเปลี่ยนการสอน':'เช่น เกมบิงโกเศษส่วน ทบทวนก่อนสอบใน 15 นาที','ข่าวดี':'เช่น นักเรียนชนะการประกวดเล่านิทานระดับเขต!','ชวนคุย':'เช่น ใครมีไอเดียกิจกรรมวันภาษาไทยบ้าง','ประกาศ':'เช่น ประชุมกลุ่มสาระวันศุกร์นี้ 15:30 น.'};
 const NOTE_COLORS = ['#fff1a8','#ffe2c4','#c9f2e4','#d9ceff','#cdeefd'];
-const BOARD = {data:null, filter:'ทั้งหมด', subject:'', q:'', view:'list', topic:null, liked:store.get('liked', {}), draft:null};
+const BOARD = {data:null, filter:'ทั้งหมด', subject:'', q:'', sort:'new', view:'list', topic:null, ttab:'review', liked:store.get('liked', {}), draft:null};
 const arr = v => { if (Array.isArray(v)) return v; try { const a = JSON.parse(v || '[]'); return Array.isArray(a) ? a : []; } catch(e){ return []; } };
 const safeUrl = u => /^(https?:|data:image\/)/i.test(String(u||'')) ? String(u) : '';
 function linkify(text){ return esc(text).replace(/(https?:\/\/[^\s<]+[^\s<.,;:!?)\]'"])/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'); }
@@ -2804,6 +2992,26 @@ function ago(iso){
 }
 function me(){ return player ? {author:'ครู' + player.name, avatar:lookToAvatar(player)} : {author:'ผู้มาเยือน', avatar:lookToAvatar(draft)}; }
 function canPost(){ return API.mode === 'local' || !!SESSION.token; }
+const isGuest = () => !!(NET.account && NET.account.guest);
+const isMember = () => API.mode === 'local' || (!!SESSION.token && !isGuest());
+const myAcctId = () => API.mode === 'local' ? 'local' : (NET.account && NET.account.id);
+const REVIEWABLE = ['แลกเปลี่ยนการสอน','ชวนคุย'];
+function reviewStats(id){
+  const rs = ((BOARD.data && BOARD.data.reviews) || []).filter(r => r.topicId === id);
+  const n = rs.length, avg = n ? rs.reduce((a, r) => a + (+r.rating || 0), 0) / n : 0, tried = rs.filter(r => r.tried).length;
+  return {n, avg, tried, proven: n >= 2 && avg >= 4 && tried >= 2, list:rs};
+}
+const heartsTxt = v => { const f = Math.round(v); return '♥'.repeat(f) + '♡'.repeat(5 - f); };
+const isSaved = id => (NB.saved || []).some(x => x.id === id);
+function toggleSave(t){
+  NB.saved = NB.saved || [];
+  const i = NB.saved.findIndex(x => x.id === t.id);
+  if (i >= 0){ NB.saved.splice(i, 1); toast('เลิกบันทึกแล้ว'); }
+  else { NB.saved.unshift({id:t.id, title:t.title, cat:t.category, at:today()}); toast(PRIV.acct ? 'บันทึกไว้ในสมุดของฉันแล้ว (เก็บในบัญชี)' : 'บันทึกไว้ในสมุดของฉันแล้ว', 'good'); }
+  saveNB();
+}
+function memberGate(what){ return `<div class="notice">${esc(what)} สำหรับสมาชิก ${isGuest() ? 'ตอนนี้คุณเข้าแบบผู้เยี่ยมชม' : ''} <button class="linkbtn" type="button" data-tologin>สมัครสมาชิก / เข้าสู่ระบบ</button></div>`; }
+function bindGate(root){ $$('[data-tologin]', root).forEach(b => b.onclick = async () => { if (isGuest()){ try { await API.logout(); } catch(e){} SESSION.token = null; store.set('tok', null); } closeModal('#mBoard'); closeModal('#mSt'); loginMode = 'register'; showLogin(); }); }
 function openLightbox(src){
   const d = document.createElement('div'); d.className = 'lightbox'; d.innerHTML = `<img alt="รูปขยาย" src="${esc(src)}"><button class="x" type="button" aria-label="ปิดรูป">✕</button>`;
   d.onclick = e => { if (e.target === d || e.target.closest('.x')) d.remove(); }; document.body.appendChild(d);
@@ -2839,26 +3047,32 @@ function renderBoard(){
   if (BOARD.view === 'topic') return renderTopic();
   const counts = {}; d.comments.forEach(c => counts[c.topicId] = (counts[c.topicId]||0) + 1);
   const q = BOARD.q.trim().toLowerCase();
-  const list = d.topics.filter(t => (BOARD.filter === 'ทั้งหมด' || t.category === BOARD.filter) && (!BOARD.subject || t.subject === BOARD.subject)
+  const list = d.topics.filter(t => (BOARD.filter === 'ทั้งหมด' || (BOARD.filter === 'saved' ? isSaved(t.id) : t.category === BOARD.filter)) && (!BOARD.subject || t.subject === BOARD.subject)
     && (!q || (t.title + ' ' + t.message + ' ' + t.author).toLowerCase().includes(q)));
+  const st = {}; list.forEach(t => st[t.id] = reviewStats(t.id));
+  if (BOARD.sort === 'rating') list.sort((a, b) => (st[b.id].avg - st[a.id].avg) || (st[b.id].n - st[a.id].n));
+  if (BOARD.sort === 'tried') list.sort((a, b) => (st[b.id].tried - st[a.id].tried) || (st[b.id].avg - st[a.id].avg));
   body.innerHTML = `<div class="searchrow"><input class="txt" id="bSearch" type="search" placeholder="ค้นหาวิธีสอน ข่าวดี หรือชื่อครู" value="${esc(BOARD.q)}" aria-label="ค้นหา">
-      <select id="bSubject" aria-label="กลุ่มสาระ"><option value="">ทุกกลุ่มสาระ</option>${SUBJECTS.slice(1).map(s => `<option ${s===BOARD.subject?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
-    <div class="filters">${['ทั้งหมด', ...CATS].map(c => `<button class="seg" type="button" data-f="${esc(c)}" aria-pressed="${c===BOARD.filter}">${esc(c)}</button>`).join('')}</div>
+      <select id="bSubject" aria-label="กลุ่มสาระ"><option value="">ทุกกลุ่มสาระ</option>${SUBJECTS.slice(1).map(s => `<option ${s===BOARD.subject?'selected':''}>${esc(s)}</option>`).join('')}</select>
+      <select id="bSort" aria-label="เรียงลำดับ"><option value="new" ${BOARD.sort==='new'?'selected':''}>ล่าสุด</option><option value="rating" ${BOARD.sort==='rating'?'selected':''}>หัวใจรีวิวสูงสุด</option><option value="tried" ${BOARD.sort==='tried'?'selected':''}>นำไปใช้มากที่สุด</option></select></div>
+    <div class="filters">${['ทั้งหมด', ...CATS].map(c => `<button class="seg" type="button" data-f="${esc(c)}" aria-pressed="${c===BOARD.filter}">${esc(c)}</button>`).join('')}<button class="seg" type="button" data-f="saved" aria-pressed="${BOARD.filter==='saved'}">🔖 ที่บันทึกไว้ (${(NB.saved || []).length})</button></div>
     ${list.length ? `<div class="notes">${list.map((t,i) => { const imgs = arr(t.images), links = arr(t.links); return `
       <button class="note clamp" type="button" data-id="${esc(t.id)}" style="background:${esc(t.color)};--r:${((i*53)%7-3)*0.6}deg">
         ${imgs[0] ? `<span class="note-img"><img alt="" src="${esc(safeUrl(imgs[0]))}" loading="lazy" referrerpolicy="no-referrer"></span>` : ''}
-        <span class="chips"><span class="chip">${esc(t.category)}</span>${t.subject && t.subject !== 'ทุกกลุ่มสาระ' ? `<span class="chip">${esc(t.subject)}</span>` : ''}</span>
+        <span class="chips"><span class="chip">${esc(t.category)}</span>${t.subject && t.subject !== 'ทุกกลุ่มสาระ' ? `<span class="chip">${esc(t.subject)}</span>` : ''}${st[t.id].proven ? '<span class="chip proven">✅ นำไปใช้ได้จริง</span>' : ''}${isSaved(t.id) ? '<span class="chip">🔖</span>' : ''}</span>
         <h5>${esc(t.title)}</h5><p>${esc(t.message)}</p>
+        ${st[t.id].n ? `<span class="rv-line"><span class="hearts-sm">${heartsTxt(st[t.id].avg)}</span> ${st[t.id].avg.toFixed(1)} · ${st[t.id].n} รีวิว · ใช้แล้ว ${st[t.id].tried} คน</span>` : ''}
         <span class="meta"><img alt="" src="${portrait(avatarToLook(t.avatar))}"><span>${esc(t.author)}</span><span class="sp"></span>${imgs.length ? `<span>🖼 ${imgs.length}</span>` : ''}${links.length ? `<span>🔗 ${links.length}</span>` : ''}<span>♥ ${t.likes||0}</span><span>💬 ${counts[t.id]||0}</span></span>
       </button>`; }).join('')}</div>` : `<div class="empty">ยังไม่มีหัวข้อที่ตรงกับที่ค้นหา ลองปักหมุดเรื่องแรกเลยไหม</div>`}`;
   const s = $('#bSearch'); s.oninput = () => { BOARD.q = s.value; clearTimeout(BOARD.st); BOARD.st = setTimeout(() => { renderBoard(); const n = $('#bSearch'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }, 250); };
   $('#bSubject').onchange = e => { BOARD.subject = e.target.value; renderBoard(); };
+  $('#bSort').onchange = e => { BOARD.sort = e.target.value; renderBoard(); };
   $$('[data-f]', body).forEach(b => b.onclick = () => { BOARD.filter = b.dataset.f; renderBoard(); });
   $$('.note', body).forEach(b => b.onclick = () => { BOARD.topic = b.dataset.id; BOARD.view = 'topic'; renderBoard(); });
 }
 function renderNewForm(){
   const body = $('#bBody'); const who = me();
-  if (!canPost()){ body.innerHTML = '<div class="empty">ต้องเข้าสู่ระบบก่อนจึงจะปักหมุดได้<br><button class="btn" type="button" id="toLogin" style="margin-top:12px">ไปหน้าเข้าสู่ระบบ</button></div>'; $('#toLogin').onclick = () => { closeModal('#mBoard'); showLogin(); }; return; }
+  if (!isMember()){ body.innerHTML = memberGate('การปักหมุดกระดาน'); bindGate(body); return; }
   const D = BOARD.draft = BOARD.draft || {cat:CATS[0], subject:'ทุกกลุ่มสาระ', color:CAT_COLOR[CATS[0]], images:[], links:[], title:'', message:''};
   body.innerHTML = `<form class="form-grid" id="topicForm" style="max-width:700px">
     <div class="fld" style="margin:0"><span class="lbl">หมวด</span><div class="row" id="tCat">${CATS.map(c=>`<button type="button" class="seg" data-v="${esc(c)}" aria-pressed="${c===D.cat}">${esc(c)}</button>`).join('')}</div></div>
@@ -2927,23 +3141,59 @@ function renderTopic(){
   if (!t){ BOARD.view = 'list'; return renderBoard(); }
   const cs = d.comments.filter(c => c.topicId === t.id).sort((a,b) => a.createdAt < b.createdAt ? -1 : 1);
   const liked = !!BOARD.liked[t.id], imgs = arr(t.images).map(safeUrl).filter(Boolean), links = arr(t.links);
+  const canReview = REVIEWABLE.includes(t.category), S = reviewStats(t.id);
+  const tab = canReview ? BOARD.ttab : 'comment';
+  const mine = S.list.find(r => r.accountId === myAcctId());
+  const R = BOARD.rdraft && BOARD.rdraft.topic === t.id ? BOARD.rdraft : (BOARD.rdraft = {topic:t.id, rating:mine ? +mine.rating : 0, tried:mine ? !!mine.tried : false, message:mine ? mine.message : ''});
   body.innerHTML = `<div class="thread">
-    <article class="big-note" style="background:${esc(t.color)}"><span class="chips"><span class="chip">${esc(t.category)}</span>${t.subject && t.subject !== 'ทุกกลุ่มสาระ' ? `<span class="chip">${esc(t.subject)}</span>` : ''}</span>
+    <article class="big-note" style="background:${esc(t.color)}"><span class="chips"><span class="chip">${esc(t.category)}</span>${t.subject && t.subject !== 'ทุกกลุ่มสาระ' ? `<span class="chip">${esc(t.subject)}</span>` : ''}${S.proven ? '<span class="chip proven">✅ นำไปใช้ได้จริง</span>' : ''}</span>
       <h3>${esc(t.title)}</h3><p class="msgtext">${linkify(t.message)}</p>
       ${imgs.length ? `<div class="media">${imgs.map(u => `<button type="button" data-img="${esc(u)}" aria-label="ขยายรูป"><img alt="" src="${esc(u)}" loading="lazy" referrerpolicy="no-referrer"></button>`).join('')}</div>` : ''}
       ${links.length ? `<div class="linkcards">${links.map(l => linkCard(l)).join('')}</div>` : ''}
-      <div class="meta"><img alt="" src="${portrait(avatarToLook(t.avatar))}" style="width:32px;height:32px"><span><b>${esc(t.author)}</b> · ${esc(ago(t.createdAt))}</span><span class="sp"></span><button class="like" type="button" id="likeBtn" aria-pressed="${liked}">♥ ${t.likes||0}</button></div>
+      <div class="meta"><img alt="" src="${portrait(avatarToLook(t.avatar))}" style="width:32px;height:32px"><span><b>${esc(t.author)}</b> · ${esc(ago(t.createdAt))}</span><span class="sp"></span>
+        <button class="like" type="button" id="saveBtn" aria-pressed="${isSaved(t.id)}">${isSaved(t.id) ? '🔖 บันทึกแล้ว' : '🔖 บันทึกไว้ใช้'}</button><button class="like" type="button" id="likeBtn" aria-pressed="${liked}">♥ ${t.likes||0}</button></div>
     </article>
-    <section><h4 style="margin:0 0 10px;font-family:var(--f-display);font-weight:400;font-size:20px">ความคิดเห็น (${cs.length})</h4>
-      <div class="cmts">${cs.length ? cs.map(c => `<div class="cmt"><img alt="" src="${portrait(avatarToLook(c.avatar))}"><div><b>${esc(c.author)}</b><small>${esc(ago(c.createdAt))}</small><p class="msgtext">${linkify(c.message)}</p></div></div>`).join('') : '<div class="empty-q">ยังไม่มีใครตอบ เป็นคนแรกเลย</div>'}</div>
-      ${canPost() ? `<form class="cform" id="cForm"><input class="txt" id="cMsg2" maxlength="400" placeholder="เขียนความคิดเห็น วางลิงก์ได้" aria-label="ความคิดเห็น"><button class="btn" type="submit" id="cSend">ส่ง</button></form>` : '<p class="lead" style="margin-top:12px">เข้าสู่ระบบเพื่อแสดงความคิดเห็น</p>'}
-      <div class="err" id="cErr" hidden></div></section></div>`;
+    <section>
+      ${canReview ? `<div class="filters"><button class="seg" type="button" data-tt="review" aria-pressed="${tab==='review'}">⭐ รีวิวการนำไปใช้ (${S.n})</button><button class="seg" type="button" data-tt="comment" aria-pressed="${tab==='comment'}">💬 ความคิดเห็น (${cs.length})</button></div>` : `<h4 style="margin:0 0 10px;font-family:var(--f-display);font-weight:400;font-size:20px">ความคิดเห็น (${cs.length})</h4>`}
+      ${tab === 'review' ? `
+        <div class="rv-sum"><div class="rv-big"><b>${S.n ? S.avg.toFixed(1) : '–'}</b><span class="hearts-lg">${heartsTxt(S.avg)}</span></div>
+          <div><b>${S.n ? `${S.n} รีวิว · นำไปใช้ในห้องเรียนแล้ว ${S.tried} คน` : 'ยังไม่มีรีวิว'}</b><small>${S.proven ? 'เพื่อนครูยืนยันว่าเป็นแนวทางที่นำไปใช้ได้จริง' : 'ถ้าได้ลองใช้ไอเดียนี้ มาบอกผลให้เพื่อนครูรู้หน่อย'}</small></div></div>
+        ${isMember() ? `<form class="rv-form" id="rvForm">
+          <div class="rv-hearts" role="radiogroup" aria-label="ให้คะแนนเป็นหัวใจ">${[1,2,3,4,5].map(n => `<button type="button" role="radio" aria-checked="${R.rating===n}" aria-label="${n} หัวใจ" data-rate="${n}" class="${n <= R.rating ? 'on' : ''}">♥</button>`).join('')}<span>${['แตะหัวใจเพื่อให้คะแนน','ยังไม่เหมาะกับห้องฉัน','พอใช้ได้','ดี ใช้ได้','ดีมาก','ยอดเยี่ยม แนะนำเลย'][R.rating]}</span></div>
+          <label class="rv-tried"><input type="checkbox" id="rvTried" ${R.tried ? 'checked' : ''}> ฉันนำไปใช้ในห้องเรียนแล้ว</label>
+          <textarea class="txt" id="rvMsg" maxlength="600" placeholder="ผลที่เกิดกับนักเรียน ปรับอะไรบ้าง เหมาะกับชั้นไหน">${esc(R.message)}</textarea>
+          <button class="btn sm" type="submit" id="rvSend">${mine ? 'อัปเดตรีวิวของฉัน' : 'ส่งรีวิว'}</button><div class="err" id="rvErr" hidden></div></form>` : memberGate('การรีวิวและให้หัวใจ')}
+        <div class="cmts" style="margin-top:12px">${S.list.slice().sort((a,b) => a.createdAt < b.createdAt ? 1 : -1).map(r => `<div class="cmt"><img alt="" src="${portrait(avatarToLook(r.avatar))}"><div><b>${esc(r.author)}</b><small>${esc(ago(r.createdAt))}</small><div><span class="hearts-sm">${heartsTxt(r.rating)}</span>${r.tried ? ' <span class="chip proven">นำไปใช้แล้ว</span>' : ''}</div>${r.message ? `<p class="msgtext">${linkify(r.message)}</p>` : ''}</div></div>`).join('')}</div>`
+      : `
+        <div class="cmts">${cs.length ? cs.map(c => `<div class="cmt"><img alt="" src="${portrait(avatarToLook(c.avatar))}"><div><b>${esc(c.author)}</b><small>${esc(ago(c.createdAt))}</small><p class="msgtext">${linkify(c.message)}</p></div></div>`).join('') : '<div class="empty-q">ยังไม่มีใครตอบ เป็นคนแรกเลย</div>'}</div>
+        ${canPost() ? `<form class="cform" id="cForm"><input class="txt" id="cMsg2" maxlength="400" placeholder="แลกเปลี่ยนความคิดเห็น วางลิงก์ได้" aria-label="ความคิดเห็น"><button class="btn" type="button" id="cMic" data-mic-for="cMsg2" title="พิมพ์ด้วยเสียง" aria-label="พิมพ์ด้วยเสียง">🎤</button><button class="btn" type="submit" id="cSend">ส่ง</button></form>` : '<p class="lead" style="margin-top:12px">เข้าสู่ระบบเพื่อแสดงความคิดเห็น</p>'}
+        <div class="err" id="cErr" hidden></div>`}
+    </section></div>`;
   $$('[data-img]', body).forEach(b => b.onclick = () => openLightbox(b.dataset.img));
+  $$('[data-tt]', body).forEach(b => b.onclick = () => { BOARD.ttab = b.dataset.tt; renderTopic(); });
+  bindGate(body); bindVoiceTyping(body);
+  $('#saveBtn').onclick = () => { toggleSave(t); renderTopic(); };
   $('#likeBtn').onclick = async () => {
     if (BOARD.liked[t.id]) return toast('ถูกใจโพสต์นี้ไปแล้วนะ');
     BOARD.liked[t.id] = true; store.set('liked', BOARD.liked); t.likes = (t.likes||0) + 1; renderTopic();
     try { const r = await API.like(t.id); if (r && r.likes){ t.likes = r.likes; renderTopic(); } } catch(e){ toast('กดถูกใจไม่สำเร็จ ลองใหม่อีกครั้ง', 'bad'); }
   };
+  const rf = $('#rvForm');
+  if (rf){
+    const keep = () => { R.message = $('#rvMsg').value; R.tried = $('#rvTried').checked; };
+    $$('[data-rate]', rf).forEach(b => b.onclick = () => { keep(); R.rating = +b.dataset.rate; SFX.pop(); renderTopic(); });
+    rf.onsubmit = async e => {
+      e.preventDefault(); keep();
+      if (!R.rating){ $('#rvErr').hidden = false; $('#rvErr').textContent = 'แตะหัวใจเพื่อให้คะแนนก่อนนะ'; return; }
+      $('#rvSend').disabled = true;
+      try {
+        const row = await API.addReview(Object.assign(me(), {topicId:t.id, rating:R.rating, tried:R.tried, message:R.message.trim()}));
+        d.reviews = (d.reviews || []).filter(x => !(x.topicId === t.id && x.accountId === row.accountId)).concat([row]);
+        BOARD.rdraft = null; toast('ขอบคุณสำหรับรีวิว! ช่วยให้เพื่อนครูเลือกไอเดียได้ง่ายขึ้น', 'good'); SFX.chime(); renderTopic();
+        if (typeof netBoardPing === 'function') netBoardPing('รีวิว "' + t.title + '"');
+      } catch(ex){ $('#rvSend').disabled = false; $('#rvErr').hidden = false; $('#rvErr').textContent = 'ส่งรีวิวไม่สำเร็จ: ' + ex.message; }
+    };
+  }
   if ($('#cForm')) $('#cForm').onsubmit = async e => {
     e.preventDefault(); const msg = $('#cMsg2').value.trim(); if (!msg) return;
     $('#cSend').disabled = true;
@@ -2989,6 +3239,7 @@ $$('.tab').forEach(t => t.addEventListener('click', () => {
   if (k === 'room') showGame();
   if (k === 'dress'){ closeActions(); closeDialog(); closeModal('#mSt'); showCreator(); }
   if (k === 'board'){ closeActions(); closeDialog(); openBoard(); }
+  if (k === 'plc'){ closeActions(); closeDialog(); closeModal('#mSt'); PLC.openLobby(); }
   if (k === 'notebook'){ closeActions(); closeDialog(); closeModal('#mSt'); openNotebook(); }
   if (k === 'help'){ setTab('help'); openModal('#mHelp'); }
 }));
@@ -3043,33 +3294,63 @@ async function netDetect(){
 const needsLogin = () => NET.kind === 'gas' || NET.kind === 'firebase';
 
 /* ---------- login screen ---------- */
-let loginMode = 'login';
+let loginMode = 'login', resetEmail = '';
 function showLogin(){
   currentScreen = 'login'; setTab('');
   ['#scrLoad','#scrCreator','#scrGame','#scrSetup'].forEach(s => $(s).hidden = true); $('#scrLogin').hidden = false;
   $('#gBtn').hidden = NET.kind !== 'firebase';
+  $('#loginTabs [data-v="guest"]').hidden = NET.kind === 'firebase';
+  $('#verLabel').textContent = 'เวอร์ชัน ' + APP_VERSION + (API_URL ? ' · เชื่อมต่อ Apps Script' : '');
   setLoginMode(loginMode);
 }
+const LOGIN_MODES = {
+  login:{title:'เข้าห้องพักครู แล้วเจอเพื่อนครูแบบ realtime', go:'เข้าสู่ระบบ', name:false, email:true, pass:true, code:false, passLbl:'รหัสผ่าน'},
+  register:{title:'สมัครสมาชิกด้วยอีเมล', go:'สมัครและเข้าห้อง', name:true, email:true, pass:true, code:false, passLbl:'ตั้งรหัสผ่าน',
+    hint:'สมุดส่วนตัวของสมาชิกถูกเข้ารหัสด้วยรหัสผ่านนี้ก่อนส่งขึ้นระบบ ผู้ดูแลเปิดอ่านไม่ได้ ถ้าลืมรหัสผ่านแล้วตั้งใหม่ สมุดเดิมในคลาวด์จะเปิดไม่ได้ แต่ข้อมูลในเครื่องนี้ยังอยู่'},
+  guest:{title:'เข้าแบบผู้เยี่ยมชม', go:'เข้าห้องเลย', name:true, email:false, pass:false, code:false,
+    hint:'ผู้เยี่ยมชมแชต คอมเมนต์ แปะกระดานบ่น และร่วมวง PLC ได้ ส่วนการปักหมุดกระดาน รีวิว เปิดวง PLC และสมุดในคลาวด์ ต้องสมัครสมาชิก (สมุดของผู้เยี่ยมชมเก็บแค่ในเครื่องนี้)'},
+  forgot:{title:'ลืมรหัสผ่าน', go:'ส่งรหัสไปที่อีเมล', name:false, email:true, pass:false, code:false, hint:'ระบบจะส่งรหัส 6 หลักไปที่อีเมลที่สมัครไว้ ใช้ได้ 15 นาที'},
+  reset:{title:'ตั้งรหัสผ่านใหม่', go:'ตั้งรหัสผ่านใหม่และเข้าห้อง', name:false, email:true, pass:true, code:true, passLbl:'รหัสผ่านใหม่',
+    hint:'สมุดส่วนตัวที่เคยเก็บในคลาวด์ถูกล็อกด้วยรหัสผ่านเดิม หลังตั้งรหัสใหม่ จะเปิดสมุดเดิมไม่ได้ แต่ข้อมูลที่อยู่ในเครื่องนี้จะถูกเก็บขึ้นคลาวด์ใหม่ให้'}
+};
 function setLoginMode(m){
-  loginMode = m; $$('#loginTabs .seg').forEach(b => pressed(b, b.dataset.v === m));
-  $('#fName').hidden = m !== 'register'; $('#lGo').textContent = m === 'register' ? 'สมัครและเข้าห้อง' : 'เข้าสู่ระบบ';
-  $('#lPass').autocomplete = m === 'register' ? 'new-password' : 'current-password'; $('#lErr').hidden = true;
+  loginMode = m; const M = LOGIN_MODES[m];
+  $$('#loginTabs .seg').forEach(b => pressed(b, b.dataset.v === m));
+  $('#loginTabs').hidden = m === 'forgot' || m === 'reset';
+  $('#lTitle').textContent = M.title; $('#lLead').hidden = m !== 'login';
+  $('#fName').hidden = !M.name; $('#fEmail').hidden = !M.email; $('#fPass').hidden = !M.pass; $('#fCode').hidden = !M.code;
+  $('#lPassLbl').textContent = M.passLbl || 'รหัสผ่าน';
+  $('#lHint').hidden = !M.hint; $('#lHint').textContent = M.hint || '';
+  $('#lGo').textContent = M.go; $('#lErr').hidden = true;
+  $('#lPass').autocomplete = m === 'login' ? 'current-password' : 'new-password';
+  $('#forgotBtn').textContent = m === 'forgot' || m === 'reset' ? 'กลับไปหน้าเข้าสู่ระบบ' : 'ลืมรหัสผ่าน?';
+  $('#forgotBtn').hidden = m === 'guest' || NET.kind === 'firebase';
+  if (m === 'reset' && resetEmail) $('#lEmail').value = resetEmail;
 }
 $$('#loginTabs .seg').forEach(b => b.onclick = () => setLoginMode(b.dataset.v));
+$('#forgotBtn').onclick = () => setLoginMode(loginMode === 'forgot' || loginMode === 'reset' ? 'login' : 'forgot');
 $('#loginForm').addEventListener('submit', async e => {
   e.preventDefault();
-  const email = $('#lEmail').value.trim(), password = $('#lPass').value, name = $('#lName').value.trim().replace(/^ครู\s*/, '');
+  const M = LOGIN_MODES[loginMode];
+  const email = $('#lEmail').value.trim(), password = $('#lPass').value, name = $('#lName').value.trim().replace(/^ครู\s*/, ''), code = $('#lCode').value.trim();
   const err = m => { $('#lErr').hidden = false; $('#lErr').textContent = m; };
-  if (loginMode === 'register' && !name) return err('ใส่ชื่อที่ใช้ในห้องด้วยนะ');
-  if (password.length < 6) return err('รหัสผ่านต้องยาวอย่างน้อย 6 ตัวอักษร');
-  $('#lGo').disabled = true; $('#lGo').textContent = 'กำลังเข้าสู่ระบบ…';
+  if (M.name && !name) return err('ใส่ชื่อที่ใช้ในห้องด้วยนะ');
+  if (M.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return err('รูปแบบอีเมลไม่ถูกต้อง');
+  if (M.pass && password.length < 6) return err('รหัสผ่านต้องยาวอย่างน้อย 6 ตัวอักษร');
+  if (M.code && !/^\d{6}$/.test(code)) return err('ใส่รหัส 6 หลักจากอีเมล');
+  $('#lGo').disabled = true; $('#lGo').textContent = 'กำลังดำเนินการ…';
   try {
     let r;
     if (NET.kind === 'firebase') r = await fbEmail(loginMode, email, password, name);
-    else r = loginMode === 'register' ? await API.register({email, password, name}) : await API.login({email, password});
+    else if (loginMode === 'register') r = await API.register({email, password, name});
+    else if (loginMode === 'guest') r = await API.guestLogin({name});
+    else if (loginMode === 'forgot'){ await API.forgotPassword({email}); resetEmail = email; setLoginMode('reset'); toast('ส่งรหัสไปที่อีเมลแล้ว ถ้าไม่เห็นให้ดูในจดหมายขยะ', 'good'); $('#lGo').disabled = false; return; }
+    else if (loginMode === 'reset') r = await API.resetPassword({email, code, password});
+    else r = await API.login({email, password});
+    if (M.pass && r && r.account && !r.account.guest) await PRIV.deriveKey(r.account.id, password, !!r.reset);
     await afterLogin(r);
   } catch(ex){ err(ex.message || 'เข้าสู่ระบบไม่สำเร็จ'); }
-  $('#lGo').disabled = false; setLoginMode(loginMode);
+  $('#lGo').disabled = false; $('#lGo').textContent = LOGIN_MODES[loginMode].go;
 });
 $('#gBtn').onclick = async () => { try { await afterLogin(await fbGoogle()); } catch(e){ $('#lErr').hidden = false; $('#lErr').textContent = 'เข้าสู่ระบบด้วย Google ไม่สำเร็จ: ' + e.message; } };
 $('#offlineBtn').onclick = () => { NET.offline = true; updateNetUI(); enterFlow(); toast('เล่นแบบออฟไลน์ เข้าสู่ระบบได้ภายหลังจากปุ่มด้านบน'); };
@@ -3082,10 +3363,12 @@ async function afterLogin(r){
   if (!r || !r.account) throw new Error('เข้าสู่ระบบไม่สำเร็จ');
   SESSION.token = r.token; if (NET.kind === 'gas') store.set('tok', r.token);
   NET.account = r.account; NET.offline = false;
+  NET.account.guest = !!(r.account.guest || r.account.status === 'guest');
+  PRIV.useAccount(NET.account);
   const pr = r.profile;
   if (pr && pr.outfit){
     player = Object.assign({}, DEFAULT_LOOK, pr, {id:r.account.id, name:pr.name || r.account.name}); player.acc = (player.acc || []).slice(0,3); store.set('player', player);
-  } else if (player){ player.id = r.account.id; store.set('player', player); API.savePlayer(player).catch(()=>{}); netSaveProfile(player); }
+  } else if (player){ player.id = r.account.id; if (r.account.name) player.name = r.account.name; store.set('player', player); API.savePlayer(player).catch(()=>{}); netSaveProfile(player); }
   else { draft.name = r.account.name || ''; $('#nameInput').value = draft.name; }
   updateMeChip(); updateNetUI(); enterFlow();
 }
@@ -3126,6 +3409,7 @@ function netState(){
   const o = G.me.obj, r2 = v => Math.round(v*100)/100;
   const s = {name:'ครู' + NAME(), look:lookToAvatar(player), x:r2(o.position.x), y:r2(o.position.y), z:r2(o.position.z), ry:r2(o.rotation.y), mood:P.feeling || '', sit:!!G.me.seat, walk:!!(G.me.target || Object.values(G.keys).some(Boolean))};
   if (NET.emote) s.emote = NET.emote;
+  if (PLC.room){ s.plc = PLC.room; s.mic = !!PLC.micOn; }
   if (NET.kind === 'room'){ if (NET.msg) s.msg = NET.msg; if (NET.board) s.board = NET.board; }
   return s;
 }
@@ -3175,9 +3459,10 @@ async function gasTick(){
   if (document.hidden){ setTimeout(gasTick, 5000); return; }
   try {
     const st = netState(); NET.last = st;
-    const r = await API.rtSync({state:st, since:NET.lastChatT});
+    const r = await API.rtSync({state:st, since:NET.lastChatT, room:PLC.room || '', roomSince:PLC.roomSince});
     NET.fail = 0; NET.myId = r.me;
     netApplyPeers((r.peers || []).filter(p => p.id !== r.me));
+    PLC.onSync(r);
     (r.chat || []).forEach(netChatIn);
     if (r.board){ if (NET.boardSeen === null) NET.boardSeen = r.board.v; else if (r.board.v > NET.boardSeen) netBoardIn(Object.assign({t:r.board.v}, r.board)); }
     if (NET.emote && Date.now() - NET.emote.t > 12000) NET.emote = null;
@@ -3186,7 +3471,7 @@ async function gasTick(){
     if (/เข้าสู่ระบบ/.test(e.message)){ NET.running = false; toast('เซสชันหมดอายุ กรุณาเข้าสู่ระบบอีกครั้ง', 'bad'); return; }
   }
   netUI();
-  setTimeout(gasTick, NET.fail ? Math.min(15000, 2000 * (NET.fail + 1)) : 2000);
+  setTimeout(gasTick, NET.fail ? Math.min(15000, 2000 * (NET.fail + 1)) : (PLC.room ? 1200 : 2000));
 }
 
 /* ---------- peers in ---------- */
@@ -3215,7 +3500,8 @@ function netApplyPeers(list){
     }
     if (p.look && p.look !== e.look){ const pos = e.obj.position.clone(); peerBuild(e, p.look); e.obj.position.copy(pos); }
     if (name !== e.name){ e.name = name; e.tag.el.querySelector('.nm').textContent = name; e.it.name = name; e.it.verb = 'ทักทาย ' + name; }
-    Object.assign(e, {tx:p.x, tz:p.z, ty:p.y || 0, ry:p.ry || 0, sit:!!p.sit, walk:!!p.walk, mood:p.mood || ''});
+    Object.assign(e, {tx:p.x, tz:p.z, ty:p.y || 0, ry:p.ry || 0, sit:!!p.sit, walk:!!p.walk, mood:p.mood || '', plc:p.plc || '', mic:!!p.mic, guest:!!p.guest});
+    e.tag.el.classList.toggle('inplc', !!e.plc);
     const md = moodOf(e.mood); e.tag.el.querySelector('.md').textContent = md ? md.ico : '';
     if (p.emote && p.emote.t > (NET.seenEmote[p.id] || 0)){
       NET.seenEmote[p.id] = p.emote.t;
@@ -3406,7 +3692,7 @@ $('#setupDemo').onclick = () => { store.set('demoOk', true); $('#scrSetup').hidd
 $('#netPill').onclick = async () => {
   const b = station('🛰️ สถานะการเชื่อมต่อ', 'md');
   const where = API.hasGAS ? 'เปิดผ่าน Google Apps Script โดยตรง' : API_URL ? 'เปิดจากเว็บภายนอก (เช่น GitHub Pages) ต่อไปที่ Apps Script' : NET.kind === 'room' ? 'เปิดในหน้า Claude (realtime ผ่านห้อง Claude)' : 'โหมดทดลอง ข้อมูลเก็บเฉพาะในเครื่องนี้';
-  b.innerHTML = `<p class="lead">${esc(where)}${NET.account ? ` · เข้าสู่ระบบเป็น <b>${esc(NET.account.email || NET.account.name)}</b>` : ''}${NET.running ? ` · ออนไลน์ ${NET.peers.size + 1} คน` : ''}</p><div id="diagOut"><div class="loading" style="padding:16px">กำลังตรวจ…</div></div>`;
+  b.innerHTML = `<p class="lead">หน้าเว็บเวอร์ชัน <b>${APP_VERSION}</b> · ${esc(where)}${NET.account ? ` · เข้าสู่ระบบเป็น <b>${esc(NET.account.email || NET.account.name)}</b>` : ''}${NET.running ? ` · ออนไลน์ ${NET.peers.size + 1} คน` : ''}</p><div id="diagOut"><div class="loading" style="padding:16px">กำลังตรวจ…</div></div>`;
   let steps = [];
   if (API_URL && !API.hasGAS){ const r = await pingServer(API_URL); steps = r.steps; }
   else if (API.hasGAS){ try { const d = await API.ping(); steps.push({state:'ok', title:'เชื่อมต่อ Apps Script สำเร็จ', note:'Code.gs เวอร์ชัน ' + (d.version || '-')}); } catch(e){ steps.push({state:'bad', title:'เรียกเซิร์ฟเวอร์ไม่สำเร็จ', note:e.message}); } }
@@ -3418,6 +3704,337 @@ $('#netPill').onclick = async () => {
   bindCopy(b);
   if ($('#toSetup')) $('#toSetup').onclick = () => { closeModal('#mSt'); showSetup(); };
 };
+
+/* =========================================================
+   🎤 VOICE TYPING — พิมพ์ด้วยเสียง (Web Speech API, ภาษาไทย)
+   ========================================================= */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let srActive = null;
+function bindVoiceTyping(root){
+  $$('[data-mic-for]', root || document).forEach(b => {
+    if (b.dataset.bound) return; b.dataset.bound = '1';
+    if (!SR){ b.hidden = true; return; }
+    b.onclick = () => toggleDictation(b, document.getElementById(b.dataset.micFor));
+  });
+}
+function toggleDictation(btn, input){
+  if (srActive){ const same = srActive.btn === btn; try { srActive.rec.stop(); } catch(e){} if (same) return; }
+  if (!input) return;
+  const rec = new SR(); rec.lang = 'th-TH'; rec.interimResults = true; rec.continuous = true;
+  const base = input.value ? input.value.replace(/\s*$/, ' ') : '';
+  let finalTxt = '';
+  const max = input.maxLength > 0 ? input.maxLength : 1000;
+  rec.onresult = e => {
+    let interim = '';
+    for (let i = e.resultIndex; i < e.results.length; i++){ const t = e.results[i][0].transcript; if (e.results[i].isFinal) finalTxt += t + ' '; else interim += t; }
+    input.value = (base + finalTxt + interim).slice(0, max);
+  };
+  rec.onerror = e => {
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') toast('เบราว์เซอร์ไม่อนุญาตให้ใช้ไมโครโฟน กดไอคอนแม่กุญแจข้างแถบที่อยู่เพื่ออนุญาต', 'bad');
+    else if (e.error !== 'aborted' && e.error !== 'no-speech') toast('พิมพ์ด้วยเสียงสะดุด (' + e.error + ')', 'bad');
+  };
+  rec.onend = () => { btn.classList.remove('mic-on'); btn.textContent = '🎤'; if (srActive && srActive.rec === rec) srActive = null; };
+  try { rec.start(); } catch(e){ toast('เริ่มพิมพ์ด้วยเสียงไม่ได้', 'bad'); return; }
+  srActive = {rec, btn}; btn.classList.add('mic-on'); btn.textContent = '⏹';
+  toast('พูดได้เลย ระบบจะพิมพ์ให้ กดปุ่มอีกครั้งเพื่อหยุด');
+}
+
+/* =========================================================
+   🧑‍🏫 PLC — วงชุมชนการเรียนรู้ทางวิชาชีพ
+   ========================================================= */
+/* ถ้าเครือข่ายโรงเรียนบล็อกการคุยเสียงแบบตรง ใส่ TURN server ได้ที่นี่ เช่น
+   {urls:'turn:turn.example.com:3478', username:'user', credential:'pass'} */
+const TURN_SERVERS = [];
+const PLC = {
+  list:[], seen:new Set(), first:true, room:null, info:null, roomSince:0, msgIds:{},
+  stream:null, micOn:false, pcs:new Map(), levels:new Map(), ac:null, invite:null, dbg:[],
+  log(...a){ this.dbg.push(new Date().toISOString().slice(11,19) + ' ' + a.join(' ')); if (this.dbg.length > 80) this.dbg.shift(); },
+  supported(){ return NET.kind === 'gas' && NET.running; },
+  people(){
+    const out = [{id:NET.myId, name:'ครู' + NAME(), look:lookToAvatar(player), mic:this.micOn, me:true}];
+    for (const e of NET.peers.values()) if (e.plc && e.plc === this.room) out.push({id:e.id, name:e.name, look:e.look, mic:e.mic});
+    return out;
+  },
+  countIn(id){ let n = 0; for (const e of NET.peers.values()) if (e.plc === id) n++; return n + (this.room === id ? 1 : 0); },
+
+  onSync(r){
+    this.list = r.plcs || [];
+    const now = Date.now();
+    this.list.forEach(p => {
+      if (this.seen.has(p.id)) return;
+      this.seen.add(p.id);
+      if (p.hostId === NET.myId || this.room === p.id) return;
+      if (this.first && now - p.createdAt > 15*60*1000) return;
+      this.showInvite(p);
+    });
+    this.first = false;
+    if (this.room && !this.list.some(p => p.id === this.room)){ const t = this.info ? this.info.title : ''; this.leave(true); toast(`วง PLC "${t}" ปิดแล้ว ขอบคุณที่ร่วมแลกเปลี่ยนนะ`, 'good'); }
+    if (this.room){
+      (r.roomChat || []).forEach(m => this.addMsg(m));
+      (r.signals || []).forEach(s => this.onSignal(s));
+      this.renderPeople();
+      this.syncRtc();
+    }
+    if (!$('#mSt').hidden && $('#plcLobby')) this.renderLobbyLists();
+  },
+
+  /* ---------- invite ---------- */
+  showInvite(p){
+    this.invite = p;
+    $('#plcInvTitle').textContent = p.title;
+    $('#plcInvMeta').textContent = `${p.hostName} เปิดวง · ${p.mode === 'voice' ? '🎙️ คุยด้วยเสียง' : '💬 พิมพ์สนทนา'}${p.subject && p.subject !== 'ทุกกลุ่มสาระ' ? ' · ' + p.subject : ''} · ต้องการร่วมคุยไหม`;
+    $('#plcInvite').hidden = false; SFX.chime();
+    clearTimeout(this.invTimer); this.invTimer = setTimeout(() => { $('#plcInvite').hidden = true; }, 45000);
+    sysLine(`📣 ${p.hostName} เปิดวง PLC: ${p.title}`);
+  },
+
+  /* ---------- lobby ---------- */
+  openLobby(){
+    setTab('plc');
+    const b = station('🧑‍🏫 วง PLC · ชุมชนการเรียนรู้ทางวิชาชีพ', 'lg');
+    if (!this.supported()){
+      b.innerHTML = `<div class="empty">วง PLC ใช้ได้เมื่อเชื่อมต่อออนไลน์ผ่าน Google Apps Script และเข้าสู่ระบบแล้ว<br><small>${NET.kind === 'room' ? 'หน้านี้เปิดในโหมดห้อง Claude ซึ่งยังไม่รองรับวง PLC' : 'ตอนนี้อยู่ในโหมดออฟไลน์หรือโหมดทดลอง'}</small></div>`;
+      return;
+    }
+    b.innerHTML = `<div id="plcLobby"><p class="lead">ตั้งหัวข้อคุยเรื่องการสอน แล้วระบบจะแจ้งเพื่อนครูที่ออนไลน์อยู่ตอนนี้ให้มาร่วมวง ผู้เปิดวงเลือกได้ว่าจะพิมพ์สนทนาหรือเปิดไมโครโฟนคุยกัน ทุกข้อความในวงถูกบันทึกเป็นหลักฐาน PLC ในชีต</p>
+      <h3 class="plc-h">วงที่เปิดอยู่ตอนนี้</h3><div class="plc-list" id="plcOpen"></div>
+      <h3 class="plc-h">เปิดวงใหม่</h3><div id="plcCreate"></div>
+      <h3 class="plc-h" style="margin-top:18px">วงที่ผ่านมา</h3><div class="plc-list" id="plcPast"><div class="loading" style="padding:10px">กำลังโหลด…</div></div></div>`;
+    this.renderLobbyLists(); this.renderCreate();
+    API.getPlcs().then(list => this.renderPast(list)).catch(e => { $('#plcPast').innerHTML = `<div class="empty-q">โหลดไม่สำเร็จ: ${esc(e.message)}</div>`; });
+  },
+  renderLobbyLists(){
+    const box = $('#plcOpen'); if (!box) return;
+    const html = this.list.length ? this.list.map(p => `<div class="plc-card"><div><b>${p.mode === 'voice' ? '🎙️' : '💬'} ${esc(p.title)}</b><small>${esc(p.hostName)} · ${esc(p.subject)} · เปิดเมื่อ ${new Date(p.createdAt).toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'})} · อยู่ในวง ${this.countIn(p.id)} คน</small>${p.detail ? `<small>${esc(p.detail)}</small>` : ''}</div>
+      ${this.room === p.id ? '<button class="btn ghost sm" type="button" data-show>กลับเข้าหน้าต่างวง</button>' : `<button class="btn sm" type="button" data-join="${esc(p.id)}">เข้าร่วมวง PLC</button>`}</div>`).join('') : '<div class="empty-q">ยังไม่มีวงที่เปิดอยู่ เปิดวงแรกได้เลย</div>';
+    if (box.dataset.h === html) return; box.dataset.h = html; box.innerHTML = html;
+    $$('[data-join]', box).forEach(x => x.onclick = () => { const p = this.list.find(y => y.id === x.dataset.join); if (p){ closeModal('#mSt'); this.join(p); } });
+    $$('[data-show]', box).forEach(x => x.onclick = () => { closeModal('#mSt'); this.showPanel(); });
+  },
+  renderCreate(){
+    const c = $('#plcCreate'); if (!c) return;
+    if (!isMember()){ c.innerHTML = memberGate('การเปิดวง PLC'); bindGate(c); return; }
+    const D = this.draft = this.draft || {mode:'text', subject:'ทุกกลุ่มสาระ'};
+    c.innerHTML = `<form class="form-grid" id="plcNew" style="max-width:700px">
+      <div class="fld" style="margin:0"><label for="pTitle">หัวข้อการพูดคุย</label><input class="txt" id="pTitle" maxlength="100" placeholder="เช่น ปัญหานักเรียนอ่านไม่คล่อง ป.2 เราจะช่วยกันอย่างไร" value="${esc(D.title || '')}"></div>
+      <div class="fld" style="margin:0"><label for="pDetail">ประเด็น / เป้าหมายของวง (ไม่บังคับ)</label><textarea class="txt" id="pDetail" maxlength="600" style="min-height:70px" placeholder="อยากได้วิธีแก้ที่ลองใช้ได้สัปดาห์หน้า">${esc(D.detail || '')}</textarea></div>
+      <div class="fld" style="margin:0"><label for="pSubject">กลุ่มสาระ</label><select class="txt" id="pSubject">${SUBJECTS.map(s => `<option ${s===D.subject?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
+      <div class="fld" style="margin:0"><span class="lbl">รูปแบบการร่วมวง</span><div class="modecards">
+        <button type="button" class="modecard" data-mode="text" aria-pressed="${D.mode==='text'}"><b>💬 พิมพ์สนทนา</b><small>ทุกคนพิมพ์คุยกัน หรือกด 🎤 ให้ระบบพิมพ์จากเสียง เหมาะกับคนที่อยู่ในห้องเรียนหรือที่สาธารณะ</small></button>
+        <button type="button" class="modecard" data-mode="voice" aria-pressed="${D.mode==='voice'}"><b>🎙️ เปิดไมโครโฟน</b><small>คุยกันด้วยเสียงสด พร้อมแชตและพิมพ์ด้วยเสียง แนะนำให้ใส่หูฟัง ใช้งานได้ดีที่สุดบน Chrome หรือ Edge</small></button></div></div>
+      <div class="row"><button class="btn" type="submit" id="pGo">เปิดวงและแจ้งเพื่อนครูที่ออนไลน์</button></div><div class="err" id="pErr" hidden></div></form>`;
+    const keep = () => { D.title = $('#pTitle').value; D.detail = $('#pDetail').value; D.subject = $('#pSubject').value; };
+    $$('[data-mode]', c).forEach(x => x.onclick = () => { keep(); D.mode = x.dataset.mode; this.renderCreate(); });
+    $('#plcNew').onsubmit = async e => {
+      e.preventDefault(); keep();
+      if (!D.title.trim()){ $('#pErr').hidden = false; $('#pErr').textContent = 'ตั้งหัวข้อการพูดคุยก่อนนะ'; return; }
+      $('#pGo').disabled = true; $('#pGo').textContent = 'กำลังเปิดวง…';
+      try {
+        const p = await API.createPlc({title:D.title.trim(), detail:D.detail.trim(), subject:D.subject, mode:D.mode, hostName:'ครู' + NAME()});
+        this.draft = null; this.seen.add(p.id); this.list = this.list.concat([p]);
+        closeModal('#mSt'); this.join(p); toast('เปิดวงแล้ว ระบบกำลังแจ้งเพื่อนครูที่ออนไลน์', 'good');
+      } catch(ex){ $('#pGo').disabled = false; $('#pGo').textContent = 'เปิดวงและแจ้งเพื่อนครูที่ออนไลน์'; $('#pErr').hidden = false; $('#pErr').textContent = 'เปิดวงไม่สำเร็จ: ' + ex.message; }
+    };
+  },
+  renderPast(list){
+    const box = $('#plcPast'); if (!box) return;
+    const past = (list || []).filter(p => p.status === 'closed').slice(0, 15);
+    box.innerHTML = past.length ? past.map(p => `<div class="past"><b>${p.mode === 'voice' ? '🎙️' : '💬'} ${esc(p.title)}</b><small style="color:var(--ink-soft)">${esc(p.hostName)} · ${new Date(p.createdAt).toLocaleDateString('th-TH', {day:'numeric', month:'short', year:'2-digit'})}${p.participants ? ' · ผู้ร่วมวง: ' + esc(p.participants) : ''}</small>${p.summary ? `<p>${esc(p.summary)}</p>` : ''}<button class="linkbtn" type="button" data-log="${esc(p.id)}">ดูบันทึกการคุย</button><div data-logbox="${esc(p.id)}"></div></div>`).join('') : '<div class="empty-q">ยังไม่มีวงที่ปิดแล้ว</div>';
+    $$('[data-log]', box).forEach(x => x.onclick = async () => {
+      const lb = box.querySelector(`[data-logbox="${x.dataset.log}"]`); lb.innerHTML = '<div class="loading" style="padding:6px">กำลังโหลด…</div>';
+      try { const msgs = await API.getPlcLog(x.dataset.log); lb.innerHTML = msgs.length ? msgs.map(m => `<div class="rt-line"><b>${esc(m.name)}</b>: ${linkify(m.text)} <small>${new Date(m.t).toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'})}</small></div>`).join('') : '<div class="empty-q">ไม่มีข้อความ</div>'; }
+      catch(e){ lb.innerHTML = `<div class="empty-q">${esc(e.message)}</div>`; }
+    });
+  },
+
+  /* ---------- room ---------- */
+  async join(p){
+    if (this.room === p.id){ this.showPanel(); return; }
+    if (this.room) this.leave();
+    $('#plcInvite').hidden = true;
+    this.room = p.id; this.info = p; this.roomSince = 0; this.msgIds = {};
+    $('#plcLog').innerHTML = ''; NET.dirty = true; netPush(true);
+    $('#plcTitle').textContent = p.title;
+    $('#plcHost').textContent = `${p.hostName} เปิดวง · ${p.subject}`;
+    $('#plcMode').textContent = p.mode === 'voice' ? '🎙️ คุยด้วยเสียง' : '💬 พิมพ์สนทนา';
+    $('#plcVoice').hidden = p.mode !== 'voice';
+    $('#plcClose').hidden = p.hostId !== NET.myId;
+    this.sysMsg(p.detail ? 'ประเด็น: ' + p.detail : 'ยินดีต้อนรับสู่วง PLC ทุกข้อความจะถูกบันทึกเป็นหลักฐานการแลกเปลี่ยน');
+    if (p.mode === 'voice'){ this.ensureAudio(); this.setVStat('กำลังรอเพื่อนครูในวง…'); this.updMicBtn(); }
+    this.showPanel(); this.renderPeople();
+  },
+  showPanel(){ $('#plcPanel').hidden = false; $('#plcPill').hidden = true; bindVoiceTyping($('#plcPanel')); setTimeout(() => $('#plcInput').focus(), 50); },
+  minimize(){ $('#plcPanel').hidden = true; $('#plcPill').hidden = !this.room; $('#plcPill').textContent = `🧑‍🏫 วง PLC: ${this.info ? this.info.title : ''} · ${this.people().length} คน — เปิด`; },
+  leave(silent){
+    if (!this.room) return;
+    for (const id of [...this.pcs.keys()]) this.dropPc(id);
+    if (this.stream){ this.stream.getTracks().forEach(t => t.stop()); this.stream = null; }
+    this.micOn = false; this.room = null; this.info = null;
+    $('#plcPanel').hidden = true; $('#plcPill').hidden = true; $('#plcAudio').innerHTML = '';
+    NET.dirty = true; netPush(true);
+    if (!silent) toast('ออกจากวง PLC แล้ว');
+  },
+  sysMsg(t){ const el = document.createElement('div'); el.className = 'rt-line sys'; el.textContent = t; $('#plcLog').appendChild(el); },
+  addMsg(m){
+    if (!m || this.msgIds[m.id]) return; this.msgIds[m.id] = 1;
+    this.roomSince = Math.max(this.roomSince, m.t || 0);
+    const mine = m.uid === NET.myId;
+    const el = document.createElement('div'); el.className = 'rt-line' + (mine ? ' mine' : '');
+    el.innerHTML = `<b>${esc(m.name)}</b>: <span class="msgtext">${linkify(m.text)}</span><small>${new Date(m.t).toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'})}</small>`;
+    const log = $('#plcLog'); log.appendChild(el); log.scrollTop = 1e9;
+    if (!mine && $('#plcPanel').hidden && this.room){ $('#plcPill').textContent = `💬 ${m.name}: ${m.text.slice(0, 40)}`; }
+  },
+  renderPeople(){
+    const html = this.people().map(p => `<div data-pid="${esc(p.id)}" class="${this.levels.get(p.id) > 0.04 ? 'speaking' : ''}"><img alt="" src="${portrait(avatarToLook(p.look))}"><span>${p.me ? 'ฉัน' : esc(String(p.name).replace(/^ครู/, ''))}${this.info && this.info.mode === 'voice' ? (p.mic ? ' 🎙️' : ' 🔇') : ''}</span></div>`).join('');
+    const box = $('#plcPeople'); if (box.dataset.h !== html){ box.dataset.h = html; box.innerHTML = html; }
+    if (!$('#plcPill').hidden && !/^💬/.test($('#plcPill').textContent)) this.minimize();
+  },
+
+  /* ---------- voice (WebRTC mesh, signaling through Apps Script) ---------- */
+  ensureAudio(){ if (!this.ac){ try { this.ac = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){} } if (this.ac && this.ac.state === 'suspended') this.ac.resume(); if (!this.meterT) this.meterT = setInterval(() => this.meter(), 250); },
+  setVStat(t){ $('#plcVStat').textContent = t; },
+  updMicBtn(){ const b = $('#plcMicBtn'); b.textContent = this.micOn ? '🔇 ปิดไมค์' : '🎙️ เปิดไมค์'; b.classList.toggle('mic-on', this.micOn); },
+  async toggleMic(){
+    if (!this.room || !this.info || this.info.mode !== 'voice') return;
+    this.ensureAudio();
+    if (!this.stream){
+      if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)){ toast('เบราว์เซอร์นี้เปิดไมโครโฟนไม่ได้ ลองใช้ Chrome หรือ Edge', 'bad'); return; }
+      try { this.stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true, noiseSuppression:true, autoGainControl:true}}); }
+      catch(e){ toast('ไม่ได้รับอนุญาตให้ใช้ไมโครโฟน ' + (location.protocol !== 'https:' ? '(ต้องเปิดผ่าน https)' : 'กดไอคอนแม่กุญแจข้างแถบที่อยู่เพื่ออนุญาต'), 'bad'); return; }
+      const track = this.stream.getAudioTracks()[0];
+      for (const c of this.pcs.values()) if (c.tx) c.tx.sender.replaceTrack(track).catch(() => {});
+      this.attachMeter(NET.myId, this.stream);
+      this.micOn = true;
+    } else {
+      this.micOn = !this.micOn; this.stream.getAudioTracks().forEach(t => t.enabled = this.micOn);
+    }
+    this.updMicBtn(); NET.dirty = true; netPush(true); this.renderPeople();
+  },
+  rtcConfig(){ return {iceServers:[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302']}].concat(TURN_SERVERS)}; },
+  makePc(peerId, offerer){
+    this.dropPc(peerId);
+    const pc = new RTCPeerConnection(this.rtcConfig());
+    // ผู้เสนอสร้างช่องเสียงเอง ส่วนผู้ตอบต้องใช้ช่องที่มากับข้อเสนอ (ไม่งั้นจะกลายเป็นรับอย่างเดียว)
+    const tx = offerer ? pc.addTransceiver('audio', {direction:'sendrecv'}) : null;
+    const c = {pc, tx, peerId, born:Date.now(), state:'new'};
+    if (tx) this.attachMic(c);
+    pc.ontrack = ev => {
+      this.log('track from', peerId);
+      let a = $('#plcAudio').querySelector(`[data-p="${CSS.escape(peerId)}"]`);
+      if (!a){ a = document.createElement('audio'); a.autoplay = true; a.dataset.p = peerId; $('#plcAudio').appendChild(a); }
+      const st = ev.streams && ev.streams[0] ? ev.streams[0] : new MediaStream([ev.track]);
+      a.srcObject = st; a.play().catch(() => {});
+      this.attachMeter(peerId, st);
+    };
+    pc.onconnectionstatechange = () => { this.log('conn', peerId, pc.connectionState); c.state = pc.connectionState; this.vstat(); if (pc.connectionState === 'failed') c.failedAt = Date.now(); };
+    this.pcs.set(peerId, c);
+    return c;
+  },
+  attachMic(c){
+    if (!c.tx || !this.stream) return;
+    const t = this.stream.getAudioTracks()[0];
+    if (t) c.tx.sender.replaceTrack(t).catch(() => {});
+  },
+  dropPc(id){ const c = this.pcs.get(id); if (!c) return; try { c.pc.close(); } catch(e){} this.pcs.delete(id); const a = $('#plcAudio').querySelector(`[data-p="${CSS.escape(id)}"]`); if (a) a.remove(); this.levels.delete(id); },
+  waitIce(pc){ return new Promise(res => { if (pc.iceGatheringState === 'complete') return res(); const t = setTimeout(res, 2500); pc.addEventListener('icegatheringstatechange', () => { if (pc.iceGatheringState === 'complete'){ clearTimeout(t); res(); } }); }); },
+  async send(to, type, pc){ await this.waitIce(pc); await API.rtSignal({to, room:this.room, data:JSON.stringify({type, sdp:pc.localDescription.sdp, room:this.room})}); },
+  async offer(peerId){
+    const c = this.makePc(peerId, true);
+    this.log('offer to', peerId);
+    try { await c.pc.setLocalDescription(await c.pc.createOffer()); await this.send(peerId, 'offer', c.pc); c.sentAt = Date.now(); if (c.state === 'new') c.state = 'offered'; this.log('offer sent', peerId); }
+    catch(e){ c.state = 'error'; this.log('offer error', e.message); }
+    this.vstat();
+  },
+  async onSignal(s){
+    if (!this.room || !this.info || this.info.mode !== 'voice') return;
+    let d; try { d = JSON.parse(s.data); } catch(e){ return; }
+    this.log('signal', d.type, 'from', s.from, 'room ok', d.room === this.room);
+    if (d.room !== this.room) return;
+    try {
+      if (d.type === 'offer'){
+        const c = this.makePc(s.from, false);
+        await c.pc.setRemoteDescription({type:'offer', sdp:d.sdp});
+        c.tx = c.pc.getTransceivers().find(t => t.receiver && t.receiver.track && t.receiver.track.kind === 'audio') || c.pc.getTransceivers()[0];
+        if (c.tx){ c.tx.direction = 'sendrecv'; this.attachMic(c); }
+        await c.pc.setLocalDescription(await c.pc.createAnswer());
+        await this.send(s.from, 'answer', c.pc); c.state = 'answered';
+      } else if (d.type === 'answer'){
+        const c = this.pcs.get(s.from);
+        this.log('answer for', s.from, 'pc?', !!c, c ? c.pc.signalingState : '-');
+        if (c && c.pc.signalingState === 'have-local-offer') await c.pc.setRemoteDescription({type:'answer', sdp:d.sdp});
+      }
+    } catch(e){ this.log('signal error', e.message); }
+    this.vstat();
+  },
+  syncRtc(){
+    if (!this.info || this.info.mode !== 'voice' || !window.RTCPeerConnection) return;
+    const ids = new Set(this.people().filter(p => !p.me).map(p => p.id));
+    for (const id of [...this.pcs.keys()]) if (!ids.has(id)) this.dropPc(id);
+    const now = Date.now();
+    ids.forEach(id => {
+      const c = this.pcs.get(id);
+      const iOffer = String(NET.myId) < String(id);
+      if (!c){ if (iOffer) this.offer(id); return; }
+      const st = c.pc.connectionState;
+      const stuck = (st === 'failed' && now - (c.failedAt || 0) > 4000)
+        || (c.pc.signalingState === 'have-local-offer' && c.sentAt && now - c.sentAt > 30000)
+        || (c.state === 'error' && now - c.born > 5000);
+      if (stuck && iOffer) this.offer(id);
+    });
+    this.vstat();
+  },
+  vstat(){
+    if (!this.info || this.info.mode !== 'voice') return;
+    const all = [...this.pcs.values()], ok = all.filter(c => c.pc.connectionState === 'connected').length, bad = all.filter(c => c.pc.connectionState === 'failed').length;
+    const others = this.people().length - 1;
+    this.setVStat(!others ? 'กำลังรอเพื่อนครูในวง…' : `เชื่อมเสียงแล้ว ${ok}/${others} คน${bad ? ` · ต่อไม่ติด ${bad} คน (เครือข่ายอาจบล็อก ใช้แชตแทนได้)` : ''}${!this.stream ? ' · ไมค์ของคุณยังปิด' : ''}`);
+  },
+  attachMeter(id, stream){
+    if (!this.ac) return;
+    try {
+      const src = this.ac.createMediaStreamSource(stream), an = this.ac.createAnalyser(); an.fftSize = 256; src.connect(an);
+      const buf = new Uint8Array(an.fftSize);
+      (this.meters = this.meters || new Map()).set(id, () => { an.getByteTimeDomainData(buf); let s = 0; for (let i=0;i<buf.length;i++){ const v = (buf[i]-128)/128; s += v*v; } return Math.sqrt(s/buf.length); });
+    } catch(e){}
+  },
+  meter(){
+    if (!this.room || !this.meters) return;
+    for (const [id, f] of this.meters){ const v = id === NET.myId && !this.micOn ? 0 : f(); this.levels.set(id, v); const el = $('#plcPeople').querySelector(`[data-pid="${CSS.escape(id)}"]`); if (el) el.classList.toggle('speaking', v > 0.04); }
+  },
+
+  /* ---------- host closes ---------- */
+  openClose(){
+    const b = station('ปิดวง PLC และบันทึกสรุป', 'md');
+    const names = this.people().map(p => p.name);
+    b.innerHTML = `<p class="lead">สรุปสิ่งที่ได้จากวงนี้ จะถูกบันทึกในแท็บ PLC ของชีต พร้อมรายชื่อผู้ร่วมวงและบันทึกการคุยทั้งหมด ใช้เป็นหลักฐาน PLC ได้</p>
+      <div class="fld"><span class="lbl">ผู้ร่วมวง (${names.length} คน)</span><p style="margin:0">${names.map(esc).join(', ')}</p></div>
+      <div class="fld"><label for="pcSum">สรุปผลการแลกเปลี่ยน / แนวทางที่จะนำไปใช้</label><textarea class="txt" id="pcSum" maxlength="3000" style="min-height:140px" placeholder="ปัญหา: …&#10;แนวทางที่ตกลงกัน: …&#10;ผู้รับผิดชอบ / กำหนดติดตามผล: …"></textarea></div>
+      <div class="row"><button class="btn" type="button" id="pcGo">ปิดวงและบันทึก</button><button class="btn ghost" type="button" id="pcMic" data-mic-for="pcSum">🎤 พูดสรุป</button></div><div class="err" id="pcErr" hidden></div>`;
+    bindVoiceTyping(b);
+    $('#pcGo').onclick = async () => {
+      $('#pcGo').disabled = true;
+      try { await API.closePlc({id:this.room, summary:$('#pcSum').value.trim(), participants:names}); closeModal('#mSt'); this.leave(true); toast('ปิดวงและบันทึกสรุปแล้ว ขอบคุณทุกคนที่ร่วมแลกเปลี่ยน', 'good'); }
+      catch(e){ $('#pcGo').disabled = false; $('#pcErr').hidden = false; $('#pcErr').textContent = 'ปิดวงไม่สำเร็จ: ' + e.message; }
+    };
+  }
+};
+try { if (new URLSearchParams(location.search).has('debug')) window.__kkpPLC = PLC; } catch(e){}
+$('#plcMin').onclick = () => PLC.minimize();
+$('#plcPill').onclick = () => PLC.showPanel();
+$('#plcLeave').onclick = () => PLC.leave();
+$('#plcClose').onclick = () => PLC.openClose();
+$('#plcMicBtn').onclick = () => PLC.toggleMic();
+$('#plcInvJoin').onclick = () => { const p = PLC.invite; $('#plcInvite').hidden = true; if (p) PLC.join(p); };
+$('#plcInvLater').onclick = () => { $('#plcInvite').hidden = true; toast('เข้าร่วมภายหลังได้ที่แท็บ "วง PLC"'); };
+$('#plcForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const inp = $('#plcInput'), text = inp.value.trim(); if (!text || !PLC.room) return;
+  if (srActive && srActive.btn.dataset.micFor === 'plcInput'){ try { srActive.rec.stop(); } catch(x){} }
+  inp.value = '';
+  try { const m = await API.rtChat({text, name:'ครู' + NAME(), room:PLC.room}); PLC.addMsg(m); }
+  catch(ex){ toast('ส่งข้อความไม่สำเร็จ: ' + ex.message, 'bad'); inp.value = text; }
+});
+bindVoiceTyping(document);
 
 /* =========================================================
    BOOT
