@@ -805,10 +805,11 @@ const API_URL = (() => {
     if (q === 'off'){ if (ls) ls.removeItem('kkp_api'); }
     else if (okUrl(q) && ls) ls.setItem('kkp_api', q.trim());
   } catch(e){}
+  // ลำดับ: ลิงก์ ?api=... หรือที่ตั้งไว้ในหน้าตั้งค่า (จำไว้ในเครื่อง) > KKP_CONFIG > ค่าที่ฝังในไฟล์
+  try { const v = ls && ls.getItem('kkp_api'); if (okUrl(v)) return v; } catch(e){}
   const cfg = window.KKP_CONFIG && window.KKP_CONFIG.apiUrl;
   if (okUrl(cfg)) return cfg.trim();
   if (okUrl(API_URL_DEFAULT)) return API_URL_DEFAULT.trim();
-  try { const v = ls && ls.getItem('kkp_api'); if (okUrl(v)) return v; } catch(e){}
   return '';
 })();
 /* ระบบออนไลน์แบบ realtime ผ่าน Firebase (ไม่บังคับ): วาง config จาก Firebase console ที่นี่ เช่น
@@ -1167,12 +1168,44 @@ const API = (() => {
   const hasGAS = typeof google !== 'undefined' && google.script && google.script.run;
   const mode = hasGAS ? 'gas' : (API_URL ? 'url' : 'local');
   const gas = (fn, ...args) => new Promise((res, rej) => google.script.run.withSuccessHandler(res).withFailureHandler(e => rej(new Error(e && e.message || e)))[fn](...args));
+  /* ส่งแบบ POST ก่อน ถ้าเครือข่ายหรือเบราว์เซอร์บล็อก จะลองแบบ GET อัตโนมัติ และจำวิธีที่ใช้ได้ไว้ */
+  let via = (() => { try { return localStorage.getItem('kkp_via') || 'post'; } catch(e){ return 'post'; } })();
+  const NETERR = 'ติดต่อเซิร์ฟเวอร์ไม่ได้';
+  async function req(method, action, payload, ms){
+    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), ms);
+    try {
+      let r;
+      if (method === 'post') r = await fetch(API_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({action, payload}), signal:ctl.signal});
+      else r = await fetch(API_URL + (API_URL.includes('?') ? '&' : '?') + 'action=' + encodeURIComponent(action) + '&payload=' + encodeURIComponent(JSON.stringify(payload)), {signal:ctl.signal});
+      const text = await r.text();
+      try { return JSON.parse(text); }
+      catch(e){ const err = new Error('SERVER_HTML'); err.html = text.slice(0, 2000); throw err; }
+    } catch(e){
+      if (e.message === 'SERVER_HTML') throw e;
+      const err = new Error(e.name === 'AbortError' ? 'TIMEOUT' : 'NET'); throw err;
+    } finally { clearTimeout(t); }
+  }
+  function explain(e){
+    if (e.message === 'SERVER_HTML'){
+      const m = /Exception:\s*([^<]{3,200})/.exec(e.html || '');
+      return new Error('เซิร์ฟเวอร์ Apps Script แจ้งข้อผิดพลาด' + (m ? ': ' + m[1].trim().replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&') : '') + ' — มักเกิดจาก Deploy ยังเป็นโค้ดเก่า ให้ไปที่ Manage deployments → แก้ไข → New version');
+    }
+    if (e.message === 'TIMEOUT') return new Error(NETERR + ' (รอนานเกินไป) — เซิร์ฟเวอร์อาจยังรันโค้ดเก่าหรือยังไม่ได้อนุญาตสิทธิ์ กด "ตรวจการเชื่อมต่อ" เพื่อดูสาเหตุ');
+    return new Error(NETERR + ' — กด "ตรวจการเชื่อมต่อ" เพื่อดูสาเหตุ (มักเกิดจาก Deploy ยังเป็นโค้ดเก่า หรือ Who has access ไม่ใช่ Anyone)');
+  }
   async function url(action, payload){
-    let r;
-    try { r = await fetch(API_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({action, payload})}); }
-    catch(e){ throw new Error('ติดต่อเซิร์ฟเวอร์ไม่ได้ ตรวจอินเทอร์เน็ต หรือการตั้งค่า Deploy (Who has access: Anyone)'); }
-    let j; try { j = await r.json(); } catch(e){ throw new Error('เซิร์ฟเวอร์ตอบกลับผิดรูปแบบ (ตรวจว่า URL ลงท้าย /exec และ Deploy เวอร์ชันล่าสุดแล้ว)'); }
-    if (!j.ok) throw new Error(j.error || 'เกิดข้อผิดพลาด'); return j.data;
+    const big = JSON.stringify(payload).length > 1800;
+    const order = big ? ['post'] : (via === 'get' ? ['get','post'] : ['post','get']);
+    let lastErr;
+    for (const m of order){
+      try {
+        const j = await req(m, action, payload, action === 'uploadImage' || action === 'savePrivate' ? 60000 : 30000);
+        if (m !== via && !big){ via = m; try { localStorage.setItem('kkp_via', m); } catch(e){} }
+        if (!j.ok) throw Object.assign(new Error(j.error || 'เกิดข้อผิดพลาด'), {server:true});
+        return j.data;
+      } catch(e){ if (e.server) throw e; lastErr = e; if (e.message === 'SERVER_HTML') break; }
+    }
+    throw explain(lastErr);
   }
   const call = (fn, action, payload) => { const p = Object.assign({}, payload || {}, SESSION.token ? {token:SESSION.token} : {}); return mode === 'gas' ? gas(fn, p) : url(action, p); };
   const now = () => new Date().toISOString();
@@ -3349,7 +3382,10 @@ $('#loginForm').addEventListener('submit', async e => {
     else r = await API.login({email, password});
     if (M.pass && r && r.account && !r.account.guest) await PRIV.deriveKey(r.account.id, password, !!r.reset);
     await afterLogin(r);
-  } catch(ex){ err(ex.message || 'เข้าสู่ระบบไม่สำเร็จ'); }
+  } catch(ex){
+    err(ex.message || 'เข้าสู่ระบบไม่สำเร็จ');
+    if (/ติดต่อเซิร์ฟเวอร์|Apps Script/.test(ex.message || '')){ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn ghost sm'; b.style.marginTop = '8px'; b.textContent = '🛰️ ตรวจการเชื่อมต่อ'; b.onclick = () => openDiag(); $('#lErr').appendChild(document.createElement('br')); $('#lErr').appendChild(b); }
+  }
   $('#lGo').disabled = false; $('#lGo').textContent = LOGIN_MODES[loginMode].go;
 });
 $('#gBtn').onclick = async () => { try { await afterLogin(await fbGoogle()); } catch(e){ $('#lErr').hidden = false; $('#lErr').textContent = 'เข้าสู่ระบบด้วย Google ไม่สำเร็จ: ' + e.message; } };
@@ -3635,11 +3671,27 @@ async function pingServer(url){
     if (!/\/exec(\?|$)/.test(url)) add('warn', 'URL ไม่ได้ลงท้ายด้วย /exec', 'ปกติ Web app URL จะลงท้ายด้วย /exec ลองตรวจอีกครั้ง');
     else add('ok', 'รูปแบบ URL ถูกต้อง');
   }
-  let res, j;
-  try { res = await fetch(url, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({action:'ping', payload:{}})}); }
-  catch(e){ add('bad', 'ติดต่อเซิร์ฟเวอร์ไม่ได้', 'สาเหตุที่พบบ่อย: ตั้ง Who has access ไม่ใช่ "Anyone" (Google จะพาไปหน้าล็อกอินแทน) หรือยังไม่ได้ Deploy · ถ้าเพิ่งแก้ ให้ Deploy → Manage deployments → Edit → New version'); return {ok:false, steps}; }
-  try { j = await res.json(); }
-  catch(e){ add('bad', 'เซิร์ฟเวอร์ตอบกลับไม่ใช่ข้อมูลของครูขอพัก', 'ตรวจว่าวาง Code.gs ล่าสุดแล้ว และ Deploy เป็นเวอร์ชันใหม่'); return {ok:false, steps}; }
+  const tryOne = async m => {
+    const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), 20000);
+    try {
+      const r = m === 'post' ? await fetch(url, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({action:'ping', payload:{}}), signal:ctl.signal})
+        : await fetch(url + (url.includes('?') ? '&' : '?') + 'action=ping&payload=%7B%7D', {signal:ctl.signal});
+      const t = await r.text();
+      try { return {ok:true, j:JSON.parse(t)}; } catch(e){ return {ok:false, kind:'html', html:t}; }
+    } catch(e){ return {ok:false, kind:e.name === 'AbortError' ? 'timeout' : 'net'}; }
+    finally { clearTimeout(tm); }
+  };
+  const P = await tryOne('post'), Gt = P.ok ? null : await tryOne('get');
+  const hit = P.ok ? P : (Gt && Gt.ok ? Gt : null);
+  if (!hit){
+    const html = [P, Gt].find(x => x && x.kind === 'html');
+    if (html){ const m = /Exception:\s*([^<]{3,200})/.exec(html.html || ''); add('bad', 'เซิร์ฟเวอร์แจ้งข้อผิดพลาดของ Google', (m ? m[1].trim().replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&') + ' · ' : '') + 'แปลว่า URL นี้ยังรันโค้ดเก่า ให้วาง Code.gs ล่าสุด แล้ว Manage deployments → ✏️ → Version: New version'); }
+    else add('bad', 'ติดต่อเซิร์ฟเวอร์ไม่ได้' + (P.kind === 'timeout' ? ' (รอนานเกินไป)' : ''),
+      'ลองเปิด URL นี้ในแท็บใหม่: ถ้าเห็น "ครูขอพัก · เซิร์ฟเวอร์พร้อมรับการเชื่อมต่อ" แปลว่าโค้ดถูกแล้ว ถ้าเห็น "No HTML file named Index" หรือ error อื่น แปลว่ายังเป็นโค้ดเก่า (ต้อง Deploy New version ที่ deployment เดิม) ถ้าเห็นหน้าให้ล็อกอิน Google แปลว่า Who has access ยังไม่ใช่ Anyone');
+    return {ok:false, steps, url};
+  }
+  if (!P.ok){ add('warn', 'ส่งข้อมูลแบบ POST ไม่ผ่าน แต่แบบ GET ผ่าน', 'ระบบจะใช้แบบ GET ให้อัตโนมัติ (อัปโหลดรูปและสมุดขนาดใหญ่อาจใช้ไม่ได้ในเครือข่ายนี้)'); try { localStorage.setItem('kkp_via', 'get'); } catch(e){} }
+  const j = hit.j;
   if (!j.ok){
     if (/ไม่รู้จักคำสั่ง/.test(j.error || '')) add('bad', 'Code.gs ยังเป็นเวอร์ชันเก่า', 'วาง Code.gs ล่าสุด แล้ว Deploy → Manage deployments → Edit → Version: New version');
     else add('bad', 'เซิร์ฟเวอร์แจ้งข้อผิดพลาด', j.error || '');
@@ -3658,7 +3710,7 @@ async function pingServer(url){
   add('ok', d.requireLogin ? 'ต้องเข้าสู่ระบบก่อนโพสต์และแชต' : 'ผู้มาเยือนโพสต์ได้โดยไม่ต้องล็อกอิน', 'เปลี่ยนได้ที่แท็บ Settings → require_login');
   return {ok:!steps.some(s => s.state === 'bad'), steps, data:d};
 }
-function diagHTML(steps){ return `<ul class="diag">${steps.map(s => `<li class="${s.state}"><i>${s.state === 'ok' ? '✓' : s.state === 'bad' ? '!' : '•'}</i><span>${esc(s.title)}${s.note ? `<small>${esc(s.note)}</small>` : ''}</span></li>`).join('')}</ul>`; }
+function diagHTML(steps, url){ return (url ? `<p class="lead" style="margin:6px 0"><a href="${esc(url)}" target="_blank" rel="noopener">เปิด URL เซิร์ฟเวอร์ในแท็บใหม่เพื่อดูด้วยตาตัวเอง ↗</a></p>` : '') + `<ul class="diag">${steps.map(s => `<li class="${s.state}"><i>${s.state === 'ok' ? '✓' : s.state === 'bad' ? '!' : '•'}</i><span>${esc(s.title)}${s.note ? `<small>${esc(s.note)}</small>` : ''}</span></li>`).join('')}</ul>`; }
 function shareLink(url){ return location.origin + location.pathname + '?api=' + encodeURIComponent(url); }
 function copyBox(label, value){ return `<div class="fld" style="margin:10px 0 0"><span class="lbl">${esc(label)}</span><div class="copyrow"><input class="txt" readonly value="${esc(value)}" aria-label="${esc(label)}"><button class="btn ghost sm" type="button" data-copy>คัดลอก</button></div></div>`; }
 function bindCopy(root){
@@ -3680,7 +3732,7 @@ $('#setupForm').addEventListener('submit', async e => {
   $('#setupTest').disabled = true; $('#setupTest').textContent = 'กำลังทดสอบ…'; out.innerHTML = '';
   const r = await pingServer(url);
   $('#setupTest').disabled = false; $('#setupTest').textContent = 'ทดสอบอีกครั้ง';
-  out.innerHTML = diagHTML(r.steps) + (r.ok ? `
+  out.innerHTML = diagHTML(r.steps, r.ok ? '' : r.url) + (r.ok ? `
     ${copyBox('ลิงก์สำหรับแจกเพื่อนครู (เปิดครั้งแรกแล้วเชื่อมต่อให้อัตโนมัติ)', shareLink(url))}
     <p class="lead" style="margin:10px 0 0;font-size:13px">ให้ทุกคนเชื่อมต่อแม้เปิดลิงก์ปกติ: แก้บรรทัดนี้ใน index.html บน GitHub</p>
     <code class="snippet">const API_URL_DEFAULT = '${esc(url)}';</code>
@@ -3689,21 +3741,23 @@ $('#setupForm').addEventListener('submit', async e => {
   if (r.ok) $('#setupSave').onclick = () => { try { localStorage.setItem('kkp_api', url); } catch(e){} location.href = shareLink(url); };
 });
 $('#setupDemo').onclick = () => { store.set('demoOk', true); $('#scrSetup').hidden = true; NET.offline = true; updateNetUI(); enterFlow(); };
-$('#netPill').onclick = async () => {
+$('#netPill').onclick = () => openDiag();
+async function openDiag(){
   const b = station('🛰️ สถานะการเชื่อมต่อ', 'md');
   const where = API.hasGAS ? 'เปิดผ่าน Google Apps Script โดยตรง' : API_URL ? 'เปิดจากเว็บภายนอก (เช่น GitHub Pages) ต่อไปที่ Apps Script' : NET.kind === 'room' ? 'เปิดในหน้า Claude (realtime ผ่านห้อง Claude)' : 'โหมดทดลอง ข้อมูลเก็บเฉพาะในเครื่องนี้';
   b.innerHTML = `<p class="lead">หน้าเว็บเวอร์ชัน <b>${APP_VERSION}</b> · ${esc(where)}${NET.account ? ` · เข้าสู่ระบบเป็น <b>${esc(NET.account.email || NET.account.name)}</b>` : ''}${NET.running ? ` · ออนไลน์ ${NET.peers.size + 1} คน` : ''}</p><div id="diagOut"><div class="loading" style="padding:16px">กำลังตรวจ…</div></div>`;
   let steps = [];
-  if (API_URL && !API.hasGAS){ const r = await pingServer(API_URL); steps = r.steps; }
+  let failUrl = '';
+  if (API_URL && !API.hasGAS){ const r = await pingServer(API_URL); steps = r.steps; if (!r.ok) failUrl = API_URL; }
   else if (API.hasGAS){ try { const d = await API.ping(); steps.push({state:'ok', title:'เชื่อมต่อ Apps Script สำเร็จ', note:'Code.gs เวอร์ชัน ' + (d.version || '-')}); } catch(e){ steps.push({state:'bad', title:'เรียกเซิร์ฟเวอร์ไม่สำเร็จ', note:e.message}); } }
   else steps.push({state:'warn', title:'ยังไม่ได้เชื่อมฐานข้อมูลออนไลน์', note:'ผู้ดูแลตั้งค่าได้จากปุ่มด้านล่าง'});
   if (NET.running) steps.push({state:'ok', title:'Realtime ทำงานอยู่', note:`ผ่าน ${NET_NAMES[NET.kind]}${NET.kind === 'gas' ? ' (อัปเดตทุก ~2 วินาที)' : ''}`});
   else if (NET.kind !== 'none') steps.push({state:'warn', title:'Realtime ยังไม่เริ่ม', note: NET.account ? 'กำลังเชื่อมต่อ' : 'ต้องเข้าสู่ระบบก่อน'});
-  $('#diagOut').innerHTML = diagHTML(steps) + (API_URL ? copyBox('ลิงก์สำหรับแจกเพื่อนครู', shareLink(API_URL)) : '') +
+  $('#diagOut').innerHTML = diagHTML(steps, failUrl) + (API_URL ? copyBox('ลิงก์สำหรับแจกเพื่อนครู', shareLink(API_URL)) : '') +
     (!API.hasGAS ? `<div class="row" style="margin-top:12px"><button class="btn ghost sm" type="button" id="toSetup">${API_URL ? 'เปลี่ยน URL เซิร์ฟเวอร์' : 'ตั้งค่าการเชื่อมต่อ'}</button></div>` : '');
   bindCopy(b);
   if ($('#toSetup')) $('#toSetup').onclick = () => { closeModal('#mSt'); showSetup(); };
-};
+}
 
 /* =========================================================
    🎤 VOICE TYPING — พิมพ์ด้วยเสียง (Web Speech API, ภาษาไทย)
