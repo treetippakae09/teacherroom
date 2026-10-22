@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ครูขอพัก</title>
+<title>ห้องพักของครู</title>
 </head>
 <body>
 
@@ -717,7 +717,7 @@ button.fr-row{cursor:pointer}
     <nav class="tabs" role="tablist" aria-label="เมนูหลัก">
       <button class="tab" role="tab" id="tabRoom" data-tab="room" aria-selected="false">ห้องพักครู</button>
       <button class="tab" role="tab" data-tab="board" aria-selected="false">กระดานปักหมุด</button>
-      <button class="tab" role="tab" data-tab="plc" aria-selected="false">วง PLC</button>
+      <button class="tab" role="tab" data-tab="plc" aria-selected="false">กระดาน PLC</button>
       <button class="tab" role="tab" data-tab="notebook" aria-selected="false">สมุดของฉัน</button>
       <button class="tab" role="tab" data-tab="friends" aria-selected="false">เพื่อน<span class="tbadge" id="mailBadge" hidden></span></button>
       <button class="tab" role="tab" data-tab="dress" aria-selected="true">แต่งตัวครู</button>
@@ -973,7 +973,7 @@ button.fr-row{cursor:pointer}
    ถ้าเว้นว่างไว้ หน้าเว็บจะมีหน้าตั้งค่าให้วาง URL และทดสอบการเชื่อมต่อ แล้วสร้างลิงก์ ?api=... ไว้แจกครูได้
    ========================================================= */
 const API_URL_DEFAULT = 'https://script.google.com/macros/s/AKfycbw01JxQ5pnPUD7XUwCfA2UnqgEVhYPJk0ObfENDGKc_ihkLU_boZOJ80k7lFUwgiN02/exec';
-const APP_VERSION = '2026.10.22.5';
+const APP_VERSION = '2026.10.22.6';
 const API_URL = (() => {
   const okUrl = u => typeof u === 'string' && /^https?:\/\/\S+$/.test(u.trim());
   let ls = null; try { ls = window.localStorage; } catch(e){}
@@ -1855,6 +1855,16 @@ const SEATS = {
   window:{x:-10.32, z:1.6, y:0.08, face:Math.PI/2, exit:{x:-9.5, z:1.6}},
   circle:{x:1.25, z:5.4, y:0.08, face:Math.PI/2, exit:{x:0.55, z:5.4}}
 };
+const PLC_TABLE = {x:8.3, z:-0.4};
+const PLC_SEATS = [[-1,0],[0,-1],[1,0],[0,1]].map(([dx,dz]) => ({x:PLC_TABLE.x + dx, z:PLC_TABLE.z + dz, y:0.08, face:Math.atan2(-dx, -dz), exit:{x:PLC_TABLE.x + dx*1.75, z:PLC_TABLE.z + dz*1.75}}));
+PLC_SEATS[2].exit = {x:PLC_TABLE.x + 0.5, z:PLC_TABLE.z - 1.6};
+function plcSit(){
+  if (!G.started || !G.me) return;
+  const taken = [...NET.peers.values()].filter(e => e.plc).map(e => e.obj.position);
+  const s = PLC_SEATS.find(st => !taken.some(p => Math.hypot(p.x - st.x, p.z - st.z) < 0.45)) || PLC_SEATS[0];
+  G.me.seat = s; G.me.target = null; G.me.pending = null; G.me.obj.position.set(s.x, s.y, s.z); G.me.obj.rotation.y = s.face;
+}
+function plcStand(){ if (G.me && G.me.seat && PLC_SEATS.includes(G.me.seat)) standUp(); }
 function addObstacle(x, z, hx, hz){ G.obstacles.push([x-hx, x+hx, z-hz, z+hz]); }
 function addInteract(def){ def.group.traverse(o => { if (o.isMesh){ o.userData.iref = def; G.clickables.push(o); } }); G.interactables.push(def); return def; }
 function labelTex(text, bg, fg, w, h){
@@ -1968,12 +1978,12 @@ function plcBoardTexture(){
   return canvasTex(640, 420, (g, W, H) => {
     g.fillStyle = '#ffffff'; g.fillRect(0, 0, W, H);
     g.fillStyle = '#2e86de'; rr(g, 20, 16, W - 40, 64, 20); g.fill();
-    g.fillStyle = '#fff'; g.font = '36px Itim, Mali, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('🧑‍🏫 วง PLC · คลังสรุป', W/2, 49);
+    g.fillStyle = '#fff'; g.font = '36px Itim, Mali, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('🧑‍🏫 กระดาน PLC · คลังสรุป', W/2, 49);
     const open = (typeof PLC !== 'undefined' && PLC.list) ? PLC.list : [];
     const arch = ((DATA.get('archive') || {}).list || []).filter(p => p.status === 'closed');
     const rows = open.map(p => ['● กำลังคุย', p.title, '#2e86de']).concat(arch.map(p => [new Date(p.createdAt).toLocaleDateString('th-TH', {day:'numeric', month:'short'}), p.title, '#2f3e46'])).slice(0, 5);
     g.textAlign = 'left';
-    if (!rows.length){ g.fillStyle = '#6c7d84'; g.font = '28px Mali, sans-serif'; wrapText(g, 'ยังไม่มีวง PLC แตะที่กระดานเพื่อเปิดวงแรก', 40, 120, W - 80, 40, 3); return; }
+    if (!rows.length){ g.fillStyle = '#6c7d84'; g.font = '28px Mali, sans-serif'; wrapText(g, 'ยังไม่มีสรุป PLC ไปเปิดวงคุยที่โต๊ะกลม PLC ได้เลย', 40, 120, W - 80, 40, 3); return; }
     rows.forEach((r, i) => {
       const y = 112 + i * 60;
       g.fillStyle = i % 2 ? '#f3f8fd' : '#e8f2fc'; rr(g, 26, y - 6, W - 52, 52, 12); g.fill();
@@ -1983,10 +1993,10 @@ function plcBoardTexture(){
   });
 }
 const OBJ_LABELS = {
-  board:['📌','กระดานปักหมุด','แชร์ไอเดียสอน ข่าวดี รีวิวการนำไปใช้'], vent:['🗒️','กระดานบ่น','ระบายแบบไม่แสดงชื่อ'], plcboard:['🧑‍🏫','วง PLC','เปิดวงคุยการสอน และดูคลังสรุป PLC'],
+  board:['📌','กระดานปักหมุด','แชร์ไอเดียสอน ข่าวดี รีวิวการนำไปใช้'], vent:['🗒️','กระดานบ่น','ระบายแบบไม่แสดงชื่อ'], plcboard:['🧑‍🏫','กระดาน PLC','ดูคลังสรุป PLC ย้อนหลัง'], plctable:['🟢','โต๊ะกลม PLC','เปิดวงหรือเข้าร่วมคุย PLC'],
   coffee:['☕','มุมกาแฟ','ชงเครื่องดื่มให้ใจสักแก้ว'], cooler:['💧','ตู้น้ำเย็น','ดื่มน้ำ เติมพลัง'], sofa:['🛋️','โซฟารับฟัง','คุยกับพี่ฟ้า (AI) หรืองีบพัก'],
   window:['🎧','หน้าต่างพักสายตา','ฟังเสียงฝน เสียงนก พักหายใจ'], duty:['📋','ตารางเวร','ดูเวรประตูประจำสัปดาห์'], shelf:['📚','ชั้นหนังสือ','อ่านแก้เครียด'],
-  copier:['🖨️','แชร์ใบงาน','เครื่องถ่ายเอกสาร · แชร์ ขอบคุณ เล่าผล บันทึกใบงาน'], media:['🎬','มุมแบ่งปันสื่อ','แชร์คลิป สไลด์ เกม สื่อการเรียนรู้'], tree:['🪴','ต้นไม้พักใจ','รดน้ำและบันทึกเรื่องดี ๆ'], cards:['🃏','ไพ่กำลังใจ','เปิดไพ่ถึงคุณครู'],
+  copier:['📄','แชร์ใบงาน','แชร์ ขอบคุณ เล่าผลการใช้ บันทึกใบงาน'], media:['🎬','มุมแบ่งปันสื่อการเรียนรู้','แชร์คลิป สไลด์ เกม สื่อทำมือ'], tree:['🪴','ต้นไม้พักใจ','รดน้ำและบันทึกเรื่องดี ๆ'], cards:['🃏','ไพ่กำลังใจ','เปิดไพ่ถึงคุณครู'],
   play:['🎨','โต๊ะเล่นเพลิน','ระบายสี ต่อบล็อก ไม่มีคะแนน'], circle:['💬','โต๊ะวงคุย','คุยหัวข้อเบา ๆ กับเพื่อนครู'], mail:['📮','ตู้จดหมาย','เขียนจดหมายถึงตัวเอง'],
   mirror:['🪞','กระจก','วันนี้ฉันรู้สึกอย่างไร'], myDesk:['🗂️','โต๊ะของฉัน','ทำงานค้าง เขียนแผน ตรวจงาน']
 };
@@ -2123,18 +2133,26 @@ function buildRoom(){
   cp.add(box(1.0, 1.0, 0.8, '#e6ecf0', 0, 0.5, 0)); cp.add(box(1.05, 0.1, 0.85, '#bcc6cc', 0, 1.05, 0));
   cp.add(box(0.3, 0.06, 0.2, '#33424a', 0.3, 1.12, 0.25)); cp.add(sph(0.035, '#5ee0a0', 0.42, 1.14, 0.3)); cp.add(box(0.5, 0.04, 0.35, '#ffffff', -0.65, 0.75, 0.1));
   S.add(cp); addObstacle(10.1, -2.6, 0.45, 0.55);
-  addInteract({id:'copier', kind:'obj', name:'เครื่องถ่ายเอกสาร · แชร์ใบงาน', verb:'เปิดคลังแบ่งปันใบงาน', icon:'🖨️', group:cp, ax:9.1, az:-2.6, face:Math.PI/2});
-  // media-sharing corner (มุมแบ่งปันสื่อการเรียนรู้)
-  const md = new T.Group(); md.position.set(10.2, 0, -0.85); md.rotation.y = -Math.PI/2;
-  md.add(box(1.2, 0.7, 0.5, '#f4d9a8', 0, 0.35, 0)); md.add(box(1.24, 0.06, 0.54, '#d9b77e', 0, 0.72, 0));
-  md.add(box(0.55, 0.26, 0.02, '#fbe8c6', -0.29, 0.38, 0.26)); md.add(box(0.55, 0.26, 0.02, '#fbe8c6', 0.29, 0.38, 0.26));
-  md.add(box(0.9, 0.56, 0.06, '#33424a', 0, 1.1, -0.08)); md.add(box(0.82, 0.48, 0.01, '#7cc4f0', 0, 1.1, -0.045));
-  const play = mesh(new T.CircleGeometry(0.1, 3), '#ffffff'); play.position.set(0, 1.1, -0.035); md.add(play);
-  md.add(box(0.06, 0.12, 0.06, '#33424a', 0, 0.81, -0.08));
-  md.add(box(0.16, 0.22, 0.04, '#ff9b9b', 0.42, 0.86, 0.12)); md.add(box(0.16, 0.18, 0.04, '#9be0b4', 0.47, 0.84, 0.05));
-  md.add(cyl(0.07, 0.07, 0.03, '#ffcf5a', -0.45, 0.77, 0.12, 16));
-  S.add(md); addObstacle(10.2, -0.85, 0.32, 0.62);
-  addInteract({id:'media', kind:'obj', name:'มุมแบ่งปันสื่อการเรียนรู้', verb:'เปิดมุมแบ่งปันสื่อ', icon:'🎬', group:md, ax:9.25, az:-0.85, face:Math.PI/2});
+  addInteract({id:'copier', kind:'obj', name:'แชร์ใบงาน', verb:'เปิดคลังแบ่งปันใบงาน', icon:'🖨️', group:cp, ax:9.1, az:-2.6, face:Math.PI/2});
+  // media-sharing corner (มุมแบ่งปันสื่อการเรียนรู้) — ชิดผนังหลัง มองเห็นชัด
+  const md = new T.Group(); md.position.set(8.2, 0, -7.25);
+  md.add(box(1.5, 0.75, 0.5, '#f4d9a8', 0, 0.375, 0)); md.add(box(1.56, 0.06, 0.54, '#d9b77e', 0, 0.77, 0));
+  md.add(box(0.7, 0.28, 0.02, '#fbe8c6', -0.37, 0.4, 0.26)); md.add(box(0.7, 0.28, 0.02, '#fbe8c6', 0.37, 0.4, 0.26));
+  md.add(box(1.25, 0.76, 0.07, '#33424a', 0, 1.36, -0.08)); md.add(box(1.15, 0.66, 0.01, '#7cc4f0', 0, 1.36, -0.04));
+  const play = mesh(new T.CircleGeometry(0.15, 3), '#ffffff'); play.position.set(0, 1.36, -0.03); md.add(play);
+  md.add(box(0.08, 0.14, 0.08, '#33424a', 0, 0.86, -0.08));
+  md.add(box(0.2, 0.28, 0.05, '#ff9b9b', 0.55, 0.92, 0.12)); md.add(box(0.2, 0.22, 0.05, '#9be0b4', 0.6, 0.89, 0.04));
+  md.add(cyl(0.09, 0.09, 0.04, '#ffcf5a', -0.55, 0.82, 0.12, 16));
+  S.add(md); addObstacle(8.2, -7.25, 0.78, 0.32);
+  addInteract({id:'media', kind:'obj', name:'มุมแบ่งปันสื่อการเรียนรู้', verb:'เปิดมุมแบ่งปันสื่อ', icon:'🎬', group:md, ax:8.2, az:-6.5, face:Math.PI});
+  // PLC round table (โต๊ะกลม PLC)
+  const pt = new T.Group(); pt.position.set(PLC_TABLE.x, 0, PLC_TABLE.z);
+  pt.add(cyl(0.75, 0.75, 0.06, '#e6f4fd', 0, 0.7, 0, 32)); pt.add(cyl(0.1, 0.25, 0.68, '#9aa8ae', 0, 0.34, 0, 12));
+  pt.add(cyl(0.3, 0.3, 0.012, '#2e86de', 0, 0.735, 0, 24)); pt.add(box(0.22, 0.01, 0.3, '#ffffff', 0.32, 0.74, 0.1)); pt.add(box(0.22, 0.01, 0.3, '#fff6d9', -0.3, 0.74, -0.12));
+  pt.add(cyl(0.05, 0.04, 0.09, '#ffcf5a', 0.1, 0.78, -0.35, 12));
+  PLC_SEATS.forEach((st, i) => pt.add(stool(st.x - PLC_TABLE.x, st.z - PLC_TABLE.z, ['#7cc4f0','#a99bf0','#3aa88f','#ffcf5a'][i])));
+  S.add(pt); addObstacle(PLC_TABLE.x, PLC_TABLE.z, 0.75, 0.75);
+  addInteract({id:'plctable', kind:'obj', name:'โต๊ะกลม PLC', verb:'เปิดวงหรือเข้าร่วมคุย PLC', icon:'🟢', group:pt, ax:PLC_TABLE.x - 1.35, az:PLC_TABLE.z + 0.55, face:Math.PI/2});
   // tree of rest
   const tr = new T.Group(); tr.position.set(10.0, 0, -6.7);
   tr.add(cyl(0.42, 0.32, 0.6, '#ffffff', 0, 0.3, 0, 20)); tr.add(cyl(0.44, 0.44, 0.08, '#3aa88f', 0, 0.6, 0, 20)); tr.add(cyl(0.06, 0.09, 0.9, '#9c6b45', 0, 0.95, 0, 10));
@@ -2172,7 +2190,7 @@ function buildRoom(){
   S.add(mb); addObstacle(-5.0, 6.9, 0.32, 0.35);
   addInteract({id:'mail', kind:'obj', name:'ตู้จดหมายถึงตัวเอง', verb:'เขียนจดหมายถึงตัวเอง', icon:'📮', group:mb, ax:-5.0, az:6.0, face:0});
   // PLC whiteboard (standing, double-sided)
-  const pb = new T.Group(); pb.position.set(9.85, 0, 0.7); pb.rotation.y = -0.7;
+  const pb = new T.Group(); pb.position.set(9.85, 0, 1.6); pb.rotation.y = -0.7;
   [-0.75, 0.75].forEach(x => { pb.add(box(0.06, 1.9, 0.06, '#9aa8ae', x, 0.95, 0)); pb.add(box(0.5, 0.05, 0.06, '#9aa8ae', x, 0.05, 0)); [-0.2, 0.2].forEach(z => pb.add(sph(0.05, '#2f3e46', x, 0.03, z))); });
   pb.add(box(1.7, 1.15, 0.06, '#2e86de', 0, 1.42, 0));
   G.plcTex = plcBoardTexture();
@@ -2180,8 +2198,8 @@ function buildRoom(){
   const pf1 = plane(1.6, 1.05, pfm); pf1.position.set(0, 1.42, 0.035); pb.add(pf1);
   const pf2 = plane(1.6, 1.05, pfm); pf2.position.set(0, 1.42, -0.035); pf2.rotation.y = Math.PI; pb.add(pf2);
   pb.add(box(1.5, 0.05, 0.14, '#9aa8ae', 0, 0.86, 0.05)); const mk = cyl(0.02, 0.02, 0.14, '#e74c3c', -0.4, 0.9, 0.08, 8); mk.rotation.z = Math.PI/2; pb.add(mk);
-  S.add(pb); addObstacle(9.85, 0.7, 0.6, 0.55);
-  addInteract({id:'plcboard', kind:'obj', name:'กระดานวง PLC', verb:'เปิดวง PLC และคลังสรุป', icon:'🧑‍🏫', group:pb, ax:9.2, az:1.45, face:2.44});
+  S.add(pb); addObstacle(9.85, 1.6, 0.6, 0.55);
+  addInteract({id:'plcboard', kind:'obj', name:'กระดาน PLC', verb:'ดูคลังสรุป PLC', icon:'🧑‍🏫', group:pb, ax:9.2, az:2.35, face:2.44});
   // mirror + entrance door
   const mr = new T.Group(); mr.position.set(9.7, 0, 3.4); mr.rotation.y = -Math.PI/2;
   const fr = mesh(new T.TorusGeometry(0.5, 0.07, 10, 32), '#ffcf5a'); fr.scale.set(0.8, 1.35, 1); fr.position.y = 1.35; mr.add(fr);
@@ -2305,8 +2323,8 @@ const QUESTS = {
   thai_coffee:{npc:'thai', title:'ชงกาแฟไปฝากครูมะลิ', desc:'ไปมุมกาแฟ เลือก "ชงกาแฟไปฝากครูมะลิ" แล้วนำมาให้', item:'coffee',
     offer:['ครู{n}คะ ถ้าว่าง ช่วยชงกาแฟให้สักแก้วได้ไหมคะ','เมื่อคืนตรวจเรียงความถึงตีหนึ่ง ตาจะปิดแล้ว'],
     thanks:['หอมจัง! ขอบคุณมากนะคะ','กาแฟแก้วนี้มีรสชาติของมิตรภาพ'], reward:{mood:10}},
-  eng_print:{npc:'eng', title:'ถ่ายใบงานให้ Teacher Jenny', desc:'ไปที่เครื่องถ่ายเอกสาร แล้วนำใบงานมาส่ง', item:'paper',
-    offer:['ครู{n} help me please!','ถ่ายใบงานให้หน่อยได้ไหม 40 ชุด คาบหน้าใช้แล้ว'],
+  eng_print:{npc:'eng', title:'หาใบงานให้ Teacher Jenny', desc:'เปิดคลังแบ่งปันใบงาน (มุมเครื่องถ่ายเอกสาร) เลือกใบงานให้ แล้วนำมาส่ง', item:'paper',
+    offer:['ครู{n} help me please!','ช่วยหาใบงานดี ๆ จากคลังแบ่งปันใบงานให้หน่อย คาบหน้าใช้แล้ว'],
     thanks:['You are my hero!','พรุ่งนี้ซื้อขนมมาฝากนะคะ'], reward:{mood:10}},
   pe_water:{npc:'pe', title:'เติมน้ำให้ครูบอล', desc:'เติมน้ำที่ตู้น้ำเย็น แล้วนำขวดมาให้ครูบอล', item:'water',
     offer:['ครู{n}ครับ ช่วยเติมน้ำเย็นใส่ขวดให้หน่อย','ผมต้องรีบไปคุมซ้อมเชียร์'],
@@ -2451,7 +2469,7 @@ function blocked(x, z, r){
   return false;
 }
 function npcBlock(ox, oz, nx, nz){
-  for (const n of G.npcs){ if (n.def.home.sit) continue; const p = n.obj.position; const dn = Math.hypot(p.x-nx, p.z-nz); if (dn < 0.62 && dn < Math.hypot(p.x-ox, p.z-oz)) return true; }
+  for (const n of G.npcs){ if (n.def.home.sit) continue; const p = n.obj.position; const dn = Math.hypot(p.x-nx, p.z-nz); if (n.path.length) continue; if (dn < 0.5 && dn < Math.hypot(p.x-ox, p.z-oz)) return true; }
   return false;
 }
 function moveBody(pos, dx, dz, r){
@@ -2506,12 +2524,12 @@ function faceTo(obj, x, z){ obj.rotation.y = Math.atan2(x - obj.position.x, z - 
 /* NPC wandering */
 const DEST = [
   {x:-9.0, z:-5.9, say:'ขอกาแฟสักแก้ว…'}, {x:-9.3, z:-3.2, say:'น้ำเย็นชื่นใจ'}, {x:-9.4, z:-0.4, say:'ฟ้าสวยจัง อยากไปเที่ยว'},
-  {x:-1.5, z:-6.6, say:'มีใครปักหมุดอะไรใหม่บ้างนะ'}, {x:3.9, z:-6.6, say:'ได้ยินนะ ส่งกำลังใจให้'}, {x:6.2, z:2.7, say:'เปิดไพ่สักใบดีกว่า'}, {x:9.1, z:-1.8, say:'เครื่องถ่ายเอกสารว่างไหมนะ'}
+  {x:-1.5, z:-6.6, say:'มีใครปักหมุดอะไรใหม่บ้างนะ'}, {x:3.9, z:-6.6, say:'ได้ยินนะ ส่งกำลังใจให้'}, {x:6.2, z:2.7, say:'เปิดไพ่สักใบดีกว่า'}, {x:9.1, z:-1.9, say:'มีใครแชร์ใบงานใหม่บ้างนะ'}, {x:8.2, z:-6.3, say:'มีสื่อการสอนเจ๋ง ๆ มาใหม่ไหม'}
 ];
 function route(n, dest){
   const h = n.def.home, row1 = h.z < -2, hubZ = row1 ? -3.85 : 0.2, pts = [{x:h.x, z:hubZ}];
   if (dest.x < -7) pts.push({x:-7.3, z:hubZ});
-  else { pts.push({x:0, z:hubZ}); if (dest.z > -2 && row1) pts.push({x:0, z:0.2}); if (dest.z < -2 && !row1) pts.push({x:0, z:-3.85}); if (dest.x > 4 && dest.z > -2) pts.push({x:4.6, z:0.2}, {x:4.8, z:dest.z}); }
+  else { pts.push({x:0, z:hubZ}); if (dest.z > -2 && row1) pts.push({x:0, z:0.2}); if (dest.z < -2 && !row1) pts.push({x:0, z:-3.85}); if (dest.x > 4 && dest.z > -2) pts.push({x:4.6, z:0.2}, {x:4.8, z:dest.z}); if (dest.x > 5 && dest.z < -5.5) pts.push({x:0, z:-6.3}); }
   return pts;
 }
 function updateNPC(n, dt){
@@ -2520,10 +2538,22 @@ function updateNPC(n, dt){
   if (n.talking){ o.rotation.y = lerpAngle(o.rotation.y, Math.atan2(G.me.obj.position.x - pos.x, G.me.obj.position.z - pos.z), Math.min(1, dt*8)); animChar(o, n.happyUntil > G.time ? 'happy' : 'idle', G.time); return; }
   if (n.path.length){
     const w = n.path[0], tx = w.x - pos.x, tz = w.z - pos.z, dd = Math.hypot(tx, tz);
-    const pd = Math.hypot(G.me.obj.position.x - pos.x, G.me.obj.position.z - pos.z);
     if (dd < 0.08){ n.path.shift(); if (!n.path.length) npcArrive(n); }
-    else if (pd < 0.7) animChar(o, 'idle', G.time);
-    else { const s = Math.min(dd, 1.6*dt); pos.x += tx/dd*s; pos.z += tz/dd*s; o.rotation.y = lerpAngle(o.rotation.y, Math.atan2(tx, tz), Math.min(1, dt*10)); animChar(o, 'walk', G.time); }
+    else {
+      // หลบคนที่ขวางทาง (ผู้เล่นและเพื่อนครูออนไลน์) แทนการหยุดรอ จะได้ไม่ค้าง
+      let mx = tx/dd, mz = tz/dd;
+      const others = [G.me.obj.position]; NET.peers.forEach(e => others.push(e.obj.position)); G.npcs.forEach(m => { if (m !== n) others.push(m.obj.position); });
+      for (const q of others){
+        const ax = pos.x - q.x, az = pos.z - q.z, pd = Math.hypot(ax, az);
+        if (pd < 0.95 && pd > 0.001 && (mx*-ax + mz*-az) > 0){
+          let sx = -mz, sz = mx; if (sx*ax + sz*az < 0){ sx = -sx; sz = -sz; }
+          const w = (0.95 - pd) * 2.4; mx += sx*w + ax/pd*w*0.4; mz += sz*w + az/pd*w*0.4;
+        }
+      }
+      const ml = Math.hypot(mx, mz) || 1; mx /= ml; mz /= ml;
+      const s = Math.min(dd, 1.6*dt); pos.x += mx*s; pos.z += mz*s;
+      o.rotation.y = lerpAngle(o.rotation.y, Math.atan2(mx, mz), Math.min(1, dt*10)); animChar(o, 'walk', G.time);
+    }
     return;
   }
   if (n.stayUntil && G.time > n.stayUntil){ n.stayUntil = 0; n.returning = true; n.path = route(n, n.dest).reverse().concat([{x:d.home.x, z:d.home.z}]); }
@@ -2606,11 +2636,6 @@ const ACTIONS = {
     {label:'งีบ 15 นาที', fx:{energy:35, mood:5}, min:30, doing:'Zzz…', seat:'sofa', risky:true, msg:['ตื่นมาสดชื่นเหมือนได้ปิดเทอม','ฝันว่าได้ OT แต่ตื่นมาก็ไม่ได้']},
     {label:'นั่งไถโทรศัพท์', fx:{mood:12, energy:3}, min:20, doing:'กำลังไถฟีด…', seat:'sofa', msg:['ดูคลิปแมวไปสิบคลิป ใจฟูมาก','เห็นเพื่อนไปเที่ยวทะเล ส่วนเรามีเวรประตู']}
   ],
-  copier:[
-    {label:'📄 คลังแบ่งปันใบงาน', sub:'แชร์ใบงานของคุณ ขอบคุณเพื่อน เล่าผลการใช้ และบันทึกใบงานที่สนใจ', feature:true, fx:{}, open:()=>openShare('worksheet')},
-    {label:'ถ่ายใบงานให้ Teacher Jenny', fx:{energy:-5}, min:20, doing:'กำลังถ่ายเอกสาร 40 ชุด…', jam:true, show:()=>qState('eng_print')==='active' && !P.carry.includes('paper'), msg:['ได้ใบงาน 40 ชุด ร้อน ๆ จากเครื่อง'], after(){ P.carry.push('paper'); }},
-    {label:'ถ่ายใบงานของตัวเอง', fx:{energy:-5, work:-1}, min:20, doing:'กำลังถ่ายเอกสาร…', jam:true, needWork:true, msg:['ใบงานพร้อมสำหรับคาบหน้า!']}
-  ],
   shelf:[
     {label:'หยิบสาย HDMI ให้ครูต้นกล้า', fx:{}, min:5, doing:'กำลังค้นกล่องสายไฟ…', show:()=>qState('com_hdmi')==='active' && !P.carry.includes('hdmi'), msg:['เจอแล้ว! ซ่อนอยู่หลังพจนานุกรม'], after(){ P.carry.push('hdmi'); }},
     {label:'หยิบนิยายมาอ่านแก้เครียด', fx:{mood:10}, min:15, doing:'กำลังอ่าน…', msg:['อ่านไปสามบท ลืมโลกความจริงไปชั่วขณะ']},
@@ -2625,8 +2650,8 @@ const ACTIONS = {
     {label:'แอบลบชื่อตัวเองออก', fx:{mood:6}, min:5, doing:'กำลังลบอย่างเนียน…', msg:['ลบสำเร็จ! แต่พี่ภาถ่ายรูปตารางเก็บไว้แล้ว']}
   ]
 };
-const DIRECT = { plcboard:()=>PLC.openLobby(PLC.list.length ? 'live' : 'archive'), board:()=>openBoard(), vent:()=>openVents(), mirror:()=>openMirror(), cards:()=>openCards(), tree:()=>openTree(), play:()=>openPlay(), circle:()=>{ sitAt('circle'); openCircle(); }, mail:()=>openLetters(), media:()=>openShare('media'),
-  copier:()=>{ if (qState('eng_print')==='active' && !P.carry.includes('paper')) return false; openShare('worksheet'); } };
+const DIRECT = { plcboard:()=>PLC.openLobby('archive'), board:()=>openBoard(), vent:()=>openVents(), mirror:()=>openMirror(), cards:()=>openCards(), tree:()=>openTree(), play:()=>openPlay(), circle:()=>{ sitAt('circle'); openCircle(); }, mail:()=>openLetters(), media:()=>openShare('media'),
+  copier:()=>openShare('worksheet'), plctable:()=>PLC.openLobby('live') };
 
 function interact(it){
   G.me.target = null; G.me.pending = null;
@@ -3748,9 +3773,10 @@ function renderShare(){
   if (SHARE.sort === 'used') list.sort((a, b2) => (st[b2.id].S.tried - st[a.id].S.tried) || (st[b2.id].S.avg - st[a.id].S.avg));
   const notice = (DATA.get('settings') || {}).share_notice;
   const steps = [['📤', `แชร์${H.noun}`, 'แนบรูป หรือลิงก์'], ['🙏', 'ขอบคุณ · ให้กำลังใจ', 'เขียนถึงเจ้าของ'], ['✔', 'เล่าผลการใช้', 'ใช้แล้วเป็นอย่างไร'], ['★', 'บันทึกไว้', 'เก็บในสมุดของฉัน']];
-  const copier = SHARE.hub === 'worksheet' && G.started && G.interactables.find(i => i.id === 'copier');
+  const jenny = SHARE.hub === 'worksheet' && G.started && qState('eng_print') === 'active' && !P.carry.includes('paper');
   b.innerHTML = `<div class="hub-hero" style="--hub:${H.color}"><div class="hub-art" aria-hidden="true">${SHARE.hub === 'worksheet' ? HUB_ART_COPIER : HUB_ART_MEDIA}</div>
       <div class="hub-txt"><p>${esc(H.lead)}</p><ol class="hub-steps">${steps.map(([i, t1, t2]) => `<li><span>${i}</span><b>${esc(t1)}</b><small>${esc(t2)}</small></li>`).join('')}</ol></div></div>
+    ${jenny ? `<div class="notice quest-note"><b>🎯 ภารกิจ: Teacher Jenny ขอใบงานไปใช้คาบหน้า</b><br>เลือกดูใบงานในคลังได้ตามสบาย แล้วกดหยิบไปให้ได้เลย <button class="btn sm" type="button" id="shJenny" style="margin-left:6px">📄 หยิบใบงานไปให้ Teacher Jenny</button></div>` : ''}
     ${notice ? `<div class="notice">${esc(notice)}</div>` : ''}
     <div class="searchrow"><input class="txt" id="shQ" type="search" placeholder="ค้นหา${esc(H.noun)} หรือชื่อครู" value="${esc(SHARE.q)}" aria-label="ค้นหา">
       <select id="shSubject" aria-label="กลุ่มสาระ"><option value="">ทุกกลุ่มสาระ</option>${SUBJECTS.slice(1).map(s => `<option ${s===SHARE.subject?'selected':''}>${esc(s)}</option>`).join('')}</select>
@@ -3759,7 +3785,7 @@ function renderShare(){
       <select id="shSort" aria-label="เรียงลำดับ"><option value="new" ${SHARE.sort==='new'?'selected':''}>ล่าสุด</option><option value="thanks" ${SHARE.sort==='thanks'?'selected':''}>ได้รับคำขอบคุณมากที่สุด</option><option value="used" ${SHARE.sort==='used'?'selected':''}>นำไปใช้มากที่สุด</option></select></div>
     <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px">
       <div class="filters" style="margin:0"><button class="seg" type="button" data-sf="all" aria-pressed="${SHARE.filter==='all'}">ทั้งหมด</button><button class="seg" type="button" data-sf="kept" aria-pressed="${SHARE.filter==='kept'}">★ ที่บันทึกไว้</button><button class="seg" type="button" data-sf="mine" aria-pressed="${SHARE.filter==='mine'}">ของฉัน</button></div>
-      <span class="row" style="gap:8px">${copier ? '<button class="btn ghost sm" type="button" id="shCopy" title="ใช้เครื่องถ่ายเอกสารในเกม">🖨️ ถ่ายเอกสาร</button>' : ''}<button class="btn sm" type="button" id="shNew">＋ แชร์${esc(H.noun)}ของฉัน</button></span></div>
+      <span class="row" style="gap:8px"><button class="btn sm" type="button" id="shNew">＋ แชร์${esc(H.noun)}ของฉัน</button></span></div>
     ${list.length ? `<div class="shares">${list.map(t => { const s2 = st[t.id], th = shareThumb(t), m = t.meta || {}; return `
       <button class="share" type="button" data-sid="${esc(t.id)}">
         <span class="sh-img" style="background:${H.color}"><span>${H.ico}</span>${th ? `<img alt="" src="${esc(th)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()" style="position:absolute;inset:0">` : ''}${isKept(H.keep, t.id) ? '<i class="sh-kept">★</i>' : ''}</span>
@@ -3774,7 +3800,7 @@ function renderShare(){
   if ($('#shType')) $('#shType').onchange = e => { SHARE.mtype = e.target.value; renderShare(); };
   $('#shSort').onchange = e => { SHARE.sort = e.target.value; renderShare(); };
   $$('[data-sf]', b).forEach(x => x.onclick = () => { SHARE.filter = x.dataset.sf; renderShare(); });
-  if ($('#shCopy')) $('#shCopy').onclick = () => { closeModal('#mSt'); openActions(copier); };
+  if ($('#shJenny')) $('#shJenny').onclick = () => { P.carry.push('paper'); saveGame(); SFX.chime(); toast('ได้ใบงานแล้ว เอาไปให้ Teacher Jenny ที่โต๊ะได้เลย', 'good'); closeModal('#mSt'); };
   [$('#shNew'), $('#shNew2')].forEach(x => { if (x) x.onclick = () => { SHARE.view = 'new'; renderShare(); }; });
   $$('[data-sid]', b).forEach(x => x.onclick = () => { SHARE.view = 'detail'; SHARE.id = x.dataset.sid; SHARE.rdraft = null; SHARE.tab = 'comment'; renderShare(); $('#stBody').scrollTop = 0; });
 }
@@ -4619,7 +4645,7 @@ const PLC = {
   openLobby(tab){
     setTab('plc');
     this.tab = tab || this.tab || (this.list.length ? 'live' : 'archive');
-    const b = station('🧑‍🏫 วง PLC · ชุมชนการเรียนรู้ทางวิชาชีพ', 'lg');
+    const b = station('🧑‍🏫 กระดาน PLC · ชุมชนการเรียนรู้ทางวิชาชีพ', 'lg');
     const online = API.mode !== 'local';
     b.innerHTML = `<div class="filters" id="plcTabs"><button class="seg" type="button" data-pt="live" aria-pressed="${this.tab==='live'}">🟢 วงที่เปิดอยู่ / เปิดวงใหม่</button><button class="seg" type="button" data-pt="archive" aria-pressed="${this.tab==='archive'}">📚 คลังสรุป PLC</button></div><div id="plcBody"></div>`;
     $$('[data-pt]', b).forEach(x => x.onclick = () => { this.tab = x.dataset.pt; this.openLobby(this.tab); });
@@ -4765,7 +4791,7 @@ const PLC = {
     if (this.room === p.id){ this.showPanel(); return; }
     if (this.room) this.leave();
     $('#plcInvite').hidden = true;
-    this.room = p.id; this.info = p; this.roomSince = 0; this.msgIds = {};
+    this.room = p.id; this.info = p; this.roomSince = 0; this.msgIds = {}; setTimeout(() => { if (typeof plcSit === 'function') plcSit(); }, 0);
     $('#plcLog').innerHTML = ''; NET.dirty = true; netPush(true);
     $('#plcTitle').textContent = p.title;
     $('#plcHost').textContent = `${p.hostName} เปิดวง · ${p.subject}`;
@@ -4780,6 +4806,7 @@ const PLC = {
   minimize(){ $('#plcPanel').hidden = true; $('#plcPill').hidden = !this.room; $('#plcPill').textContent = `🧑‍🏫 วง PLC: ${this.info ? this.info.title : ''} · ${this.people().length} คน — เปิด`; },
   leave(silent){
     if (!this.room) return;
+    if (typeof plcStand === 'function') plcStand();
     for (const id of [...this.pcs.keys()]) this.dropPc(id);
     if (this.stream){ this.stream.getTracks().forEach(t => t.stop()); this.stream = null; }
     this.micOn = false; this.room = null; this.info = null;
@@ -4939,7 +4966,7 @@ $('#plcLeave').onclick = () => PLC.leave();
 $('#plcClose').onclick = () => PLC.openClose();
 $('#plcMicBtn').onclick = () => PLC.toggleMic();
 $('#plcInvJoin').onclick = () => { const p = PLC.invite; $('#plcInvite').hidden = true; if (p) PLC.join(p); };
-$('#plcInvLater').onclick = () => { $('#plcInvite').hidden = true; toast('เข้าร่วมภายหลังได้ที่แท็บ "วง PLC"'); };
+$('#plcInvLater').onclick = () => { $('#plcInvite').hidden = true; toast('เข้าร่วมภายหลังได้ที่โต๊ะกลม PLC หรือแท็บ "กระดาน PLC"'); };
 $('#plcForm').addEventListener('submit', async e => {
   e.preventDefault();
   const inp = $('#plcInput'), text = inp.value.trim(); if (!text || !PLC.room) return;
