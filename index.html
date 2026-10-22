@@ -558,6 +558,59 @@ button.note:hover{transform:rotate(0deg) translateY(-3px)}
   .thumbs{grid-template-columns:repeat(auto-fill,minmax(96px,1fr))}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* share hubs + keeps */
+.shares{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.share{display:flex;flex-direction:column;text-align:left;border:2px solid #0000000f;background:#fff;border-radius:16px;overflow:hidden;padding:0;cursor:pointer;box-shadow:0 4px 10px #2f3e4614;transition:transform .15s}
+.share:hover{transform:translateY(-2px)}
+.sh-img{position:relative;display:grid;place-items:center;aspect-ratio:16/10;font-size:40px;overflow:hidden}
+.sh-img img{width:100%;height:100%;object-fit:cover}
+.sh-kept{position:absolute;top:6px;right:8px;font-style:normal;color:#e8a400;font-size:20px;text-shadow:0 1px 2px #fff}
+.sh-body{display:flex;flex-direction:column;gap:4px;padding:10px 12px 12px}
+.sh-body b{font-size:15px;line-height:1.35;overflow-wrap:anywhere}
+.sh-body small{color:var(--ink-soft);font-size:12px}
+.sh-counts{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--ink-soft);margin-top:2px}
+.sh-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.keep{border:2px solid #e8a40055;background:#fffaf0;color:#9a6a00;border-radius:999px;padding:3px 10px;font-weight:700;font-size:12px;cursor:pointer}
+.sh-actions .keep{padding:5px 12px;font-size:14px}
+.keep.on{background:#ffcf5a;border-color:#ffcf5a;color:#5a3d00}
+.thanks-line{font-size:13px;color:var(--ink-soft);margin:10px 0 0;line-height:1.6}
+.yt{display:block;position:relative;border-radius:12px;overflow:hidden;margin:0 0 14px;max-width:480px}
+.yt img{width:100%;display:block}
+.yt span{position:absolute;left:10px;bottom:10px;background:#000000b3;color:#fff;border-radius:99px;padding:4px 12px;font-weight:700;font-size:13px}
+.keeps-list{display:flex;flex-direction:column;gap:8px}
+.keep-item{display:flex;gap:10px;align-items:flex-start;background:#fff;border-radius:14px;padding:10px 12px;border:2px solid #0000000d}
+.keep-item .ki{font-size:22px}
+.keep-item div{flex:1;min-width:0}
+.keep-item b{display:block;overflow-wrap:anywhere}
+.keep-item p{margin:4px 0 0;font-size:13px;color:var(--ink-soft);white-space:pre-wrap;overflow-wrap:anywhere}
+/* friends + letters */
+.tab .tbadge,.tbadge{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:#ff6b6b;color:#fff;font-size:11px;font-weight:800;font-style:normal;margin-left:4px;vertical-align:middle}
+.fr-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:720px){.fr-grid{grid-template-columns:1fr}}
+.fr-col h3{margin:0 0 8px;font-size:16px}
+.fr-list{display:flex;flex-direction:column;gap:6px}
+.fr-row{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid #0000000d;border-radius:14px;padding:8px 10px;text-align:left;width:100%}
+button.fr-row{cursor:pointer}
+.fr-row.unread{border-color:var(--pri);background:#f3fbff}
+.fr-ava{position:relative;flex:none;width:40px;height:40px}
+.fr-ava img{width:40px;height:40px;border-radius:50%;background:#eef4f1}
+.fr-ava .dot{position:absolute;right:0;bottom:0;width:11px;height:11px;border-radius:50%;background:#3cc87a;border:2px solid #fff}
+.fr-txt{flex:1;min-width:0;display:flex;flex-direction:column}
+.fr-txt b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fr-txt small{color:var(--ink-soft);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fr-meta{display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:11px;color:var(--ink-soft)}
+.fr-note{font-size:12px;color:var(--ink-soft);margin-top:14px;line-height:1.6}
+.fr-head{display:flex;align-items:center;gap:12px;margin:12px 0}
+.fr-head img{width:52px;height:52px;border-radius:50%;background:#eef4f1}
+.fr-head div{flex:1;display:flex;flex-direction:column}
+.fr-head small{color:var(--ink-soft);font-size:12px}
+.fr-thread{display:flex;flex-direction:column;gap:8px;max-height:42vh;overflow:auto;padding:8px;background:#f7faf8;border-radius:14px;margin-bottom:12px}
+.fr-msg{max-width:78%;align-self:flex-start;background:#fff;border-radius:14px 14px 14px 4px;padding:8px 12px;box-shadow:0 2px 6px #2f3e4614}
+.fr-msg.mine{align-self:flex-end;background:#dff3ff;border-radius:14px 14px 4px 14px}
+.fr-msg p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6}
+.fr-msg small{display:block;font-size:11px;color:var(--ink-soft);margin-top:2px}
+.fr-compose .letter-paper textarea{min-height:110px}
+.fr-compose .row{margin-top:10px}
 </style>
 
 <div id="app">
@@ -571,6 +624,7 @@ button.note:hover{transform:rotate(0deg) translateY(-3px)}
       <button class="tab" role="tab" data-tab="board" aria-selected="false">กระดานปักหมุด</button>
       <button class="tab" role="tab" data-tab="plc" aria-selected="false">วง PLC</button>
       <button class="tab" role="tab" data-tab="notebook" aria-selected="false">สมุดของฉัน</button>
+      <button class="tab" role="tab" data-tab="friends" aria-selected="false">เพื่อน<span class="tbadge" id="mailBadge" hidden></span></button>
       <button class="tab" role="tab" data-tab="dress" aria-selected="true">แต่งตัวครู</button>
       <button class="tab" role="tab" data-tab="help" aria-selected="false">วิธีเล่น</button>
     </nav>
@@ -679,7 +733,7 @@ button.note:hover{transform:rotate(0deg) translateY(-3px)}
           <ul class="intro-list">
             <li><b>1</b><span>ตั้งชื่อ เลือกเพศและสีผิว</span></li>
             <li><b>2</b><span>เลือกทรงผมและสีผม ดูจากรูปตัวอย่างได้เลย</span></li>
-            <li><b>3</b><span>เลือกชุดครู มีชุดประจำวิชา 12 แบบ รวมครูคอมพิวเตอร์ และชุดทั่วไปอีก 7 แบบ</span></li>
+            <li><b>3</b><span>เลือกชุดครู มีทั้งชุดที่ครูใส่ประจำ (ชุดไทย ชุดกากี ชุดปกติขาว ชุดพละ) ชุดประจำวิชา และชุดลำลอง รวม 23 แบบ</span></li>
             <li><b>4</b><span>ใส่เครื่องประดับ แล้วส่องกระจกหน้าประตูเพื่อบอกว่าวันนี้รู้สึกอย่างไร</span></li>
           </ul>
           <button class="btn" type="button" id="introGo">เริ่มแต่งตัว</button>
@@ -824,7 +878,7 @@ button.note:hover{transform:rotate(0deg) translateY(-3px)}
    ถ้าเว้นว่างไว้ หน้าเว็บจะมีหน้าตั้งค่าให้วาง URL และทดสอบการเชื่อมต่อ แล้วสร้างลิงก์ ?api=... ไว้แจกครูได้
    ========================================================= */
 const API_URL_DEFAULT = 'https://script.google.com/macros/s/AKfycbw01JxQ5pnPUD7XUwCfA2UnqgEVhYPJk0ObfENDGKc_ihkLU_boZOJ80k7lFUwgiN02/exec';
-const APP_VERSION = '2026.10.22.3';
+const APP_VERSION = '2026.10.22.4';
 const API_URL = (() => {
   const okUrl = u => typeof u === 'string' && /^https?:\/\/\S+$/.test(u.trim());
   let ls = null; try { ls = window.localStorage; } catch(e){}
@@ -869,29 +923,36 @@ const HAIR_COLORS = ['#2e2222','#5e3b28','#a8743f','#e7b96d','#c9706a','#8d7ee0'
 const HAIRS = [
   {id:'short', name:'สั้นเรียบร้อย'}, {id:'bob', name:'บ็อบ'}, {id:'long', name:'ยาวสลวย'},
   {id:'bun', name:'มวยผม'}, {id:'pony', name:'หางม้า'}, {id:'twin', name:'แกละสองข้าง'},
-  {id:'spiky', name:'ตั้งชี้ ๆ'}, {id:'curly', name:'หยิกฟู'}
+  {id:'spiky', name:'ตั้งชี้ ๆ'}, {id:'curly', name:'หยิกฟู'},
+  {id:'braid', name:'ถักเปียยาว'}, {id:'wavy', name:'ยาวลอนสวย'}, {id:'halfup', name:'มัดครึ่งหัว'},
+  {id:'topbun', name:'มวยสูงครูนาฏ'}, {id:'pixie', name:'สั้นซอยหน้าม้า'}, {id:'sidepart', name:'สั้นแสกข้าง'}, {id:'buzz', name:'เกรียนรองทรง'}
 ];
 const OUTFIT_GROUPS = [
+  {id:'daily', name:'ชุดที่ครูใส่ประจำ', hint:'ชุดไทย ชุดกากี ชุดปกติขาว ชุดพละ ใส่ได้ทุกวิชา'},
   {id:'subject', name:'ชุดประจำวิชา', hint:'แต่ละกลุ่มสาระมีลุคของตัวเอง'},
-  {id:'general', name:'ชุดทั่วไปของครู', hint:'ใส่ได้ทุกวิชา ตามวันและโอกาส'}
+  {id:'general', name:'ชุดลำลองและกิจกรรม', hint:'วันสบาย ๆ และวันกีฬาสี'}
 ];
 const OUTFITS = [
+  {id:'thai_ruen', g:'daily', name:'ชุดไทยเรือนต้น', desc:'เสื้อคอกลม ผ้าซิ่นลายขวาง'},
+  {id:'thai_chit', g:'daily', name:'ชุดไทยจิตรลดา', desc:'คอตั้ง ผ้าไหมสีทอง'},
+  {id:'thai_mod', g:'daily', name:'ชุดผ้าไทยประยุกต์', desc:'ผ้าหม้อห้อม ผ้ามัดหมี่'},
+  {id:'khaki', g:'daily', name:'ชุดกากีตรวจการ', desc:'อินทรธนู ป้ายชื่อครบ'},
+  {id:'white', g:'daily', name:'ชุดปกติขาว', desc:'วันพิธีการสำคัญ'},
+  {id:'pe', g:'daily', name:'ชุดพละ', desc:'เสื้อโปโลสีสด กางเกงวอร์ม'},
+  {id:'pe2', g:'daily', name:'ชุดวอร์มแจ็กเก็ต', desc:'แจ็กเก็ตซิป แถบข้าง'},
+  {id:'scout', g:'daily', name:'ผู้กำกับลูกเสือ', desc:'ผ้าผูกคอ ห่วงสวม'},
+  {id:'work', g:'daily', name:'ชุดทำงาน', desc:'เบลเซอร์กรมท่า'},
   {id:'thai', g:'subject', name:'ครูภาษาไทย', desc:'เสื้อลูกไม้ ผ้าซิ่น สไบ'},
   {id:'math', g:'subject', name:'ครูคณิตศาสตร์', desc:'เสื้อกั๊ก เข็มกลัด π'},
   {id:'sci', g:'subject', name:'ครูวิทยาศาสตร์', desc:'เสื้อกาวน์ ปากกาเหน็บ'},
   {id:'com', g:'subject', name:'ครูคอมพิวเตอร์', desc:'โปโลลายวงจร บัตร </>'},
   {id:'social', g:'subject', name:'ครูสังคมศึกษา', desc:'เสื้อกั๊กนักสำรวจ เข็มกลัดลูกโลก'},
-  {id:'pe', g:'subject', name:'ครูพละ', desc:'วอร์มสีสด'},
   {id:'art', g:'subject', name:'ครูศิลปะ', desc:'ผ้ากันเปื้อนเลอะสี'},
   {id:'music', g:'subject', name:'ครูดนตรี', desc:'เสื้อกั๊ก โบว์ไท'},
   {id:'dance', g:'subject', name:'ครูนาฏศิลป์', desc:'เสื้อแขนกระบอก โจงกระเบน'},
   {id:'home', g:'subject', name:'ครูการงานอาชีพ', desc:'ผ้ากันเปื้อนลายตาราง'},
   {id:'eng', g:'subject', name:'ครูภาษาอังกฤษ', desc:'เบลเซอร์สีช็อก สายเปรี้ยว'},
   {id:'cardigan', g:'subject', name:'ครูแนะแนว', desc:'คาร์ดิแกนอุ่น ใจดี'},
-  {id:'work', g:'general', name:'ชุดทำงาน', desc:'เบลเซอร์กรมท่า'},
-  {id:'khaki', g:'general', name:'ชุดกากีตรวจการ', desc:'อินทรธนู ป้ายชื่อครบ'},
-  {id:'white', g:'general', name:'ชุดปกติขาว', desc:'วันพิธีการสำคัญ'},
-  {id:'scout', g:'general', name:'ผู้กำกับลูกเสือ', desc:'ผ้าผูกคอ ห่วงสวม'},
   {id:'sport', g:'general', name:'เสื้อกีฬาสี', desc:'พร้อมเชียร์'},
   {id:'mohom', g:'general', name:'ชุดม่อฮ่อม', desc:'ผ้าขาวม้าคาดเอว'},
   {id:'hoodie', g:'general', name:'ฮู้ดดี้ชิล ๆ', desc:'วันสบาย ๆ'}
@@ -900,9 +961,11 @@ const ACCS = [
   {id:'glasses', name:'แว่นกลม'}, {id:'sunglasses', name:'แว่นกันแดด'}, {id:'bow', name:'โบว์แดง'},
   {id:'flower', name:'ดอกไม้ทัดผม'}, {id:'cap', name:'หมวกแก๊ป'}, {id:'beret', name:'หมวกเบเรต์'},
   {id:'chefhat', name:'หมวกเชฟ'}, {id:'headphones', name:'หูฟัง'}, {id:'idcard', name:'บัตรครูคล้องคอ'},
-  {id:'whistle', name:'นกหวีด'}, {id:'earrings', name:'ต่างหูทอง'}, {id:'redpen', name:'ปากกาแดงคู่ใจ'}
+  {id:'whistle', name:'นกหวีด'}, {id:'earrings', name:'ต่างหูทอง'}, {id:'redpen', name:'ปากกาแดงคู่ใจ'},
+  {id:'chandelier', name:'ต่างหูระย้าใหญ่'}, {id:'hoops', name:'ต่างหูห่วงใหญ่'}, {id:'pearl', name:'สร้อยมุก'},
+  {id:'scarf', name:'ผ้าพันคอผ้าไทย'}, {id:'hairpin', name:'ปิ่นปักผมทอง'}
 ];
-const HEAD_ACCS = ['glasses','sunglasses','bow','flower','cap','beret','chefhat','headphones','earrings'];
+const HEAD_ACCS = ['glasses','sunglasses','bow','flower','cap','beret','chefhat','headphones','earrings','chandelier','hoops','hairpin'];
 const MOODS = [
   {id:'bright', ico:'☀️', name:'สดใส', desc:'พร้อมเจอทุกคน'},
   {id:'tired', ico:'🥱', name:'เหนื่อย', desc:'ขอค่อย ๆ ไป'},
@@ -946,6 +1009,25 @@ function tex(name){
   if (TEX[name]) return TEX[name];
   let t;
   if (name === 'plaid') t = canvasTex(128,128,(g,w,h)=>{ g.fillStyle='#ff9ec7'; g.fillRect(0,0,w,h); g.fillStyle='#ffffff88'; for(let i=0;i<w;i+=32){ g.fillRect(i,0,10,h); g.fillRect(0,i,w,10); } g.fillStyle='#7a3cff55'; for(let i=16;i<w;i+=32){ g.fillRect(i,0,3,h); g.fillRect(0,i,w,3); } }, [3,1]);
+  if (name === 'sinh2') t = canvasTex(256,256,(g,w,h)=>{
+    g.fillStyle='#2f7d5b'; g.fillRect(0,0,w,h);
+    g.fillStyle='#3d9670'; for(let y=6;y<h*0.68;y+=18) g.fillRect(0,y,w,7);
+    g.fillStyle='#e8c04a'; for(let y=12;y<h*0.68;y+=36) g.fillRect(0,y,w,2);
+    g.fillStyle='#7a2e2e'; g.fillRect(0,h*0.7,w,h*0.3);
+    g.fillStyle='#e8c04a'; for(let x=0;x<w;x+=24){ g.beginPath(); g.moveTo(x,h*0.85); g.lineTo(x+12,h*0.76); g.lineTo(x+24,h*0.85); g.lineTo(x+12,h*0.94); g.fill(); }
+  }, [2,1]);
+  if (name === 'chit') t = canvasTex(256,256,(g,w,h)=>{
+    const gr = g.createLinearGradient(0,0,w,0); gr.addColorStop(0,'#c99a35'); gr.addColorStop(0.5,'#e2b955'); gr.addColorStop(1,'#c99a35');
+    g.fillStyle=gr; g.fillRect(0,0,w,h);
+    g.fillStyle='#ffffff22'; for(let x=0;x<w;x+=8) g.fillRect(x,0,2,h*0.72);
+    g.fillStyle='#6b3d10'; g.fillRect(0,h*0.74,w,h*0.26);
+    g.strokeStyle='#e8c04a'; g.lineWidth=3; for(let x=0;x<w;x+=20){ g.beginPath(); g.arc(x+10,h*0.87,7,0,7); g.stroke(); }
+  }, [2,1]);
+  if (name === 'ikat') t = canvasTex(256,256,(g,w,h)=>{
+    g.fillStyle='#34477f'; g.fillRect(0,0,w,h);
+    const dia = (x,y,r,c) => { g.fillStyle=c; g.beginPath(); g.moveTo(x,y-r); g.lineTo(x+r,y); g.lineTo(x,y+r); g.lineTo(x-r,y); g.fill(); };
+    for (let y=16;y<h;y+=40) for (let x=((y/40)%2)*20+10;x<w;x+=40){ dia(x,y,15,'#f1e3c3'); dia(x,y,9,'#b23a3a'); dia(x,y,4,'#f1e3c3'); }
+  }, [2,1]);
   if (name === 'circuit') t = canvasTex(128,128,(g,w,h)=>{
     g.fillStyle='#1f3a4d'; g.fillRect(0,0,w,h); g.strokeStyle='#4fe3b0'; g.lineWidth=3; g.fillStyle='#4fe3b0';
     [[10,20,60,20,60,50],[90,10,90,60,120,60],[20,90,50,90,50,120],[70,80,110,80,110,110],[30,40,30,70]].forEach(pts => { g.beginPath(); g.moveTo(pts[0],pts[1]); for (let i=2;i<pts.length;i+=2) g.lineTo(pts[i],pts[i+1]); g.stroke(); g.beginPath(); g.arc(pts[pts.length-2],pts[pts.length-1],5,0,7); g.fill(); });
@@ -1038,6 +1120,19 @@ const OUTFIT_SPEC = {
   dance: { top:'#7b4fa0', shoe:'#d9a441', bottom: () => ({type:'pants', color:'#b0302a'}),
     extra(b){ b.add(cyl(0.232,0.232,0.06,'#e8c04a',0,0.46,0,24)); b.add(box(0.05,0.05,0.02,'#c0392b',0,0.46,0.235));
       for (let i=0;i<9;i++){ const a = -1 + i*0.25; b.add(sph(0.017,'#e8c04a',Math.sin(a)*0.13,0.79-Math.cos(a)*0.07,0.19)); } }},
+  thai_ruen: { top:'#f2c7a0', shoe:'#a8743f', bottom: f => f ? {type:'long', tex:'sinh2', len:0.5} : {type:'pants', color:'#2f3e46'},
+    extra(b, f){
+      if (f){ const r = mesh(new T.TorusGeometry(0.1,0.018,8,20),'#e8c04a'); r.rotation.x = Math.PI/2; r.position.y = 0.83; b.add(r); [0.74,0.67,0.6,0.53,0.46].forEach(y => b.add(sph(0.018,'#e8c04a',0,y,0.215))); }
+      else { [0.74,0.66,0.58,0.5].forEach(y => b.add(sph(0.017,'#d9b26a',0,y,0.215))); [-1,1].forEach(s => b.add(box(0.09,0.07,0.02,'#efe5cf',s*0.1,0.5,0.225))); }
+    }},
+  thai_chit: { top:null, topTex:'chit', shoe:'#5a3a1a', bottom: f => f ? {type:'long', tex:'chit', len:0.5} : {type:'pants', color:'#1f1f1f'},
+    extra(b, f){ b.add(cyl(0.105,0.11,0.07,'#c99a35',0,0.85,0,18)); [0.76,0.68,0.6,0.52].forEach(y => b.add(sph(0.016,'#fff4cf',0,y,0.218))); if (f) b.add(box(0.06,0.06,0.02,'#b23a3a',0.1,0.7,0.215)); }},
+  thai_mod: { top:'#2c4f7c', shoe:'#3a2a1a', bottom: f => f ? {type:'long', tex:'ikat', len:0.48} : {type:'pants', color:'#2f3e46'},
+    extra(b, f){ const c = box(0.17,0.04,0.03,'#f1e3c3',0,0.8,0.19); b.add(c); [-1,1].forEach(s => { const st = box(0.02,0.36,0.02,'#f1e3c3',s*0.11,0.62,0.205); st.rotation.z = s*0.08; b.add(st); });
+      if (!f){ const sash = cyl(0.236,0.236,0.09,mat('#ffffff',{map:tex('ikat')}),0,0.45,0,24); b.add(sash); } }},
+  pe2: { top:'#2e86de', shoe:'#ffffff', bottom: () => ({type:'pants', color:'#2e86de'}),
+    extra(b){ b.add(cyl(0.2,0.205,0.06,'#ffffff',0,0.8,0)); b.add(box(0.012,0.4,0.012,'#d9e6f2',0,0.6,0.222));
+      [-1,1].forEach(s => { b.add(box(0.02,0.4,0.03,'#ffffff',s*0.2,0.62,0.07)); b.add(box(0.02,0.16,0.12,'#ffffff',s*0.205,0.42,0)); }); b.add(box(0.05,0.03,0.02,'#ffcf5a',0.1,0.7,0.215)); }},
   cardigan: { top:'#fff3dc', sleeve:'#e8a87c', shoe:'#8a6a4a', bottom: f => f ? {type:'long', color:'#7d9d8c', len:0.48} : {type:'pants', color:'#c9b48f'},
     extra(b){ [-1,1].forEach(s => { const p = box(0.12,0.42,0.03,'#e8a87c',s*0.12,0.62,0.195); p.rotation.y = s*0.45; b.add(p); }); [0.7,0.6,0.5].forEach(y => b.add(sph(0.016,'#8a5a3a',0.065,y,0.222))); }}
 };
@@ -1070,7 +1165,16 @@ const HAIR_BUILD = {
   spiky(h,c){ const m=hairBase(h,c,0.55); for(let i=0;i<7;i++){ const a=i/7*Math.PI*2; const k=mesh(new T.ConeGeometry(0.11,0.28,8),m); k.position.set(Math.sin(a)*0.25,0.42,Math.cos(a)*0.2-0.06); k.rotation.set(Math.cos(a)*0.6,0,-Math.sin(a)*0.6); h.add(k); }
     const k=mesh(new T.ConeGeometry(0.12,0.3,8),m); k.position.set(0,0.5,-0.05); h.add(k); },
   curly(h,c){ const m=hairBase(h,c,0.7); for(let i=0;i<12;i++){ const a=i/11*Math.PI; hs(h,m,0.14,Math.cos(a)*0.44,(i%2)?0.12:-0.08,-Math.sin(a)*0.4); }
-    for(let i=0;i<6;i++){ const a=i/6*Math.PI*2; hs(h,m,0.15,Math.cos(a)*0.22,0.4,Math.sin(a)*0.22-0.05); } }
+    for(let i=0;i<6;i++){ const a=i/6*Math.PI*2; hs(h,m,0.15,Math.cos(a)*0.22,0.4,Math.sin(a)*0.22-0.05); } },
+  braid(h,c){ const m=hairBase(h,c,0.66); for(let i=0;i<7;i++) hs(h,m,0.085 - i*0.004,(i%2?0.025:-0.025),-0.22 - i*0.12,-0.44 + i*0.02); h.add(sph(0.045,'#e74c3c',0,-1.07,-0.32)); },
+  wavy(h,c){ const m=hairBase(h,c,0.8); hs(h,m,0.36,0,-0.38,-0.22,1.15,1.55,0.55);
+    [-1,1].forEach(s => { for(let i=0;i<5;i++) hs(h,m,0.11,s*(0.38 + (i%2)*0.06),-0.08 - i*0.13,0.02 - i*0.03); }); },
+  halfup(h,c){ const m=hairBase(h,c,0.8); hs(h,m,0.34,0,-0.4,-0.24,1.05,1.5,0.5); hs(h,m,0.12,0,0.2,-0.46); h.add(sph(0.05,'#ffcf5a',0,0.2,-0.58)); [-1,1].forEach(s => hs(h,m,0.13,s*0.38,-0.3,0,0.6,1.9,0.7)); },
+  topbun(h,c){ const m=hairBase(h,c,0.6); hs(h,m,0.2,0,0.52,-0.06,1,0.9,1); const r=mesh(new T.TorusGeometry(0.17,0.025,8,22),'#e8c04a'); r.rotation.x=Math.PI/2; r.position.set(0,0.44,-0.06); h.add(r); },
+  pixie(h,c){ const m=hairBase(h,c,0.52); for(let i=0;i<5;i++) hs(h,m,0.11,-0.24 + i*0.12,0.2 - Math.abs(i-2)*0.02,0.38,1,0.8,0.55); },
+  sidepart(h,c){ const m=hairBase(h,c,0.55); hs(h,m,0.2,0.12,0.3,0.25,1.6,0.6,0.9); hs(h,m,0.12,-0.3,0.18,0.26,0.8,0.7,0.6); },
+  buzz(h,c){ const m=mat(c); const cap=mesh(new T.SphereGeometry(0.43,24,14,0,Math.PI*2,0,Math.PI*0.55), m); cap.rotation.x=-0.25; cap.position.set(0,0.02,-0.02); h.add(cap);
+    const back=mesh(new T.SphereGeometry(0.43,24,14,Math.PI,Math.PI,0,Math.PI*0.62), m); back.position.z=-0.01; h.add(back); }
 };
 const ACC_BUILD = {
   glasses(h){ [-1,1].forEach(s=>{ const r=mesh(new T.TorusGeometry(0.095,0.015,8,24),'#6b4a3a'); r.position.set(s*0.15,-0.02,0.425); h.add(r); }); h.add(box(0.08,0.016,0.016,'#6b4a3a',0,0.0,0.44)); },
@@ -1084,7 +1188,18 @@ const ACC_BUILD = {
   idcard(h,b){ b.add(box(0.12,0.16,0.02,'#ffffff',0,0.55,0.235)); b.add(box(0.12,0.04,0.022,'#3aa88f',0,0.61,0.236)); [-1,1].forEach(s=>{ const st=box(0.016,0.26,0.012,'#3aa88f',s*0.06,0.72,0.215); st.rotation.z=s*-0.25; b.add(st); }); },
   whistle(h,b){ const w=cyl(0.028,0.028,0.09,'#c9d1d9',0.07,0.6,0.24,10); w.rotation.z=Math.PI/2; b.add(w); [-1,1].forEach(s=>{ const st=box(0.012,0.24,0.01,'#ff7a5c',s*0.05+0.02,0.72,0.215); st.rotation.z=s*-0.25; b.add(st); }); },
   earrings(h){ [-1,1].forEach(s=>h.add(sph(0.035,'#ffd23f',s*0.41,-0.14,0.03))); },
-  redpen(h,b){ b.add(cyl(0.014,0.014,0.16,'#e63946',0.1,0.69,0.222,8)); }
+  redpen(h,b){ b.add(cyl(0.014,0.014,0.16,'#e63946',0.1,0.69,0.222,8)); },
+  chandelier(h){ [-1,1].forEach(s => { const x = s*0.43;
+    h.add(sph(0.035,'#e8c04a',x,-0.15,0.03));
+    [[-0.22,0.012],[-0.28,0.012]].forEach(([y,r]) => h.add(cyl(r,r,0.06,'#e8c04a',x,y,0.03,6)));
+    const fan = mesh(new T.ConeGeometry(0.075,0.14,10,1,true), mat('#e8c04a',{side:T.DoubleSide})); fan.position.set(x,-0.39,0.03); h.add(fan);
+    [-0.05,0,0.05].forEach((dx,i) => { h.add(cyl(0.006,0.006,0.1+i%2*0.04,'#e8c04a',x+dx,-0.5-i%2*0.02,0.03,5)); h.add(sph(0.022,i===1?'#c0392b':'#f6e7b0',x+dx,-0.56-i%2*0.04,0.03)); });
+  }); },
+  hoops(h){ [-1,1].forEach(s => { const r = mesh(new T.TorusGeometry(0.1,0.013,8,26),'#e8c04a'); r.rotation.y = Math.PI/2; r.position.set(s*0.43,-0.26,0.03); h.add(r); }); },
+  pearl(h,b){ for (let i=0;i<16;i++){ const a = -Math.PI*0.95 + i/15*Math.PI*0.9 + Math.PI*0.5; b.add(sph(0.022,'#fbf7ee',Math.cos(a)*0.15,0.8 - Math.sin(a)*0.05,0.08 + Math.sin(a)*0.13)); } },
+  scarf(h,b){ const sc = mesh(new T.TorusGeometry(0.15,0.05,8,20), mat('#ffffff',{map:tex('ikat')})); sc.rotation.x = Math.PI/2; sc.position.y = 0.84; b.add(sc);
+    const tail = box(0.08,0.24,0.03,mat('#ffffff',{map:tex('ikat')}),0.09,0.68,0.2); tail.rotation.z = 0.15; b.add(tail); },
+  hairpin(h){ const p = cyl(0.012,0.012,0.36,'#e8c04a',0.12,0.36,-0.2,6); p.rotation.z = 1.1; p.rotation.x = 0.4; h.add(p); h.add(sph(0.045,'#e8c04a',-0.04,0.42,-0.13)); h.add(sph(0.025,'#c0392b',-0.04,0.42,-0.09)); }
 };
 
 function buildCharacter(look){
@@ -1107,7 +1222,7 @@ function buildCharacter(look){
     const m = bt.tex ? mat('#ffffff', {map:tex(bt.tex)}) : bt.color;
     const sk = cyl(0.215,rb,bt.len,m,0,0.53-bt.len/2,0,24); body.add(sk); P.skirt = sk;
   }
-  const topM = S.top || mat('#ffffff', {map:tex('circuit')});
+  const topM = S.top || mat('#ffffff', {map:tex(S.topTex || 'circuit')});
   body.add(cyl(0.19,0.23,0.42,topM,0,0.62,0,24));
   body.add(cyl(0.07,0.08,0.08,skin,0,0.86,0,12));
   ['L','R'].forEach((s,i)=>{
@@ -1298,6 +1413,12 @@ const API = (() => {
     async bootstrap(){ if (mode !== 'local') return call('bootstrap','bootstrap',{}); const x = db(); return {board:{topics:x.topics, comments:x.comments, reviews:x.reviews || []}, vents:x.vents, settings:{}, plcs:[]}; },
     async plcArchive(){ return call('plcArchive','plcArchive',{}); },
     async updatePlcSummary(d){ return call('updatePlcSummary','updatePlcSummary',d); },
+    async getFriends(){ return call('getFriends','getFriends',{}); },
+    async addFriend(d){ return call('addFriend','addFriend',d); },
+    async removeFriend(d){ return call('removeFriend','removeFriend',d); },
+    async getLetters(){ return call('getLetters','getLetters',{}); },
+    async sendLetter(d){ return call('sendLetter','sendLetter',d); },
+    async markLettersRead(d){ return call('markLettersRead','markLettersRead',d); },
     hasGAS
   };
 })();
@@ -1440,7 +1561,7 @@ const P = (() => {
   const s = store.get('save', null);
   return Object.assign({day:1, min:450, energy:80, mood:70, work:4, carry:[], quests:{}, hearts:{}, talked:{}, flags:{}, planCount:0, feeling:null, cup:null}, s || {});
 })();
-const NB_EMPTY = () => ({cards:[], tree:{level:0, logs:[]}, letters:[], art:[], vents:[], cups:[], saved:[]});
+const NB_EMPTY = () => ({cards:[], tree:{level:0, logs:[]}, letters:[], art:[], vents:[], cups:[], saved:[], keeps:[]});
 let NB_KEY = 'nb';
 const NB = Object.assign(NB_EMPTY(), store.get('nb', {}));
 function setNB(obj){ Object.keys(NB).forEach(k => delete NB[k]); Object.assign(NB, NB_EMPTY(), obj || {}); }
@@ -1694,7 +1815,7 @@ function boardTexture(){
     g.fillStyle = '#3aa88f'; rr(g, W/2-260, 14, 520, 62, 30); g.fill();
     g.fillStyle = '#ffffff'; g.font = '38px Itim, Mali, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
     g.fillText('กระดานปักหมุด · คุยกันหน่อย', W/2, 47);
-    const list = (G.boardTopics && G.boardTopics.length) ? G.boardTopics.slice(0,6) : [{title:'แตะที่กระดานเพื่อปักหมุดเรื่องแรก', color:'#fff1a8', author:'ห้องพักครู'}];
+    const bt = (G.boardTopics || []).filter(t => !SHARE_CATS.includes(t.category)); const list = bt.length ? bt.slice(0,6) : [{title:'แตะที่กระดานเพื่อปักหมุดเรื่องแรก', color:'#fff1a8', author:'ห้องพักครู'}];
     list.forEach((tp, i) => {
       const cx = 60 + (i%3)*318, cy = 100 + Math.floor(i/3)*178;
       g.save(); g.translate(cx+140, cy+80); g.rotate(((i*37)%7-3)*0.012);
@@ -1770,7 +1891,7 @@ const OBJ_LABELS = {
   board:['📌','กระดานปักหมุด','แชร์ไอเดียสอน ข่าวดี รีวิวการนำไปใช้'], vent:['🗒️','กระดานบ่น','ระบายแบบไม่แสดงชื่อ'], plcboard:['🧑‍🏫','วง PLC','เปิดวงคุยการสอน และดูคลังสรุป PLC'],
   coffee:['☕','มุมกาแฟ','ชงเครื่องดื่มให้ใจสักแก้ว'], cooler:['💧','ตู้น้ำเย็น','ดื่มน้ำ เติมพลัง'], sofa:['🛋️','โซฟารับฟัง','คุยกับพี่ฟ้า (AI) หรืองีบพัก'],
   window:['🎧','หน้าต่างพักสายตา','ฟังเสียงฝน เสียงนก พักหายใจ'], duty:['📋','ตารางเวร','ดูเวรประตูประจำสัปดาห์'], shelf:['📚','ชั้นหนังสือ','อ่านแก้เครียด'],
-  copier:['🖨️','เครื่องถ่ายเอกสาร','ถ่ายใบงาน'], tree:['🪴','ต้นไม้พักใจ','รดน้ำและบันทึกเรื่องดี ๆ'], cards:['🃏','ไพ่กำลังใจ','เปิดไพ่ถึงคุณครู'],
+  copier:['🖨️','เครื่องถ่ายเอกสาร','คลังแบ่งปันใบงาน และถ่ายเอกสาร'], media:['🎬','มุมแบ่งปันสื่อ','แชร์คลิป สไลด์ เกม สื่อการเรียนรู้'], tree:['🪴','ต้นไม้พักใจ','รดน้ำและบันทึกเรื่องดี ๆ'], cards:['🃏','ไพ่กำลังใจ','เปิดไพ่ถึงคุณครู'],
   play:['🎨','โต๊ะเล่นเพลิน','ระบายสี ต่อบล็อก ไม่มีคะแนน'], circle:['💬','โต๊ะวงคุย','คุยหัวข้อเบา ๆ กับเพื่อนครู'], mail:['📮','ตู้จดหมาย','เขียนจดหมายถึงตัวเอง'],
   mirror:['🪞','กระจก','วันนี้ฉันรู้สึกอย่างไร'], myDesk:['🗂️','โต๊ะของฉัน','ทำงานค้าง เขียนแผน ตรวจงาน']
 };
@@ -1907,7 +2028,18 @@ function buildRoom(){
   cp.add(box(1.0, 1.0, 0.8, '#e6ecf0', 0, 0.5, 0)); cp.add(box(1.05, 0.1, 0.85, '#bcc6cc', 0, 1.05, 0));
   cp.add(box(0.3, 0.06, 0.2, '#33424a', 0.3, 1.12, 0.25)); cp.add(sph(0.035, '#5ee0a0', 0.42, 1.14, 0.3)); cp.add(box(0.5, 0.04, 0.35, '#ffffff', -0.65, 0.75, 0.1));
   S.add(cp); addObstacle(10.1, -2.6, 0.45, 0.55);
-  addInteract({id:'copier', kind:'obj', name:'เครื่องถ่ายเอกสาร', verb:'ใช้เครื่องถ่ายเอกสาร', icon:'🖨️', group:cp, ax:9.1, az:-2.6, face:Math.PI/2});
+  addInteract({id:'copier', kind:'obj', name:'เครื่องถ่ายเอกสาร', verb:'แชร์ใบงาน หรือถ่ายเอกสาร', icon:'🖨️', group:cp, ax:9.1, az:-2.6, face:Math.PI/2});
+  // media-sharing corner (มุมแบ่งปันสื่อการเรียนรู้)
+  const md = new T.Group(); md.position.set(10.2, 0, -0.85); md.rotation.y = -Math.PI/2;
+  md.add(box(1.2, 0.7, 0.5, '#f4d9a8', 0, 0.35, 0)); md.add(box(1.24, 0.06, 0.54, '#d9b77e', 0, 0.72, 0));
+  md.add(box(0.55, 0.26, 0.02, '#fbe8c6', -0.29, 0.38, 0.26)); md.add(box(0.55, 0.26, 0.02, '#fbe8c6', 0.29, 0.38, 0.26));
+  md.add(box(0.9, 0.56, 0.06, '#33424a', 0, 1.1, -0.08)); md.add(box(0.82, 0.48, 0.01, '#7cc4f0', 0, 1.1, -0.045));
+  const play = mesh(new T.CircleGeometry(0.1, 3), '#ffffff'); play.position.set(0, 1.1, -0.035); md.add(play);
+  md.add(box(0.06, 0.12, 0.06, '#33424a', 0, 0.81, -0.08));
+  md.add(box(0.16, 0.22, 0.04, '#ff9b9b', 0.42, 0.86, 0.12)); md.add(box(0.16, 0.18, 0.04, '#9be0b4', 0.47, 0.84, 0.05));
+  md.add(cyl(0.07, 0.07, 0.03, '#ffcf5a', -0.45, 0.77, 0.12, 16));
+  S.add(md); addObstacle(10.2, -0.85, 0.32, 0.62);
+  addInteract({id:'media', kind:'obj', name:'มุมแบ่งปันสื่อการเรียนรู้', verb:'เปิดมุมแบ่งปันสื่อ', icon:'🎬', group:md, ax:9.25, az:-0.85, face:Math.PI/2});
   // tree of rest
   const tr = new T.Group(); tr.position.set(10.0, 0, -6.7);
   tr.add(cyl(0.42, 0.32, 0.6, '#ffffff', 0, 0.3, 0, 20)); tr.add(cyl(0.44, 0.44, 0.08, '#3aa88f', 0, 0.6, 0, 20)); tr.add(cyl(0.06, 0.09, 0.9, '#9c6b45', 0, 0.95, 0, 10));
@@ -2380,6 +2512,7 @@ const ACTIONS = {
     {label:'นั่งไถโทรศัพท์', fx:{mood:12, energy:3}, min:20, doing:'กำลังไถฟีด…', seat:'sofa', msg:['ดูคลิปแมวไปสิบคลิป ใจฟูมาก','เห็นเพื่อนไปเที่ยวทะเล ส่วนเรามีเวรประตู']}
   ],
   copier:[
+    {label:'📄 คลังแบ่งปันใบงาน', sub:'แชร์ใบงานของคุณ ขอบคุณเพื่อน เล่าผลการใช้ และบันทึกใบงานที่สนใจ', feature:true, fx:{}, open:()=>openShare('worksheet')},
     {label:'ถ่ายใบงานให้ Teacher Jenny', fx:{energy:-5}, min:20, doing:'กำลังถ่ายเอกสาร 40 ชุด…', jam:true, show:()=>qState('eng_print')==='active' && !P.carry.includes('paper'), msg:['ได้ใบงาน 40 ชุด ร้อน ๆ จากเครื่อง'], after(){ P.carry.push('paper'); }},
     {label:'ถ่ายใบงานของตัวเอง', fx:{energy:-5, work:-1}, min:20, doing:'กำลังถ่ายเอกสาร…', jam:true, needWork:true, msg:['ใบงานพร้อมสำหรับคาบหน้า!']}
   ],
@@ -2397,7 +2530,7 @@ const ACTIONS = {
     {label:'แอบลบชื่อตัวเองออก', fx:{mood:6}, min:5, doing:'กำลังลบอย่างเนียน…', msg:['ลบสำเร็จ! แต่พี่ภาถ่ายรูปตารางเก็บไว้แล้ว']}
   ]
 };
-const DIRECT = { plcboard:()=>PLC.openLobby(PLC.list.length ? 'live' : 'archive'), board:()=>openBoard(), vent:()=>openVents(), mirror:()=>openMirror(), cards:()=>openCards(), tree:()=>openTree(), play:()=>openPlay(), circle:()=>{ sitAt('circle'); openCircle(); }, mail:()=>openLetters() };
+const DIRECT = { plcboard:()=>PLC.openLobby(PLC.list.length ? 'live' : 'archive'), board:()=>openBoard(), vent:()=>openVents(), mirror:()=>openMirror(), cards:()=>openCards(), tree:()=>openTree(), play:()=>openPlay(), circle:()=>{ sitAt('circle'); openCircle(); }, mail:()=>openLetters(), media:()=>openShare('media') };
 
 function interact(it){
   G.me.target = null; G.me.pending = null;
@@ -3071,7 +3204,8 @@ function openLetters(onDone){
   const b = station('📮 ตู้จดหมายถึงตัวเอง', 'md', typeof onDone === 'function' ? onDone : null);
   let view = 'write', when = OPEN_WHEN[0], carry = [];
   const draw = () => {
-    b.innerHTML = `<div class="filters"><button type="button" class="seg" data-t="write" aria-pressed="${view==='write'}">เขียนจดหมาย</button><button type="button" class="seg" data-t="drawer" aria-pressed="${view!=='write'}">ลิ้นชักของฉัน (${NB.letters.length})</button></div><div id="lBody"></div>`;
+    b.innerHTML = `<div class="filters"><button type="button" class="seg" data-t="write" aria-pressed="${view==='write'}">เขียนจดหมาย</button><button type="button" class="seg" data-t="drawer" aria-pressed="${view!=='write'}">ลิ้นชักของฉัน (${NB.letters.length})</button><button type="button" class="seg" id="lFriend">💌 เขียนถึงเพื่อน</button></div><div id="lBody"></div>`;
+    $('#lFriend').onclick = () => { closeModal('#mSt'); openFriends(); };
     $$('[data-t]', b).forEach(x => x.onclick = () => { view = x.dataset.t; draw(); });
     const L = $('#lBody');
     if (view === 'write'){
@@ -3136,6 +3270,7 @@ function openNotebook(){
   const b = station('📓 สมุดของฉัน', 'lg');
   const draw = () => {
     b.innerHTML = `${nbStatusHTML()}
+      ${keepsHTML()}
       <div class="nb-sec"><h3>🔖 โพสต์ที่บันทึกไว้นำไปใช้ (${(NB.saved || []).length})</h3>${(NB.saved || []).length ? `<div class="minicards">${NB.saved.map((x,i) => `<div class="minicard" style="background:#eef7ff;border-color:#bfe0f7"><b>${esc(x.title)}</b><br><small style="color:var(--ink-soft)">${esc(x.cat || '')} · บันทึก ${esc(x.at)}</small>${x.note ? `<p style="margin:6px 0 0">${esc(x.note)}</p>` : ''}<div class="meta"><button class="stk" type="button" data-open="${esc(x.id)}">เปิดโพสต์</button><span class="sp"></span><button class="stk" type="button" data-rm="saved:${i}">เลิกบันทึก</button></div></div>`).join('')}</div>` : '<div class="empty-q">ยังไม่มี กดปุ่ม 🔖 บันทึกไว้ใช้ ในโพสต์บนกระดานปักหมุด</div>'}</div>
       <div class="nb-sec"><h3>🃏 ไพ่ที่เก็บไว้ (${NB.cards.length})</h3>${NB.cards.length ? `<div class="minicards">${NB.cards.map((c,i) => `<div class="minicard"><b>${c.ico} ${esc(c.msg)}</b><br><small style="color:var(--ink-soft)">${esc(c.q)}</small>${c.ans ? `<p style="margin:6px 0 0">${esc(c.ans)}</p>` : ''}<div class="meta"><span>${esc(c.at)}</span><span class="sp"></span><button class="stk" type="button" data-rm="cards:${i}">ลบ</button></div></div>`).join('')}</div>` : '<div class="empty-q">ยังไม่มีไพ่ที่เก็บไว้ ไปเปิดไพ่ที่โต๊ะไพ่กำลังใจได้นะ</div>'}</div>
       <div class="nb-sec"><h3>✉️ จดหมายในลิ้นชัก (${NB.letters.length})</h3><button class="btn ghost sm" type="button" id="nbMail">เปิดลิ้นชัก</button></div>
@@ -3145,7 +3280,7 @@ function openNotebook(){
       <div class="nb-sec"><h3>☕ คำตอบจากมุมกาแฟ (${NB.cups.length})</h3><div class="minicards">${NB.cups.map((c,i) => `<div class="minicard"><small style="color:var(--ink-soft)">${esc(c.drink)} · ${esc(c.q)}</small><p style="margin:4px 0 0">${esc(c.ans)}</p><div class="meta"><span>${esc(c.at)}</span><span class="sp"></span><button class="stk" type="button" data-rm="cups:${i}">ลบ</button></div></div>`).join('') || '<div class="empty-q">ยังไม่มี</div>'}</div></div>`;
     $('#nbMail').onclick = () => { closeModal('#mSt'); openLetters(); };
     $$('[data-open]', b).forEach(x => x.onclick = () => { closeModal('#mSt'); openBoard(); BOARD.view = 'topic'; BOARD.topic = x.dataset.open; renderBoard(); });
-    bindNbStatus(b, draw);
+    bindNbStatus(b, draw); bindKeepsSection(b, draw);
     $$('[data-rm]', b).forEach(x => x.onclick = () => { const [k, i] = x.dataset.rm.split(':'); NB[k].splice(+i, 1); saveNB(); draw(); });
   };
   nbRedraw = draw;
@@ -3231,7 +3366,7 @@ function renderBoard(){
   if (BOARD.view === 'topic') return renderTopic();
   const counts = {}; d.comments.forEach(c => counts[c.topicId] = (counts[c.topicId]||0) + 1);
   const q = BOARD.q.trim().toLowerCase();
-  const list = d.topics.filter(t => (BOARD.filter === 'ทั้งหมด' || (BOARD.filter === 'saved' ? isSaved(t.id) : t.category === BOARD.filter)) && (!BOARD.subject || t.subject === BOARD.subject)
+  const list = d.topics.filter(t => (BOARD.filter === 'saved' || !SHARE_CATS.includes(t.category)) && (BOARD.filter === 'ทั้งหมด' || (BOARD.filter === 'saved' ? isSaved(t.id) : t.category === BOARD.filter)) && (!BOARD.subject || t.subject === BOARD.subject)
     && (!q || (t.title + ' ' + t.message + ' ' + t.author).toLowerCase().includes(q)));
   const st = {}; list.forEach(t => st[t.id] = reviewStats(t.id));
   if (BOARD.sort === 'rating') list.sort((a, b) => (st[b.id].avg - st[a.id].avg) || (st[b.id].n - st[a.id].n));
@@ -3348,15 +3483,15 @@ function renderTopic(){
           <label class="rv-tried"><input type="checkbox" id="rvTried" ${R.tried ? 'checked' : ''}> ฉันนำไปใช้ในห้องเรียนแล้ว</label>
           <textarea class="txt" id="rvMsg" maxlength="600" placeholder="ผลที่เกิดกับนักเรียน ปรับอะไรบ้าง เหมาะกับชั้นไหน">${esc(R.message)}</textarea>
           <button class="btn sm" type="submit" id="rvSend">${mine ? 'อัปเดตรีวิวของฉัน' : 'ส่งรีวิว'}</button><div class="err" id="rvErr" hidden></div></form>` : memberGate('การรีวิวและให้หัวใจ')}
-        <div class="cmts" style="margin-top:12px">${S.list.slice().sort((a,b) => a.createdAt < b.createdAt ? 1 : -1).map(r => `<div class="cmt"><img alt="" src="${portrait(avatarToLook(r.avatar))}"><div><b>${esc(r.author)}</b><small>${esc(ago(r.createdAt))}</small><div><span class="hearts-sm">${heartsTxt(r.rating)}</span>${r.tried ? ' <span class="chip proven">นำไปใช้แล้ว</span>' : ''}</div>${r.message ? `<p class="msgtext">${linkify(r.message)}</p>` : ''}</div></div>`).join('')}</div>`
+        <div class="cmts" style="margin-top:12px">${S.list.slice().sort((a,b) => a.createdAt < b.createdAt ? 1 : -1).map(r => `<div class="cmt"><img alt="" src="${portrait(avatarToLook(r.avatar))}"><div><b>${esc(r.author)}</b><small>${esc(ago(r.createdAt))}</small> ${keepBtn({k:'comment', id:r.id, title:`รีวิว "${t.title}"`, text:r.message || heartsTxt(r.rating), by:r.author, ref:t.id})}<div><span class="hearts-sm">${heartsTxt(r.rating)}</span>${r.tried ? ' <span class="chip proven">นำไปใช้แล้ว</span>' : ''}</div>${r.message ? `<p class="msgtext">${linkify(r.message)}</p>` : ''}</div></div>`).join('')}</div>`
       : `
-        <div class="cmts">${cs.length ? cs.map(c => `<div class="cmt"><img alt="" src="${portrait(avatarToLook(c.avatar))}"><div><b>${esc(c.author)}</b><small>${esc(ago(c.createdAt))}</small><p class="msgtext">${linkify(c.message)}</p></div></div>`).join('') : '<div class="empty-q">ยังไม่มีใครตอบ เป็นคนแรกเลย</div>'}</div>
+        <div class="cmts">${cs.length ? cs.map(c => `<div class="cmt"><img alt="" src="${portrait(avatarToLook(c.avatar))}"><div><b>${esc(c.author)}</b><small>${esc(ago(c.createdAt))}</small> ${keepBtn({k:'comment', id:c.id, title:`ความคิดเห็นใน "${t.title}"`, text:c.message, by:c.author, ref:t.id})}<p class="msgtext">${linkify(c.message)}</p></div></div>`).join('') : '<div class="empty-q">ยังไม่มีใครตอบ เป็นคนแรกเลย</div>'}</div>
         ${canPost() ? `<form class="cform" id="cForm"><input class="txt" id="cMsg2" maxlength="400" placeholder="แลกเปลี่ยนความคิดเห็น วางลิงก์ได้" aria-label="ความคิดเห็น"><button class="btn" type="button" id="cMic" data-mic-for="cMsg2" title="พิมพ์ด้วยเสียง" aria-label="พิมพ์ด้วยเสียง">🎤</button><button class="btn" type="submit" id="cSend">ส่ง</button></form>` : '<p class="lead" style="margin-top:12px">เข้าสู่ระบบเพื่อแสดงความคิดเห็น</p>'}
         <div class="err" id="cErr" hidden></div>`}
     </section></div>`;
   $$('[data-img]', body).forEach(b => b.onclick = () => openLightbox(b.dataset.img));
   $$('[data-tt]', body).forEach(b => b.onclick = () => { BOARD.ttab = b.dataset.tt; renderTopic(); });
-  bindGate(body); bindVoiceTyping(body);
+  bindGate(body); bindVoiceTyping(body); bindKeeps(body);
   $('#saveBtn').onclick = () => { toggleSave(t); renderTopic(); };
   $('#likeBtn').onclick = async () => {
     if (BOARD.liked[t.id]) return toast('ถูกใจโพสต์นี้ไปแล้วนะ');
@@ -3426,6 +3561,7 @@ $$('.tab').forEach(t => t.addEventListener('click', () => {
   if (k === 'board'){ closeActions(); closeDialog(); openBoard(); }
   if (k === 'plc'){ closeActions(); closeDialog(); closeModal('#mSt'); PLC.openLobby(); }
   if (k === 'notebook'){ closeActions(); closeDialog(); closeModal('#mSt'); openNotebook(); }
+  if (k === 'friends'){ closeModal('#mSt'); openFriends(); }
   if (k === 'help'){ setTab('help'); openModal('#mHelp'); }
 }));
 $('#brandBtn').onclick = () => player ? showGame() : showCreator();
@@ -3458,6 +3594,287 @@ function loop(){
     G.r.render(G.scene, G.cam);
     updateTags();
   }
+}
+
+/* =========================================================
+   📄🎬 SHARE HUBS — คลังแบ่งปันใบงาน (เครื่องถ่ายเอกสาร) และมุมแบ่งปันสื่อการเรียนรู้
+   ใช้ข้อมูลชุดเดียวกับกระดาน (Topics หมวด "ใบงาน" / "สื่อการเรียนรู้")
+   ========================================================= */
+const SHARE_CATS = ['ใบงาน', 'สื่อการเรียนรู้'];
+const GRADES = ['ทุกระดับ', 'ปฐมวัย', 'ป.1–3', 'ป.4–6', 'ม.1–3', 'ม.4–6', 'อาชีวะ/อื่น ๆ'];
+const MEDIA_TYPES = ['วิดีโอ', 'สไลด์/พรีเซนเทชัน', 'เกม/แอป', 'เว็บไซต์', 'สื่อทำมือ', 'เพลง/เสียง', 'อื่น ๆ'];
+const HUBS = {
+  worksheet:{cat:'ใบงาน', ico:'📄', title:'คลังแบ่งปันใบงาน', noun:'ใบงาน', keep:'worksheet', color:'#fff6d9',
+    lead:'แชร์ใบงานที่ทำเอง แนบรูปตัวอย่างหรือลิงก์ไฟล์ (Google Drive, Canva, Liveworksheets) เพื่อนครูกดขอบคุณ ให้กำลังใจ เล่าผลตอนเอาไปใช้ และบันทึกเก็บไว้ได้',
+    titleHint:'เช่น ใบงานเศษส่วน ป.4 แบบระบายสีตามคำตอบ', bodyHint:'ใช้ตอนไหน วิธีใช้ จุดที่ควรระวัง เฉลยอยู่ตรงไหน'},
+  media:{cat:'สื่อการเรียนรู้', ico:'🎬', title:'มุมแบ่งปันสื่อการเรียนรู้', noun:'สื่อ', keep:'media', color:'#e6f4fd',
+    lead:'แชร์คลิป สไลด์ เกม เว็บไซต์ หรือสื่อทำมือที่ใช้ได้ผล ใส่ลิงก์ YouTube ระบบจะดึงภาพตัวอย่างให้ เพื่อนครูกดขอบคุณ เล่าผลการใช้ และบันทึกเก็บไว้ได้',
+    titleHint:'เช่น คลิปการ์ตูนอธิบายวัฏจักรน้ำ 4 นาที', bodyHint:'เหมาะกับบทไหน ใช้ช่วงไหนของคาบ เด็กชอบตรงไหน'}
+};
+const SHARE = {hub:null, view:'list', id:null, q:'', subject:'', grade:'', mtype:'', filter:'all', sort:'new', tab:'used', draft:null, rdraft:null};
+
+function ytId(u){ const m = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([\w-]{11})/.exec(String(u || '')); return m ? m[1] : ''; }
+function shareThumb(t){
+  const imgs = arr(t.images).map(safeUrl).filter(Boolean);
+  if (imgs[0]) return imgs[0].replace(/&sz=w\d+/, '&sz=w480');
+  const L = arr(t.links);
+  for (const l of L){ const y = ytId(l.url); if (y) return `https://img.youtube.com/vi/${y}/hqdefault.jpg`; if (safeUrl(l.image)) return l.image; }
+  return '';
+}
+function shareStats(id){
+  const cs = ((BOARD.data && BOARD.data.comments) || []).filter(c => c.topicId === id);
+  const S = reviewStats(id);
+  return {thanks:cs.filter(c => c.kind === 'thanks'), cheer:cs.filter(c => c.kind === 'cheer'), comments:cs.filter(c => !c.kind || c.kind === 'comment'), S};
+}
+
+/* ---------- keeps (สิ่งที่ประทับใจ) ---------- */
+const KEEP_TYPES = {comment:['💬','ความคิดเห็นที่แลกเปลี่ยน'], plc:['🧑‍🏫','PLC'], worksheet:['📄','ใบงาน'], media:['🎬','สื่อ'], post:['📌','โพสต์บนกระดาน']};
+const isKept = (k, id) => (NB.keeps || []).some(x => x.k === k && x.id === id);
+function toggleKeep(item){
+  NB.keeps = NB.keeps || [];
+  const i = NB.keeps.findIndex(x => x.k === item.k && x.id === item.id);
+  if (i >= 0){ NB.keeps.splice(i, 1); toast('เอาออกจากสิ่งที่ประทับใจแล้ว'); }
+  else { NB.keeps.unshift(Object.assign({at:new Date().toISOString()}, item)); NB.keeps = NB.keeps.slice(0, 300); toast('⭐ เก็บไว้ในสมุด "สิ่งที่ประทับใจ" แล้ว' + (PRIV.acct ? ' (เก็บในบัญชี)' : ''), 'good'); SFX.pop(); }
+  saveNB();
+}
+function keepBtn(item, label){
+  const on = isKept(item.k, item.id);
+  return `<button class="keep${on ? ' on' : ''}" type="button" data-keep='${esc(JSON.stringify(item))}' aria-pressed="${on}" title="${on ? 'เก็บไว้แล้ว แตะเพื่อเอาออก' : 'เก็บเป็นสิ่งที่ประทับใจ'}">${on ? '★' : '☆'}${label ? ' ' + esc(label) : ''}</button>`;
+}
+function bindKeeps(root, after){
+  $$('[data-keep]', root).forEach(b => b.onclick = e => { e.stopPropagation(); let it; try { it = JSON.parse(b.dataset.keep); } catch(x){ return; } toggleKeep(it); const on = isKept(it.k, it.id); b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); b.innerHTML = (on ? '★' : '☆') + (b.textContent.length > 2 ? b.textContent.slice(1) : ''); if (after) after(); });
+}
+
+/* ---------- open ---------- */
+function openShare(hubKey, id){
+  SHARE.hub = hubKey; SHARE.view = id ? 'detail' : 'list'; SHARE.id = id || null; SHARE.rdraft = null;
+  const H = HUBS[hubKey];
+  station(`${H.ico} ${H.title}`, 'lg');
+  renderShare();
+  if (!BOARD.data || DATA.age('board') > 15000){
+    API.getBoard().then(d => { BOARD.data = d; DATA.set('board', d); if (!$('#mSt').hidden && SHARE.hub === hubKey && SHARE.view !== 'new') renderShare(); }).catch(() => {});
+  }
+}
+function renderShare(){
+  const b = $('#stBody'); if (!b) return;
+  if (SHARE.view === 'new') return renderShareNew(b);
+  if (SHARE.view === 'detail') return renderShareDetail(b);
+  const H = HUBS[SHARE.hub], d = BOARD.data;
+  if (!d){ b.innerHTML = '<div class="loading">กำลังโหลด…</div>'; return; }
+  const q = SHARE.q.trim().toLowerCase(), mine = myAcctId();
+  let list = d.topics.filter(t => t.category === H.cat
+    && (!SHARE.subject || t.subject === SHARE.subject) && (!SHARE.grade || (t.meta || {}).grade === SHARE.grade) && (!SHARE.mtype || (t.meta || {}).mediaType === SHARE.mtype)
+    && (SHARE.filter !== 'kept' || isKept(H.keep, t.id)) && (SHARE.filter !== 'mine' || (t.authorId && t.authorId === mine) || (API.mode === 'local' && /\(ฉัน\)$/.test(t.author)))
+    && (!q || (t.title + ' ' + t.message + ' ' + t.author).toLowerCase().includes(q)));
+  const st = {}; list.forEach(t => st[t.id] = shareStats(t.id));
+  if (SHARE.sort === 'thanks') list.sort((a, b2) => (st[b2.id].thanks.length + st[b2.id].cheer.length) - (st[a.id].thanks.length + st[a.id].cheer.length));
+  if (SHARE.sort === 'used') list.sort((a, b2) => (st[b2.id].S.tried - st[a.id].S.tried) || (st[b2.id].S.avg - st[a.id].S.avg));
+  const notice = (DATA.get('settings') || {}).share_notice;
+  b.innerHTML = `<p class="lead">${esc(H.lead)}</p>${notice ? `<div class="notice">${esc(notice)}</div>` : ''}
+    <div class="searchrow"><input class="txt" id="shQ" type="search" placeholder="ค้นหา${esc(H.noun)} หรือชื่อครู" value="${esc(SHARE.q)}" aria-label="ค้นหา">
+      <select id="shSubject" aria-label="กลุ่มสาระ"><option value="">ทุกกลุ่มสาระ</option>${SUBJECTS.slice(1).map(s => `<option ${s===SHARE.subject?'selected':''}>${esc(s)}</option>`).join('')}</select>
+      <select id="shGrade" aria-label="ระดับชั้น"><option value="">ทุกระดับชั้น</option>${GRADES.slice(1).map(s => `<option ${s===SHARE.grade?'selected':''}>${esc(s)}</option>`).join('')}</select>
+      ${SHARE.hub === 'media' ? `<select id="shType" aria-label="ประเภทสื่อ"><option value="">ทุกประเภท</option>${MEDIA_TYPES.map(s => `<option ${s===SHARE.mtype?'selected':''}>${esc(s)}</option>`).join('')}</select>` : ''}
+      <select id="shSort" aria-label="เรียงลำดับ"><option value="new" ${SHARE.sort==='new'?'selected':''}>ล่าสุด</option><option value="thanks" ${SHARE.sort==='thanks'?'selected':''}>ได้รับคำขอบคุณมากที่สุด</option><option value="used" ${SHARE.sort==='used'?'selected':''}>นำไปใช้มากที่สุด</option></select></div>
+    <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div class="filters" style="margin:0"><button class="seg" type="button" data-sf="all" aria-pressed="${SHARE.filter==='all'}">ทั้งหมด</button><button class="seg" type="button" data-sf="kept" aria-pressed="${SHARE.filter==='kept'}">★ ที่บันทึกไว้</button><button class="seg" type="button" data-sf="mine" aria-pressed="${SHARE.filter==='mine'}">ของฉัน</button></div>
+      <button class="btn sm" type="button" id="shNew">＋ แชร์${esc(H.noun)}ของฉัน</button></div>
+    ${list.length ? `<div class="shares">${list.map(t => { const s2 = st[t.id], th = shareThumb(t), m = t.meta || {}; return `
+      <button class="share" type="button" data-sid="${esc(t.id)}">
+        <span class="sh-img" style="background:${H.color}"><span>${H.ico}</span>${th ? `<img alt="" src="${esc(th)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()" style="position:absolute;inset:0">` : ''}${isKept(H.keep, t.id) ? '<i class="sh-kept">★</i>' : ''}</span>
+        <span class="sh-body"><span class="chips">${t.subject && t.subject !== 'ทุกกลุ่มสาระ' ? `<span class="chip">${esc(t.subject)}</span>` : ''}${m.grade ? `<span class="chip">${esc(m.grade)}</span>` : ''}${m.mediaType ? `<span class="chip">${esc(m.mediaType)}</span>` : ''}${s2.S.proven ? '<span class="chip proven">✅ ใช้ได้จริง</span>' : ''}</span>
+          <b>${esc(t.title)}</b><small>${esc(t.author)} · ${esc(ago(t.createdAt))}</small>
+          <span class="sh-counts"><span title="ขอบคุณ">🙏 ${s2.thanks.length}</span><span title="ให้กำลังใจ">💛 ${s2.cheer.length}</span><span title="นำไปใช้แล้ว">✔ ${s2.S.tried}</span>${s2.S.n ? `<span title="คะแนนรีวิว">♥ ${s2.S.avg.toFixed(1)}</span>` : ''}<span title="ความคิดเห็น">💬 ${s2.comments.length}</span></span></span>
+      </button>`; }).join('')}</div>`
+      : `<div class="empty">${SHARE.filter === 'kept' ? `ยังไม่ได้บันทึก${esc(H.noun)}ไว้ กด ☆ บันทึก ในหน้ารายละเอียด` : SHARE.filter === 'mine' ? `ยังไม่ได้แชร์${esc(H.noun)}` : `ยังไม่มี${esc(H.noun)}ที่ตรงกับที่ค้นหา`}<br><button class="btn sm" type="button" id="shNew2" style="margin-top:10px">＋ แชร์${esc(H.noun)}ชิ้นแรก</button></div>`}`;
+  const sI = $('#shQ'); sI.oninput = () => { SHARE.q = sI.value; clearTimeout(SHARE.t); SHARE.t = setTimeout(() => { renderShare(); const n = $('#shQ'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }, 250); };
+  $('#shSubject').onchange = e => { SHARE.subject = e.target.value; renderShare(); };
+  $('#shGrade').onchange = e => { SHARE.grade = e.target.value; renderShare(); };
+  if ($('#shType')) $('#shType').onchange = e => { SHARE.mtype = e.target.value; renderShare(); };
+  $('#shSort').onchange = e => { SHARE.sort = e.target.value; renderShare(); };
+  $$('[data-sf]', b).forEach(x => x.onclick = () => { SHARE.filter = x.dataset.sf; renderShare(); });
+  [$('#shNew'), $('#shNew2')].forEach(x => { if (x) x.onclick = () => { SHARE.view = 'new'; renderShare(); }; });
+  $$('[data-sid]', b).forEach(x => x.onclick = () => { SHARE.view = 'detail'; SHARE.id = x.dataset.sid; SHARE.rdraft = null; SHARE.tab = 'used'; renderShare(); $('#stBody').scrollTop = 0; });
+}
+
+/* ---------- new share ---------- */
+function renderShareNew(b){
+  const H = HUBS[SHARE.hub];
+  if (!isMember()){ b.innerHTML = memberGate(`การแชร์${H.noun}`) + '<button class="btn ghost sm" type="button" id="shBack">← กลับ</button>'; bindGate(b); $('#shBack').onclick = () => { SHARE.view = 'list'; renderShare(); }; return; }
+  const D = SHARE.draft && SHARE.draft.hub === SHARE.hub ? SHARE.draft : (SHARE.draft = {hub:SHARE.hub, title:'', message:'', subject:'ทุกกลุ่มสาระ', grade:'ทุกระดับ', mtype:SHARE.hub === 'media' ? 'วิดีโอ' : '', time:'', images:[], links:[]});
+  b.innerHTML = `<button class="btn ghost sm" type="button" id="shBack">← กลับไปที่คลัง</button>
+    <form class="form-grid" id="shForm" style="max-width:720px;margin-top:10px">
+      <div class="fld" style="margin:0"><label for="shTitle">ชื่อ${esc(H.noun)}</label><input class="txt" id="shTitle" maxlength="100" placeholder="${esc(H.titleHint)}" value="${esc(D.title)}"></div>
+      <div class="fld" style="margin:0"><label for="shMsg">รายละเอียด</label><textarea class="txt" id="shMsg" maxlength="2000" placeholder="${esc(H.bodyHint)}">${esc(D.message)}</textarea></div>
+      <div class="row">
+        <div class="fld" style="margin:0;flex:1;min-width:160px"><label for="shSub2">กลุ่มสาระ</label><select class="txt" id="shSub2">${SUBJECTS.map(s => `<option ${s===D.subject?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
+        <div class="fld" style="margin:0;flex:1;min-width:140px"><label for="shGrade2">ระดับชั้น</label><select class="txt" id="shGrade2">${GRADES.map(s => `<option ${s===D.grade?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
+        ${SHARE.hub === 'media' ? `<div class="fld" style="margin:0;flex:1;min-width:150px"><label for="shType2">ประเภทสื่อ</label><select class="txt" id="shType2">${MEDIA_TYPES.map(s => `<option ${s===D.mtype?'selected':''}>${esc(s)}</option>`).join('')}</select></div>` : ''}
+        <div class="fld" style="margin:0;flex:1;min-width:140px"><label for="shTime">เวลาที่ใช้ (ไม่บังคับ)</label><input class="txt" id="shTime" maxlength="40" placeholder="เช่น 15 นาที / 1 คาบ" value="${esc(D.time)}"></div>
+      </div>
+      <div class="uploader" id="shUp"><span class="lbl" style="font-weight:700;color:var(--pri-deep);font-size:13px">รูปตัวอย่าง (สูงสุด 4 รูป) · ลากรูปมาวาง วางจากคลิปบอร์ด หรือเลือกไฟล์</span>
+        <div class="thumbs-up">${D.images.map((src,i) => `<div><img alt="" src="${src}"><button type="button" data-rmimg="${i}" aria-label="ลบรูป">✕</button></div>`).join('')}</div>
+        <div><label class="btn ghost sm" for="shFile" style="display:inline-block;cursor:pointer">เลือกรูป</label><input id="shFile" type="file" accept="image/*" multiple hidden></div></div>
+      <div class="uploader"><span class="lbl" style="font-weight:700;color:var(--pri-deep);font-size:13px">ลิงก์ไฟล์${SHARE.hub === 'media' ? '/สื่อ' : 'ใบงาน'} (สูงสุด 5) · Google Drive, Canva, YouTube, Liveworksheets</span>
+        <div class="linkrow"><input class="txt" id="shLk" type="url" inputmode="url" placeholder="https://"><button class="btn ghost sm" type="button" id="shLkAdd">เพิ่มลิงก์</button></div>
+        <div class="linkcards" style="margin:0">${D.links.map((l,i) => linkCard(l, true, i)).join('')}</div></div>
+      <p style="margin:0;font-size:13px;color:var(--ink-soft)">แชร์ในชื่อ <b>${esc(me().author)}</b> · ถ้าใช้ผลงานของคนอื่น อย่าลืมให้เครดิตแหล่งที่มานะ</p>
+      <div class="row"><button class="btn" type="submit" id="shGo">แชร์${esc(H.noun)}</button></div><div class="err" id="shErr" hidden></div>
+    </form>`;
+  const keep = () => { D.title = $('#shTitle').value; D.message = $('#shMsg').value; D.subject = $('#shSub2').value; D.grade = $('#shGrade2').value; D.time = $('#shTime').value; if ($('#shType2')) D.mtype = $('#shType2').value; };
+  const again = () => { keep(); renderShareNew(b); };
+  const err = m => { $('#shErr').hidden = !m; $('#shErr').textContent = m || ''; };
+  $('#shBack').onclick = () => { keep(); SHARE.view = 'list'; renderShare(); };
+  $$('[data-rmimg]', b).forEach(x => x.onclick = () => { D.images.splice(+x.dataset.rmimg, 1); again(); });
+  $$('[data-rmlink]', b).forEach(x => x.onclick = e => { e.preventDefault(); D.links.splice(+x.dataset.rmlink, 1); again(); });
+  const addFiles = async files => { for (const f of Array.from(files || []).filter(f => /^image\//.test(f.type))){ if (D.images.length >= 4){ toast('ใส่รูปได้สูงสุด 4 รูป'); break; } try { D.images.push(await shrinkImage(f)); } catch(e){ toast(e.message, 'bad'); } } again(); };
+  $('#shFile').onchange = e => addFiles(e.target.files);
+  const z = $('#shUp');
+  z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('over'); }); z.addEventListener('dragleave', () => z.classList.remove('over'));
+  z.addEventListener('drop', e => { e.preventDefault(); z.classList.remove('over'); addFiles(e.dataTransfer.files); });
+  $('#shForm').addEventListener('paste', e => { const fs = Array.from(e.clipboardData && e.clipboardData.files || []); if (fs.length){ e.preventDefault(); addFiles(fs); } });
+  const addLink = async () => {
+    let u = $('#shLk').value.trim(); if (!u) return; if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+    try { const x = new URL(u); if (!/\./.test(x.hostname)) throw 0; } catch(e){ toast('ลิงก์นี้ดูไม่ถูกต้อง', 'bad'); return; }
+    if (D.links.length >= 5){ toast('ใส่ลิงก์ได้สูงสุด 5 ลิงก์'); return; }
+    const y = ytId(u); const l = {url:u, title:'กำลังดึงชื่อหน้าเว็บ…', site:'', image:y ? `https://img.youtube.com/vi/${y}/hqdefault.jpg` : ''}; D.links.push(l); $('#shLk').value = ''; again();
+    try { const p = await API.previewLink(u); Object.assign(l, {title:p.title || u, site:p.site || '', image:l.image || p.image || ''}); } catch(e){ l.title = u; }
+    if (SHARE.view === 'new' && !$('#mSt').hidden) again();
+  };
+  $('#shLkAdd').onclick = addLink; $('#shLk').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); addLink(); } });
+  $('#shForm').onsubmit = async e => {
+    e.preventDefault(); keep();
+    if (!D.title.trim()) return err(`ตั้งชื่อ${H.noun}ก่อนนะ`);
+    if (!D.message.trim()) return err('เขียนรายละเอียดสั้น ๆ ว่าใช้อย่างไร');
+    if (!D.images.length && !D.links.length) return err('แนบรูปตัวอย่างหรือลิงก์อย่างน้อย 1 อย่าง เพื่อนครูจะได้เอาไปใช้ได้');
+    err(''); const btn = $('#shGo'); btn.disabled = true;
+    try {
+      const urls = [];
+      for (let i = 0; i < D.images.length; i++){ btn.textContent = `กำลังอัปโหลดรูป ${i+1}/${D.images.length}…`; urls.push((await API.uploadImage({dataUrl:D.images[i], name:D.title.slice(0,40)})).url); }
+      btn.textContent = 'กำลังแชร์…';
+      const links = D.links.map(l => ({url:l.url, title:/^กำลังดึง/.test(l.title) ? l.url : l.title, site:l.site, image:l.image}));
+      const row = await API.addTopic(Object.assign(me(), {title:D.title.trim(), message:D.message.trim(), category:H.cat, subject:D.subject, color:H.color === '#fff6d9' ? '#fff1a8' : '#cdeefd', images:urls, links,
+        meta:{grade:D.grade, mediaType:D.mtype, time:D.time.trim()}}));
+      if (!row.meta) row.meta = {grade:D.grade, mediaType:D.mtype, time:D.time.trim()};
+      if (!row.authorId) row.authorId = myAcctId();
+      BOARD.data.topics.unshift(row); DATA.set('board', BOARD.data); SHARE.draft = null;
+      toast(`แชร์${H.noun}แล้ว ขอบคุณที่แบ่งปันนะ!`, 'good'); SFX.chime();
+      if (typeof netBoardPing === 'function') netBoardPing(`แชร์${H.noun}: ${row.title}`);
+      SHARE.view = 'detail'; SHARE.id = row.id; renderShare();
+    } catch(ex){ btn.disabled = false; btn.textContent = `แชร์${H.noun}`; err('แชร์ไม่สำเร็จ: ' + ex.message); }
+  };
+}
+
+/* ---------- detail ---------- */
+function renderShareDetail(b){
+  const H = HUBS[SHARE.hub], d = BOARD.data; const t = d && d.topics.find(x => x.id === SHARE.id);
+  if (!t){ SHARE.view = 'list'; return renderShare(); }
+  const st = shareStats(t.id), S = st.S, m = t.meta || {}, mine = myAcctId();
+  const imgs = arr(t.images).map(safeUrl).filter(Boolean), links = arr(t.links);
+  const didThanks = st.thanks.some(c => c.accountId && c.accountId === mine) || !!(store.get('shx', {})[t.id + ':thanks']);
+  const didCheer = st.cheer.some(c => c.accountId && c.accountId === mine) || !!(store.get('shx', {})[t.id + ':cheer']);
+  const myRv = S.list.find(r => r.accountId === mine);
+  const R = SHARE.rdraft && SHARE.rdraft.id === t.id ? SHARE.rdraft : (SHARE.rdraft = {id:t.id, rating:myRv ? +myRv.rating : 0, tried:myRv ? !!myRv.tried : true, message:myRv ? myRv.message : ''});
+  const names = arr => [...new Set(arr.map(c => c.author))];
+  const yt = links.map(l => ytId(l.url)).find(Boolean);
+  b.innerHTML = `<button class="btn ghost sm" type="button" id="shBack">← กลับไปที่คลัง</button>
+    <div class="thread" style="margin-top:10px">
+      <article class="big-note" style="background:${H.color}">
+        <span class="chips"><span class="chip">${H.ico} ${esc(H.cat)}</span>${t.subject && t.subject !== 'ทุกกลุ่มสาระ' ? `<span class="chip">${esc(t.subject)}</span>` : ''}${m.grade ? `<span class="chip">${esc(m.grade)}</span>` : ''}${m.mediaType ? `<span class="chip">${esc(m.mediaType)}</span>` : ''}${m.time ? `<span class="chip">⏱ ${esc(m.time)}</span>` : ''}${S.proven ? '<span class="chip proven">✅ นำไปใช้ได้จริง</span>' : ''}</span>
+        <h3>${esc(t.title)}</h3><p class="msgtext">${linkify(t.message)}</p>
+        ${yt && !imgs.length ? `<a class="yt" href="https://www.youtube.com/watch?v=${esc(yt)}" target="_blank" rel="noopener noreferrer"><img alt="ภาพตัวอย่างวิดีโอ" src="https://img.youtube.com/vi/${esc(yt)}/hqdefault.jpg" referrerpolicy="no-referrer"><span>▶ เปิดดูบน YouTube</span></a>` : ''}
+        ${imgs.length ? `<div class="media">${imgs.map(u => `<button type="button" data-img="${esc(u)}" aria-label="ขยายรูป"><img alt="" src="${esc(u.replace(/&sz=w\d+/, '&sz=w800'))}" loading="lazy" referrerpolicy="no-referrer"></button>`).join('')}</div>` : ''}
+        ${links.length ? `<div class="linkcards">${links.map(l => linkCard(l)).join('')}</div>` : ''}
+        <div class="meta"><img alt="" src="${portrait(avatarToLook(t.avatar))}" style="width:32px;height:32px"><span><b>${esc(t.author)}</b> · ${esc(ago(t.createdAt))}</span></div>
+        <div class="sh-actions">
+          <button class="like" type="button" id="shThanks" aria-pressed="${didThanks}">🙏 ขอบคุณ ${st.thanks.length}</button>
+          <button class="like" type="button" id="shCheer" aria-pressed="${didCheer}">💛 ให้กำลังใจ ${st.cheer.length}</button>
+          ${keepBtn({k:H.keep, id:t.id, title:t.title, text:t.message.slice(0, 160), by:t.author, ref:SHARE.hub}, isKept(H.keep, t.id) ? 'บันทึกไว้แล้ว' : 'บันทึก' + H.noun)}
+        </div>
+        ${st.thanks.length || st.cheer.length ? `<p class="thanks-line">${st.thanks.length ? `🙏 ขอบคุณจาก ${names(st.thanks).slice(0, 8).map(esc).join(', ')}${names(st.thanks).length > 8 ? ' และคนอื่น ๆ' : ''}` : ''}${st.cheer.length ? `<br>💛 กำลังใจจาก ${names(st.cheer).slice(0, 8).map(esc).join(', ')}` : ''}</p>` : ''}
+      </article>
+      <section>
+        <div class="filters"><button class="seg" type="button" data-st="used" aria-pressed="${SHARE.tab==='used'}">✔ ใช้แล้วเป็นอย่างไร (${S.n})</button><button class="seg" type="button" data-st="comment" aria-pressed="${SHARE.tab==='comment'}">💬 ความคิดเห็น (${st.comments.length})</button></div>
+        ${SHARE.tab === 'used' ? `
+          <div class="rv-sum"><div class="rv-big"><b>${S.n ? S.avg.toFixed(1) : '–'}</b><span class="hearts-lg">${heartsTxt(S.avg)}</span></div><div><b>${S.n ? `${S.n} คนเล่าผล · นำไปใช้แล้ว ${S.tried} คน` : 'ยังไม่มีใครเล่าผลการใช้'}</b><small>ใช้${esc(H.noun)}นี้แล้วเป็นอย่างไร เล่าให้เจ้าของและเพื่อนครูรู้หน่อย</small></div></div>
+          ${isMember() ? `<form class="rv-form" id="shRv">
+            <div class="rv-hearts" role="radiogroup" aria-label="ให้คะแนนเป็นหัวใจ">${[1,2,3,4,5].map(n => `<button type="button" role="radio" aria-checked="${R.rating===n}" aria-label="${n} หัวใจ" data-rate="${n}" class="${n <= R.rating ? 'on' : ''}">♥</button>`).join('')}<span>${['แตะหัวใจเพื่อให้คะแนน','ยังไม่เหมาะกับห้องฉัน','พอใช้ได้','ดี ใช้ได้','ดีมาก','ยอดเยี่ยม แนะนำเลย'][R.rating]}</span></div>
+            <label class="rv-tried"><input type="checkbox" id="shTried" ${R.tried ? 'checked' : ''}> ฉันนำไปใช้กับนักเรียนแล้ว</label>
+            <textarea class="txt" id="shRvMsg" maxlength="600" placeholder="ใช้กับชั้นไหน เด็กตอบสนองอย่างไร ปรับอะไรบ้าง">${esc(R.message)}</textarea>
+            <div class="row"><button class="btn sm" type="submit" id="shRvGo">${myRv ? 'อัปเดตผลการใช้ของฉัน' : 'ส่งผลการใช้'}</button><button class="btn ghost sm" type="button" data-mic-for="shRvMsg" title="พิมพ์ด้วยเสียง">🎤</button></div><div class="err" id="shRvErr" hidden></div></form>` : memberGate('การเล่าผลการใช้และให้หัวใจ')}
+          <div class="cmts" style="margin-top:12px">${S.list.slice().sort((a,b2) => a.createdAt < b2.createdAt ? 1 : -1).map(r => `<div class="cmt"><img alt="" src="${portrait(avatarToLook(r.avatar))}"><div><b>${esc(r.author)}</b><small>${esc(ago(r.createdAt))}</small> ${keepBtn({k:'comment', id:r.id, title:`ผลการใช้ "${t.title}"`, text:r.message || heartsTxt(r.rating), by:r.author, ref:t.id})}<div><span class="hearts-sm">${heartsTxt(r.rating)}</span>${r.tried ? ' <span class="chip proven">นำไปใช้แล้ว</span>' : ''}</div>${r.message ? `<p class="msgtext">${linkify(r.message)}</p>` : ''}</div></div>`).join('')}</div>`
+        : `
+          <div class="cmts">${st.comments.length ? st.comments.map(c => `<div class="cmt"><img alt="" src="${portrait(avatarToLook(c.avatar))}"><div><b>${esc(c.author)}</b><small>${esc(ago(c.createdAt))}</small> ${keepBtn({k:'comment', id:c.id, title:`ความคิดเห็นใน "${t.title}"`, text:c.message, by:c.author, ref:t.id})}<p class="msgtext">${linkify(c.message)}</p></div></div>`).join('') : '<div class="empty-q">ยังไม่มีความคิดเห็น เป็นคนแรกเลย</div>'}</div>
+          ${canPost() ? `<form class="cform" id="shCm"><input class="txt" id="shCmMsg" maxlength="600" placeholder="ถามวิธีใช้ ขอบคุณ หรือแนะนำเพิ่มเติม" aria-label="ความคิดเห็น"><button class="btn" type="button" data-mic-for="shCmMsg" title="พิมพ์ด้วยเสียง" aria-label="พิมพ์ด้วยเสียง">🎤</button><button class="btn" type="submit" id="shCmGo">ส่ง</button></form>` : '<p class="lead" style="margin-top:12px">เข้าสู่ระบบเพื่อแสดงความคิดเห็น</p>'}
+          <div class="err" id="shCmErr" hidden></div>`}
+      </section></div>`;
+  $('#shBack').onclick = () => { SHARE.view = 'list'; renderShare(); };
+  $$('[data-img]', b).forEach(x => x.onclick = () => openLightbox(x.dataset.img));
+  $$('[data-st]', b).forEach(x => x.onclick = () => { SHARE.tab = x.dataset.st; renderShare(); });
+  bindGate(b); bindKeeps(b, () => {}); if (typeof bindVoiceTyping === 'function') bindVoiceTyping(b);
+  const react = async kind => {
+    if (!canPost()){ toast('เข้าสู่ระบบก่อนนะ'); return; }
+    const flag = store.get('shx', {}); if (flag[t.id + ':' + kind]) return toast(kind === 'thanks' ? 'ขอบคุณไปแล้วนะ' : 'ส่งกำลังใจไปแล้วนะ');
+    try {
+      const row = await API.addComment(Object.assign(me(), {topicId:t.id, kind, message:kind === 'thanks' ? 'ขอบคุณที่แบ่งปันนะ' : 'เป็นกำลังใจให้นะ'}));
+      if (!row.kind) row.kind = kind; if (!row.accountId) row.accountId = mine;
+      d.comments.push(row); flag[t.id + ':' + kind] = 1; store.set('shx', flag); DATA.set('board', d);
+      SFX.chime(); toast(kind === 'thanks' ? '🙏 ส่งคำขอบคุณแล้ว' : '💛 ส่งกำลังใจแล้ว', 'good'); renderShare();
+      if (typeof netBoardPing === 'function') netBoardPing((kind === 'thanks' ? 'ขอบคุณ ' : 'ส่งกำลังใจให้ ') + `"${t.title}"`);
+    } catch(e){ if (/ไปแล้ว/.test(e.message)){ flag[t.id + ':' + kind] = 1; store.set('shx', flag); renderShare(); } toast(e.message, 'bad'); }
+  };
+  $('#shThanks').onclick = () => react('thanks');
+  $('#shCheer').onclick = () => react('cheer');
+  const rf = $('#shRv');
+  if (rf){
+    const keep = () => { R.message = $('#shRvMsg').value; R.tried = $('#shTried').checked; };
+    $$('[data-rate]', rf).forEach(x => x.onclick = () => { keep(); R.rating = +x.dataset.rate; SFX.pop(); renderShare(); });
+    rf.onsubmit = async e => {
+      e.preventDefault(); keep();
+      if (!R.rating){ $('#shRvErr').hidden = false; $('#shRvErr').textContent = 'แตะหัวใจเพื่อให้คะแนนก่อนนะ'; return; }
+      $('#shRvGo').disabled = true;
+      try {
+        const row = await API.addReview(Object.assign(me(), {topicId:t.id, rating:R.rating, tried:R.tried, message:R.message.trim()}));
+        d.reviews = (d.reviews || []).filter(x => !(x.topicId === t.id && x.accountId === row.accountId)).concat([row]); DATA.set('board', d);
+        SHARE.rdraft = null; toast('ขอบคุณที่เล่าผลการใช้ เจ้าของจะดีใจมาก', 'good'); SFX.chime(); renderShare();
+        if (typeof netBoardPing === 'function') netBoardPing(`เล่าผลการใช้ "${t.title}"`);
+      } catch(ex){ $('#shRvGo').disabled = false; $('#shRvErr').hidden = false; $('#shRvErr').textContent = 'ส่งไม่สำเร็จ: ' + ex.message; }
+    };
+  }
+  const cf = $('#shCm');
+  if (cf) cf.onsubmit = async e => {
+    e.preventDefault(); const msg = $('#shCmMsg').value.trim(); if (!msg) return;
+    $('#shCmGo').disabled = true;
+    try { const row = await API.addComment(Object.assign(me(), {topicId:t.id, kind:'comment', message:msg})); if (!row.kind) row.kind = 'comment'; d.comments.push(row); DATA.set('board', d); renderShare(); if (typeof netBoardPing === 'function') netBoardPing(`ตอบใน "${t.title}"`); }
+    catch(ex){ $('#shCmGo').disabled = false; $('#shCmErr').hidden = false; $('#shCmErr').textContent = 'ส่งไม่สำเร็จ: ' + ex.message; }
+  };
+}
+
+/* ---------- ⭐ สมุด: สิ่งที่ประทับใจ ---------- */
+let keepFilter = '';
+function keepsHTML(){
+  const K = NB.keeps || [];
+  const types = ['comment','plc','worksheet','media'];
+  const list = K.filter(x => !keepFilter || x.k === keepFilter);
+  const fmt = iso => { const d = new Date(iso); return isNaN(d) ? String(iso || '') : d.toLocaleDateString('th-TH', {day:'numeric', month:'short'}); };
+  return `<div class="nb-sec"><h3>⭐ สิ่งที่ประทับใจ (${K.length})</h3>
+    <div class="filters"><button class="seg" type="button" data-kf="" aria-pressed="${!keepFilter}">ทั้งหมด</button>${types.map(k => `<button class="seg" type="button" data-kf="${k}" aria-pressed="${keepFilter===k}">${KEEP_TYPES[k][0]} ${KEEP_TYPES[k][1]} (${K.filter(x => x.k === k).length})</button>`).join('')}</div>
+    ${list.length ? `<div class="keeps-list">${list.slice(0, 80).map(x => `<div class="keep-item"><span class="ki">${(KEEP_TYPES[x.k] || ['⭐'])[0]}</span><div><b>${esc(x.title || '')}</b>${x.text ? `<p>${esc(x.text)}</p>` : ''}<small style="color:var(--ink-soft)">${x.by ? esc(x.by) + ' · ' : ''}เก็บ ${esc(fmt(x.at))}</small>
+      <div class="meta" style="margin-top:6px">${x.ref ? `<button class="stk" type="button" data-kopen="${esc(x.k + '|' + x.id + '|' + x.ref)}">เปิดดู</button>` : ''}<span class="sp"></span><button class="stk" type="button" data-krm="${esc(x.k + '|' + x.id)}">เอาออก</button></div></div></div>`).join('')}</div>`
+      : '<div class="empty-q">ยังไม่มี กด ☆ ที่ความคิดเห็น วง PLC ใบงาน หรือสื่อที่ประทับใจ แล้วจะมาอยู่ตรงนี้</div>'}</div>`;
+}
+function openKept(k, id, ref){
+  closeModal('#mSt');
+  if (k === 'worksheet' || k === 'media') return openShare(k, id);
+  if (k === 'plc' || /^plc:/.test(ref)){ PLC.arch = PLC.arch || {q:'', subject:'', month:'', view:'list', id:null}; PLC.arch.view = 'detail'; PLC.arch.id = k === 'plc' ? id : ref.slice(4); PLC.openLobby('archive'); return; }
+  const t = BOARD.data && BOARD.data.topics.find(x => x.id === ref);
+  if (t && SHARE_CATS.includes(t.category)) return openShare(t.category === 'ใบงาน' ? 'worksheet' : 'media', ref);
+  openBoard(); BOARD.view = 'topic'; BOARD.topic = ref; renderBoard();
+}
+function bindKeepsSection(root, redraw){
+  $$('[data-kf]', root).forEach(b => b.onclick = () => { keepFilter = b.dataset.kf; redraw(); });
+  $$('[data-krm]', root).forEach(b => b.onclick = () => { const [k, id] = b.dataset.krm.split('|'); NB.keeps = (NB.keeps || []).filter(x => !(x.k === k && x.id === id)); saveNB(); redraw(); });
+  $$('[data-kopen]', root).forEach(b => b.onclick = () => { const [k, id, ...r] = b.dataset.kopen.split('|'); openKept(k, id, r.join('|')); });
 }
 
 /* =========================================================
@@ -3650,7 +4067,7 @@ async function gasTick(){
     const r = await API.rtSync({state:st, since:NET.lastChatT, room:PLC.room || '', roomSince:PLC.roomSince});
     NET.fail = 0; NET.myId = r.me;
     netApplyPeers((r.peers || []).filter(p => p.id !== r.me));
-    PLC.onSync(r);
+    PLC.onSync(r); if (typeof frOnSync === 'function') frOnSync(r);
     (r.chat || []).forEach(netChatIn);
     if (r.board){ if (NET.boardSeen === null) NET.boardSeen = r.board.v; else if (r.board.v > NET.boardSeen) netBoardIn(Object.assign({t:r.board.v}, r.board)); }
     if (NET.emote && Date.now() - NET.emote.t > 12000) NET.emote = null;
@@ -3772,6 +4189,13 @@ function openPeerMenu(e){
   const c = document.createElement('button'); c.type = 'button'; c.className = 'act feature'; c.innerHTML = '<span class="l">💬 ทักในแชต</span>';
   c.onclick = () => { closeActions(); toggleChat(true); const i = $('#rtInput'); i.value = `@${e.name} `; i.focus(); };
   m.appendChild(c);
+  if (!e.guest && !/^G-/.test(e.id)){
+    const f = document.createElement('button'); f.type = 'button'; f.className = 'act feature';
+    const fr = typeof isFriend === 'function' && isFriend(e.id);
+    f.innerHTML = fr ? `<span class="l">✉️ เขียนจดหมายถึง${esc(e.name)}<small>ส่วนตัวสองคน ไม่แสดงสาธารณะ</small></span>` : `<span class="l">➕ เพิ่ม${esc(e.name)}เป็นเพื่อน<small>แล้วส่งจดหมายหากันแบบตัวต่อตัวได้</small></span>`;
+    f.onclick = async () => { closeActions(); if (fr) return openFriends(e.id); if (await frAdd(e.id, e.name)) openFriends(e.id); };
+    m.appendChild(f);
+  } else { const g = document.createElement('p'); g.className = 'sub'; g.textContent = 'เพื่อนคนนี้เข้าแบบผู้เยี่ยมชม จึงยังเพิ่มเป็นเพื่อนไม่ได้'; m.appendChild(g); }
   m.querySelector('.x').onclick = closeActions; m.hidden = false; G.paused++;
 }
 
@@ -4076,13 +4500,14 @@ const PLC = {
           ${p.detail ? `<dt>ประเด็น</dt><dd>${esc(p.detail)}</dd>` : ''}<dt>ผู้ร่วมวง</dt><dd>${people.length ? people.map(x => `<span class="chip">${esc(x)}</span>`).join(' ') : '-'}</dd><dt>ข้อความในวง</dt><dd>${p.msgCount || 0} ข้อความ</dd></dl>
         <h4>สรุปผลการแลกเปลี่ยน</h4>
         <div id="aSumBox">${p.summary ? `<p class="arch-sum">${linkify(p.summary)}</p>` : '<p class="lead">ยังไม่มีสรุปผล</p>'}</div>
-        <div class="row">${mine && p.status === 'closed' ? '<button class="btn ghost sm" type="button" id="aEdit">✏️ แก้ไขสรุป</button>' : ''}${SESSION.token ? '<button class="btn ghost sm" type="button" id="aLog">📜 ดูบันทึกการคุยทั้งหมด</button>' : ''}${this.archLink() ? '<button class="btn ghost sm" type="button" id="aShare">🔗 คัดลอกลิงก์สรุปนี้</button>' : ''}</div>
+        <div class="row">${keepBtn({k:'plc', id:p.id, title:p.title, text:(p.summary || p.detail || '').slice(0, 200), by:p.hostName, ref:p.id}, 'เก็บเป็นสิ่งที่ประทับใจ')}${mine && p.status === 'closed' ? '<button class="btn ghost sm" type="button" id="aEdit">✏️ แก้ไขสรุป</button>' : ''}${SESSION.token ? '<button class="btn ghost sm" type="button" id="aLog">📜 ดูบันทึกการคุยทั้งหมด</button>' : ''}${this.archLink() ? '<button class="btn ghost sm" type="button" id="aShare">🔗 คัดลอกลิงก์สรุปนี้</button>' : ''}</div>
         <div id="aLogBox"></div></article></div>`;
     $('#aBack').onclick = () => { this.arch.view = 'list'; this.renderArchive(); };
+    bindKeeps(body);
     if ($('#aShare')) $('#aShare').onclick = async () => { const u = this.archLink(p.id); try { await navigator.clipboard.writeText(u); toast('คัดลอกลิงก์แล้ว', 'good'); } catch(e){ toast(u); } };
     if ($('#aLog')) $('#aLog').onclick = async () => {
       const lb = $('#aLogBox'); lb.innerHTML = '<div class="loading" style="padding:8px">กำลังโหลด…</div>';
-      try { const msgs = await API.getPlcLog(p.id); lb.innerHTML = `<div class="arch-log">${msgs.length ? msgs.map(m => `<div class="rt-line"><b>${esc(m.name)}</b>: ${linkify(m.text)} <small>${new Date(m.t).toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'})}</small></div>`).join('') : '<div class="empty-q">ไม่มีข้อความ</div>'}</div>`; }
+      try { const msgs = await API.getPlcLog(p.id); lb.innerHTML = `<div class="arch-log">${msgs.length ? msgs.map(m => `<div class="rt-line"><b>${esc(m.name)}</b>: ${linkify(m.text)} <small>${new Date(m.t).toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'})}</small> ${keepBtn({k:'comment', id:m.id || (p.id + ':' + m.t), title:`ในวง PLC "${p.title}"`, text:m.text, by:m.name, ref:'plc:' + p.id})}</div>`).join('') : '<div class="empty-q">ไม่มีข้อความ</div>'}</div>`; bindKeeps(lb); }
       catch(e){ lb.innerHTML = `<div class="empty-q">${esc(e.message)}</div>`; }
     };
     if ($('#aEdit')) $('#aEdit').onclick = () => {
@@ -4172,7 +4597,8 @@ const PLC = {
     this.roomSince = Math.max(this.roomSince, m.t || 0);
     const mine = m.uid === NET.myId;
     const el = document.createElement('div'); el.className = 'rt-line' + (mine ? ' mine' : '');
-    el.innerHTML = `<b>${esc(m.name)}</b>: <span class="msgtext">${linkify(m.text)}</span><small>${new Date(m.t).toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'})}</small>`;
+    el.innerHTML = `<b>${esc(m.name)}</b>: <span class="msgtext">${linkify(m.text)}</span><small>${new Date(m.t).toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'})}</small>${mine ? '' : ' ' + keepBtn({k:'comment', id:m.id, title:`ในวง PLC "${(this.info && this.info.title) || ''}"`, text:m.text, by:m.name, ref:'plc:' + ((this.info && this.info.id) || '')})}`;
+    bindKeeps(el);
     const log = $('#plcLog'); log.appendChild(el); log.scrollTop = 1e9;
     if (!mine && $('#plcPanel').hidden && this.room){ $('#plcPill').textContent = `💬 ${m.name}: ${m.text.slice(0, 40)}`; }
   },
@@ -4327,6 +4753,147 @@ $('#plcForm').addEventListener('submit', async e => {
   catch(ex){ toast('ส่งข้อความไม่สำเร็จ: ' + ex.message, 'bad'); inp.value = text; }
 });
 bindVoiceTyping(document);
+
+/* =========================================================
+   📬 FRIENDS & LETTERS — เพื่อนครู และจดหมายส่วนตัวแบบตัวต่อตัว
+   ========================================================= */
+const FR = {friends:[], followers:[], letters:[], loaded:0, loading:null, view:'list', with:null, mail:{unread:0, last:0}, draft:{}};
+const frOnline = () => [...NET.peers.values()].filter(e => !e.guest && !/^G-/.test(e.id));
+const isFriend = id => FR.friends.some(f => f.id === id);
+const frName = id => { const f = FR.friends.find(x => x.id === id) || FR.followers.find(x => x.id === id); if (f) return f.name; const p = NET.peers.get(id); if (p) return p.name; const m = FR.letters.find(l => l.fromId === id); return m ? m.fromName : (FR.letters.find(l => l.toId === id) || {}).toName || 'ครู'; };
+const frLook = id => { const p = NET.peers.get(id); if (p && p.look) return p.look; const f = FR.friends.find(x => x.id === id) || FR.followers.find(x => x.id === id); return f && f.look || ''; };
+const frCanUse = () => API.mode !== 'local' && !!SESSION.token && !isGuest();
+
+function setMailBadge(n){ const b = $('#mailBadge'); if (!b) return; b.hidden = !n; b.textContent = n > 9 ? '9+' : String(n || ''); }
+
+async function frLoad(force){
+  if (!frCanUse()) return;
+  if (FR.loading) return FR.loading;
+  if (!force && Date.now() - FR.loaded < 8000) return;
+  FR.loading = (async () => {
+    try {
+      const [f, l] = await Promise.all([API.getFriends(), API.getLetters()]);
+      FR.friends = f.friends || []; FR.followers = f.followers || []; FR.letters = (l.letters || []).sort((a, b) => a.t - b.t); FR.loaded = Date.now();
+      setMailBadge(FR.letters.filter(m => m.toId === myAcctId() && !m.read).length);
+    } finally { FR.loading = null; }
+  })();
+  return FR.loading;
+}
+function frThreads(){
+  const mine = myAcctId(), T = {};
+  FR.letters.forEach(m => { const other = m.fromId === mine ? m.toId : m.fromId; const t = T[other] || (T[other] = {id:other, last:0, unread:0, preview:''}); t.last = Math.max(t.last, m.t); t.preview = (m.fromId === mine ? 'คุณ: ' : '') + m.text; if (m.toId === mine && !m.read) t.unread++; });
+  return Object.values(T).sort((a, b) => b.last - a.last);
+}
+
+function openFriends(withId){
+  closeActions(); closeDialog(); setTab('friends');
+  station('📬 เพื่อนและจดหมาย', 'lg', () => { FR.view = 'list'; FR.with = null; });
+  if (withId){ FR.view = 'thread'; FR.with = withId; } else FR.view = 'list';
+  frRender();
+  if (frCanUse()) frLoad(true).then(() => { if (!$('#mSt').hidden && $('#frRoot')) frRender(); }).catch(e => { const b = $('#frRoot'); if (b && !FR.loaded) b.innerHTML = `<div class="empty">โหลดไม่สำเร็จ: ${esc(e.message)}</div>`; });
+}
+function frRender(){
+  const b = $('#stBody'); if (!b) return;
+  if (!frCanUse()){
+    b.innerHTML = API.mode === 'local'
+      ? '<div class="empty">ระบบเพื่อนและจดหมายใช้ได้เมื่อเชื่อมต่อออนไลน์กับ Google Sheet แล้ว<br>ตอนนี้อยู่ในโหมดทดลองในเครื่อง</div>'
+      : memberGate('การเพิ่มเพื่อนและส่งจดหมาย');
+    bindGate(b); return;
+  }
+  if (FR.view === 'thread' && FR.with) return frRenderThread(b);
+  const mine = myAcctId(), threads = frThreads();
+  const online = frOnline().filter(e => e.id !== mine);
+  const onNotFriend = online.filter(e => !isFriend(e.id));
+  const fol = FR.followers.filter(f => !isFriend(f.id));
+  const ava = (look, on) => `<span class="fr-ava"><img alt="" src="${portrait(avatarToLook(look))}">${on ? '<i class="dot" title="ออนไลน์"></i>' : ''}</span>`;
+  b.innerHTML = `<div id="frRoot">
+    <p class="lead">เพิ่มเพื่อนครูที่ออนไลน์อยู่ในห้องพักครูตอนนี้ แล้วส่งจดหมายหากันแบบตัวต่อตัว จดหมายไม่แสดงบนกระดานหรือในแชตห้อง</p>
+    <div class="fr-grid">
+      <section class="fr-col">
+        <h3>✉️ จดหมาย ${FR.loaded ? `(${threads.length})` : ''}</h3>
+        ${!FR.loaded ? '<div class="loading">กำลังโหลด…</div>' : threads.length ? `<div class="fr-list">${threads.map(t => `<button class="fr-row${t.unread ? ' unread' : ''}" type="button" data-thread="${esc(t.id)}">${ava(frLook(t.id), NET.peers.has(t.id))}<span class="fr-txt"><b>${esc(frName(t.id))}</b><small>${esc(t.preview.slice(0, 70))}</small></span><span class="fr-meta"><small>${esc(ago(new Date(t.last).toISOString()))}</small>${t.unread ? `<i class="tbadge">${t.unread}</i>` : ''}</span></button>`).join('')}</div>`
+          : '<div class="empty-q">ยังไม่มีจดหมาย เลือกเพื่อนทางขวาแล้วกด "เขียนจดหมาย"</div>'}
+      </section>
+      <section class="fr-col">
+        <h3>🟢 ออนไลน์ตอนนี้ (${online.length})</h3>
+        ${online.length ? `<div class="fr-list">${online.map(e => `<div class="fr-row">${ava(e.look, true)}<span class="fr-txt"><b>${esc(e.name)}</b><small>${isFriend(e.id) ? 'เพื่อนของคุณ' : 'ยังไม่ได้เป็นเพื่อน'}${e.plc ? ' · อยู่ในวง PLC' : ''}</small></span>${isFriend(e.id) ? `<button class="btn sm" type="button" data-write="${esc(e.id)}">✉️ เขียน</button>` : `<button class="btn sm" type="button" data-add="${esc(e.id)}">➕ เพิ่มเพื่อน</button>`}</div>`).join('')}</div>`
+          : '<div class="empty-q">ตอนนี้ยังไม่มีสมาชิกคนอื่นออนไลน์ เมื่อมีเพื่อนครูเข้ามาในห้อง จะเพิ่มเป็นเพื่อนได้จากตรงนี้ หรือแตะที่ตัวละครของเพื่อน</div>'}
+        ${fol.length ? `<h3 style="margin-top:16px">🙋 เพิ่มคุณเป็นเพื่อนแล้ว (${fol.length})</h3><div class="fr-list">${fol.map(f => `<div class="fr-row">${ava(f.look, f.online)}<span class="fr-txt"><b>${esc(f.name)}</b><small>${f.online ? 'ออนไลน์อยู่' : 'ออฟไลน์'}</small></span><button class="btn sm" type="button" data-add="${esc(f.id)}">➕ เพิ่มกลับ</button></div>`).join('')}</div>` : ''}
+        <h3 style="margin-top:16px">💛 เพื่อนของฉัน (${FR.friends.length})</h3>
+        ${FR.friends.length ? `<div class="fr-list">${FR.friends.slice().sort((a, b2) => (NET.peers.has(b2.id) - NET.peers.has(a.id))).map(f => `<div class="fr-row">${ava(frLook(f.id), NET.peers.has(f.id) || f.online)}<span class="fr-txt"><b>${esc(frName(f.id))}</b><small>${NET.peers.has(f.id) || f.online ? 'ออนไลน์อยู่' : 'ออฟไลน์'}${f.mutual ? ' · เป็นเพื่อนกันแล้ว' : ''}</small></span><button class="btn sm" type="button" data-write="${esc(f.id)}">✉️ เขียน</button><button class="stk" type="button" data-unf="${esc(f.id)}" title="เลิกเป็นเพื่อน" aria-label="เลิกเป็นเพื่อนกับ ${esc(f.name)}">✕</button></div>`).join('')}</div>`
+          : `<div class="empty-q">${FR.loaded ? 'ยังไม่มีเพื่อน' : 'กำลังโหลด…'}</div>`}
+      </section>
+    </div>
+    <p class="fr-note">🔒 จดหมายเห็นเฉพาะคุณกับผู้รับ ไม่แสดงต่อผู้เล่นคนอื่น ข้อมูลเก็บในชีตของโรงเรียน ผู้ดูแลชีตจึงเปิดดูได้ อย่าใส่ข้อมูลอ่อนไหวของนักเรียนนะ</p></div>`;
+  $$('[data-thread]', b).forEach(x => x.onclick = () => { FR.view = 'thread'; FR.with = x.dataset.thread; frRender(); });
+  $$('[data-write]', b).forEach(x => x.onclick = () => { FR.view = 'thread'; FR.with = x.dataset.write; frRender(); });
+  $$('[data-add]', b).forEach(x => x.onclick = async () => { x.disabled = true; await frAdd(x.dataset.add, frName(x.dataset.add)); frRender(); });
+  $$('[data-unf]', b).forEach(x => x.onclick = async () => {
+    if (x.dataset.armed !== '1'){ x.dataset.armed = '1'; x.textContent = 'แน่ใจ?'; setTimeout(() => { if (x.isConnected){ x.dataset.armed = ''; x.textContent = '✕'; } }, 3000); return; }
+    try { await API.removeFriend({id:x.dataset.unf}); FR.friends = FR.friends.filter(f => f.id !== x.dataset.unf); toast('เลิกเป็นเพื่อนแล้ว'); frRender(); } catch(e){ toast(e.message, 'bad'); }
+  });
+}
+async function frAdd(id, name){
+  if (!frCanUse()){ toast('สมัครสมาชิกก่อน จึงจะเพิ่มเพื่อนได้'); return false; }
+  try {
+    const r = await API.addFriend({id, name, myName:'ครู' + NAME()});
+    if (!isFriend(id)) FR.friends.push({id, name, look:frLook(id), online:NET.peers.has(id), mutual:FR.followers.some(f => f.id === id)});
+    FR.followers = FR.followers.filter(f => f.id !== id);
+    toast(r.added === false ? `${name} เป็นเพื่อนอยู่แล้ว` : `💛 เพิ่ม ${name} เป็นเพื่อนแล้ว ส่งจดหมายหากันได้เลย`, 'good'); SFX.chime(); return true;
+  } catch(e){ toast(e.message, 'bad'); return false; }
+}
+function frRenderThread(b){
+  const id = FR.with, mine = myAcctId(), name = frName(id);
+  const msgs = FR.letters.filter(m => (m.fromId === id && m.toId === mine) || (m.fromId === mine && m.toId === id));
+  const canSend = isFriend(id) || msgs.some(m => m.fromId === id);
+  const dt = t => new Date(t).toLocaleString('th-TH', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'});
+  b.innerHTML = `<div id="frRoot"><button class="btn ghost sm" type="button" id="frBack">← เพื่อนและจดหมายทั้งหมด</button>
+    <div class="fr-head"><img alt="" src="${portrait(avatarToLook(frLook(id)))}"><div><b>${esc(name)}</b><small>${NET.peers.has(id) ? '🟢 ออนไลน์อยู่ในห้องพักครู' : 'ออฟไลน์ จะเห็นจดหมายเมื่อเข้ามาครั้งหน้า'} · 🔒 ส่วนตัวสองคน</small></div>${isFriend(id) ? '' : `<button class="btn sm" type="button" id="frAddH">➕ เพิ่มเพื่อน</button>`}</div>
+    <div class="fr-thread" id="frThread">${msgs.length ? msgs.map(m => `<div class="fr-msg${m.fromId === mine ? ' mine' : ''}"><p class="msgtext">${linkify(m.text)}</p><small>${esc(dt(m.t))}${m.fromId === mine ? (m.read ? ' · อ่านแล้ว' : ' · ส่งแล้ว') : ''}</small></div>`).join('') : `<div class="empty-q">ยังไม่มีจดหมายถึงกัน เริ่มเขียนถึง ${esc(name)} ได้เลย</div>`}</div>
+    ${canSend ? `<form class="fr-compose" id="frForm"><div class="letter-paper"><textarea id="frText" maxlength="2000" placeholder="ถึง ${esc(name)}…" aria-label="เขียนจดหมาย">${esc(FR.draft[id] || '')}</textarea></div>
+      <div class="row"><button class="btn" type="submit" id="frSend">ส่งจดหมาย ✉️</button><button class="btn ghost" type="button" data-mic-for="frText" title="พิมพ์ด้วยเสียง">🎤 พูดแทนพิมพ์</button></div><div class="err" id="frErr" hidden></div></form>`
+      : '<p class="lead">เพิ่มเป็นเพื่อนก่อน จึงจะส่งจดหมายได้</p>'}</div>`;
+  const th = $('#frThread'); th.scrollTop = 1e9;
+  $('#frBack').onclick = () => { FR.view = 'list'; FR.with = null; frRender(); };
+  if ($('#frAddH')) $('#frAddH').onclick = async () => { if (await frAdd(id, name)) frRender(); };
+  if (typeof bindVoiceTyping === 'function') bindVoiceTyping(b);
+  const ta = $('#frText'); if (ta) ta.oninput = () => { FR.draft[id] = ta.value; };
+  if (msgs.some(m => m.toId === mine && !m.read)){
+    msgs.forEach(m => { if (m.toId === mine) m.read = true; });
+    setMailBadge(FR.letters.filter(m => m.toId === mine && !m.read).length);
+    API.markLettersRead({from:id}).then(st => { FR.mail = st || FR.mail; }).catch(() => {});
+  }
+  const f = $('#frForm');
+  if (f) f.onsubmit = async e => {
+    e.preventDefault(); const text = ta.value.trim(); if (!text) return;
+    const btn = $('#frSend'); btn.disabled = true; btn.textContent = 'กำลังส่ง…';
+    try {
+      const row = await API.sendLetter({to:id, text, fromName:'ครู' + NAME(), toName:name});
+      FR.letters.push(row); FR.draft[id] = ''; SFX.chime(); toast(`✉️ ส่งถึง ${name} แล้ว`, 'good'); frRender();
+    } catch(ex){ btn.disabled = false; btn.textContent = 'ส่งจดหมาย ✉️'; $('#frErr').hidden = false; $('#frErr').textContent = 'ส่งไม่สำเร็จ: ' + ex.message; }
+  };
+}
+
+/* realtime: เรียกจาก gasTick ทุกครั้งที่ซิงก์ */
+function frOnSync(r){
+  if (!r) return;
+  (r.friendNotes || []).forEach(n => {
+    if (!FR.followers.some(f => f.id === n.from) && !isFriend(n.from)) FR.followers.push({id:n.from, name:n.name, look:'', online:NET.peers.has(n.from)});
+    toast(`🙋 ${n.name} เพิ่มคุณเป็นเพื่อน${isFriend(n.from) ? '' : ' เปิดแท็บเพื่อนเพื่อเพิ่มกลับ'}`, 'good'); SFX.pop();
+    if (typeof sysLine === 'function') sysLine(`${n.name} เพิ่มคุณเป็นเพื่อนแล้ว`);
+  });
+  if (r.mail){
+    const prev = FR.mail || {unread:0, last:0}; FR.mail = r.mail;
+    if (!FR.loaded) setMailBadge(r.mail.unread);
+    if (!prev.last && r.mail.unread && !FR.told){ FR.told = 1; toast(`📬 มีจดหมายที่ยังไม่ได้อ่าน ${r.mail.unread} ฉบับ เปิดแท็บเพื่อน`, 'good'); }
+    if (r.mail.last > (prev.last || 0) && prev.last){
+      if (r.mail.unread) { toast(`📬 จดหมายใหม่จาก ${r.mail.lastFrom || 'เพื่อนครู'}`, 'good'); SFX.chime(); }
+      frLoad(true).then(() => { if (!$('#mSt').hidden && $('#frRoot')) frRender(); }).catch(() => {});
+    } else if (!FR.loaded || r.mail.unread !== FR.letters.filter(m => m.toId === myAcctId() && !m.read).length) setMailBadge(r.mail.unread);
+  }
+  if ((r.friendNotes || []).length && !$('#mSt').hidden && $('#frRoot') && FR.view === 'list') frRender();
+}
+try { if (new URLSearchParams(location.search).has('debug')) window.__kkp = {openActions, openShare, openPeerMenu, openFriends, NET, G, myAcctId:() => myAcctId()}; } catch(e){}
 
 /* =========================================================
    BOOT
