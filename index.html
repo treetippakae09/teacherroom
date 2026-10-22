@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ห้องพักของครู</title>
+<title>ห้องพักของครู (ครูขอพัก)</title>
 </head>
 <body>
 
@@ -706,6 +706,44 @@ button.fr-row{cursor:pointer}
 .nbe-body .meta{display:flex;margin-top:6px}
 .nb-art{border:0;padding:0;background:none;cursor:zoom-in;width:100%}
 .gallery .meta{display:flex;align-items:center;gap:4px;margin-top:4px;font-size:11px;color:var(--ink-soft)}
+/* feelings check-in */
+.mirror-side{position:relative}
+.mirror-emoji{position:absolute;top:-14px;right:-10px;width:58px;height:58px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:34px;box-shadow:0 4px 12px #2f3e4626;border:3px solid var(--butter)}
+.mirror-emoji.pop{animation:emoPop .35s ease}
+@keyframes emoPop{0%{transform:scale(.6)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.feel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
+.feelbtn{border:2px solid var(--line);background:#fff;border-radius:14px;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
+.feelbtn span{font-size:26px;line-height:1.1}
+.feelbtn small{font-size:10.5px;color:var(--ink-soft);line-height:1.2;text-align:center}
+.feelbtn[aria-checked="true"]{border-color:var(--pri);background:var(--pri-soft);transform:scale(1.04)}
+.tag .md{font-size:18px}
+/* new hubs */
+.cheer-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px;padding:6px 2px}
+.cheer-note{position:relative;text-align:left;border:0;border-radius:4px 4px 18px 4px;padding:20px 14px 12px;box-shadow:0 6px 14px #5a6a4a26;display:flex;flex-direction:column;gap:6px;cursor:pointer;min-height:170px;transition:transform .15s}
+.cheer-note:nth-child(odd){transform:rotate(-1.4deg)}.cheer-note:nth-child(even){transform:rotate(1.2deg)}
+.cheer-note:hover{transform:rotate(0) translateY(-3px)}
+.cheer-note .pin{position:absolute;top:-6px;left:50%;width:15px;height:15px;margin-left:-7px;border-radius:50%;background:#ff6b8a;box-shadow:0 2px 3px #0003}
+.cn-st{font-size:34px;line-height:1}.cn-st.big{font-size:64px;display:block}
+.cn-to{font-weight:700;font-size:13px;color:#b0335a}
+.cn-msg{font-size:15px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap}
+.cheer-note small{color:#2f3e46aa;font-size:12px}
+.cheer-big .cheer-msg{font-size:20px;line-height:1.6}
+.songs{display:flex;flex-direction:column;gap:10px}
+.song{position:relative;display:flex;gap:12px;align-items:center;text-align:left;background:#fff;border:2px solid #0000000d;border-radius:18px;padding:10px;cursor:pointer;box-shadow:0 3px 10px #2f3e4612}
+.song:hover{border-color:#c7b8ff}
+.sg-art{position:relative;flex:none;width:96px;height:72px;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#a99bf0,#ff9b71);display:grid;place-items:center}
+.sg-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sg-play{position:relative;width:36px;height:36px;border-radius:50%;background:#ffffffe6;color:#6b55d6;display:grid;place-items:center;font-size:15px;box-shadow:0 2px 6px #0003}
+.sg-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.sg-txt b{font-size:15px}.sg-txt small{color:var(--ink-soft);font-size:12px}
+.sg-why{font-size:13px;color:#2f3e46cc;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.player-wrap{margin:8px 0 12px}
+.player{width:100%;border:0;border-radius:14px;background:#0000000d;display:block}
+.yt-player{aspect-ratio:16/9}.sp-player{height:152px}.sc-player{height:166px}
+.stickers{display:flex;gap:6px;flex-wrap:wrap}
+.stk-pick{width:44px;height:44px;border-radius:12px;border:2px solid var(--line);background:#fff;font-size:24px;cursor:pointer}
+.stk-pick[aria-pressed="true"]{border-color:#ff6b8a;background:#fff0f4;transform:scale(1.08)}
+.chip.dept{background:#ece6ff}.chip.event{background:#d8f5e8}
 </style>
 
 <div id="app">
@@ -973,7 +1011,7 @@ button.fr-row{cursor:pointer}
    ถ้าเว้นว่างไว้ หน้าเว็บจะมีหน้าตั้งค่าให้วาง URL และทดสอบการเชื่อมต่อ แล้วสร้างลิงก์ ?api=... ไว้แจกครูได้
    ========================================================= */
 const API_URL_DEFAULT = 'https://script.google.com/macros/s/AKfycbw01JxQ5pnPUD7XUwCfA2UnqgEVhYPJk0ObfENDGKc_ihkLU_boZOJ80k7lFUwgiN02/exec';
-const APP_VERSION = '2026.10.22.6';
+const APP_VERSION = '2026.10.22.7';
 const API_URL = (() => {
   const okUrl = u => typeof u === 'string' && /^https?:\/\/\S+$/.test(u.trim());
   let ls = null; try { ls = window.localStorage; } catch(e){}
@@ -1730,7 +1768,18 @@ const K = () => isM() ? 'ครับ' : 'ค่ะ';
 const KQ = () => isM() ? 'ครับ' : 'คะ';
 const NAME = () => (player && player.name) || 'คนใหม่';
 const fmt = s => s.replace(/\{n\}/g, NAME()).replace(/\{k\}/g, K());
-const moodOf = id => MOODS.find(m => m.id === id);
+const FEEL_EMOJIS = [
+  ['😊','มีความสุข','bright'],['😄','สดใส','bright'],['🥰','อบอุ่นใจ','bright'],['🤩','ตื่นเต้น','bright'],['🎉','มีเรื่องดี','proud'],['🌟','ภูมิใจ','proud'],
+  ['💪','ฮึดสู้','proud'],['🫶','ขอบคุณตัวเอง','proud'],['😌','สบายใจ','calm'],['🙂','เรื่อย ๆ','calm'],['🍃','ชิล ๆ','calm'],['☕','ขอกาแฟก่อน','calm'],
+  ['🥱','เหนื่อย','tired'],['😴','ง่วง','tired'],['😮‍💨','เหนื่อยใจ','tired'],['🤒','ไม่ค่อยสบาย','tired'],['🤔','คิดไม่ออก','stuck'],['😵‍💫','งง ๆ','stuck'],
+  ['🤯','งานล้น','stuck'],['🤫','อยากเงียบ','quiet'],['😟','กังวล','worried'],['😢','เศร้า','worried'],['😤','หงุดหงิด','worried'],['🌧️','ใจหม่น ๆ','worried']
+];
+const moodOf = id => {
+  if (!id) return null;
+  const m = MOODS.find(x => x.id === id); if (m) return m;
+  const f = FEEL_EMOJIS.find(x => x[0] === id);
+  return {id, ico:String(id).slice(0, 12), name:f ? f[1] : '', tip:f ? f[2] : ''};
+};
 
 /* =========================================================
    CREATOR (step by step, with rendered thumbnails)
@@ -1855,9 +1904,8 @@ const SEATS = {
   window:{x:-10.32, z:1.6, y:0.08, face:Math.PI/2, exit:{x:-9.5, z:1.6}},
   circle:{x:1.25, z:5.4, y:0.08, face:Math.PI/2, exit:{x:0.55, z:5.4}}
 };
-const PLC_TABLE = {x:8.3, z:-0.4};
+const PLC_TABLE = {x:2.2, z:5.4};
 const PLC_SEATS = [[-1,0],[0,-1],[1,0],[0,1]].map(([dx,dz]) => ({x:PLC_TABLE.x + dx, z:PLC_TABLE.z + dz, y:0.08, face:Math.atan2(-dx, -dz), exit:{x:PLC_TABLE.x + dx*1.75, z:PLC_TABLE.z + dz*1.75}}));
-PLC_SEATS[2].exit = {x:PLC_TABLE.x + 0.5, z:PLC_TABLE.z - 1.6};
 function plcSit(){
   if (!G.started || !G.me) return;
   const taken = [...NET.peers.values()].filter(e => e.plc).map(e => e.obj.position);
@@ -1933,6 +1981,25 @@ function boardTexture(){
     });
   });
 }
+function cheerTexture(){
+  return canvasTex(512, 660, (g, W, H)=>{
+    g.fillStyle = '#fff5f8'; g.fillRect(0, 0, W, H);
+    g.fillStyle = '#ff6b8a'; rr(g, 24, 16, W - 48, 70, 30); g.fill();
+    g.fillStyle = '#fff'; g.font = '38px Itim, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('💛 กระดานกำลังใจ', W/2, 52);
+    const list = (G.boardTopics || []).filter(t => t.category === 'กำลังใจ').slice(0, 4);
+    const items = list.length ? list : [{message:'เขียนข้อความให้กำลังใจเพื่อนครูได้ที่นี่', color:'#fff1a8', meta:{sticker:'🌈'}}];
+    items.forEach((t, i) => {
+      const x = 30 + (i % 2) * 230, y = 112 + Math.floor(i / 2) * 270;
+      g.save(); g.translate(x + 105, y + 120); g.rotate(((i * 37) % 7 - 3) * 0.035);
+      g.fillStyle = '#0000001a'; g.fillRect(-98, -112, 206, 236); g.fillStyle = t.color || '#fff1a8'; g.fillRect(-103, -117, 206, 236);
+      g.fillStyle = '#ff6b8a'; g.beginPath(); g.arc(0, -112, 9, 0, Math.PI * 2); g.fill();
+      g.font = '40px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'top'; g.fillText((t.meta && t.meta.sticker) || '💛', 0, -98);
+      g.fillStyle = '#2f3e46'; g.font = '22px Mali, sans-serif'; g.textAlign = 'left'; wrapText(g, t.message || '', -88, -40, 176, 30, 5);
+      g.restore();
+    });
+  });
+}
+setInterval(() => { if (G.cheerTex && G._cbt !== G.boardTopics){ G._cbt = G.boardTopics; redraw(G.cheerTex); } }, 2500);
 function ventTexture(){
   return canvasTex(640, 430, (g, W, H)=>{
     g.fillStyle = '#fdf6e3'; g.fillRect(0,0,W,H);
@@ -1983,7 +2050,7 @@ function plcBoardTexture(){
     const arch = ((DATA.get('archive') || {}).list || []).filter(p => p.status === 'closed');
     const rows = open.map(p => ['● กำลังคุย', p.title, '#2e86de']).concat(arch.map(p => [new Date(p.createdAt).toLocaleDateString('th-TH', {day:'numeric', month:'short'}), p.title, '#2f3e46'])).slice(0, 5);
     g.textAlign = 'left';
-    if (!rows.length){ g.fillStyle = '#6c7d84'; g.font = '28px Mali, sans-serif'; wrapText(g, 'ยังไม่มีสรุป PLC ไปเปิดวงคุยที่โต๊ะกลม PLC ได้เลย', 40, 120, W - 80, 40, 3); return; }
+    if (!rows.length){ g.fillStyle = '#6c7d84'; g.font = '28px Mali, sans-serif'; wrapText(g, 'ยังไม่มีสรุป PLC ไปเปิดวงคุยที่โต๊ะล้อมวง PLC ได้เลย', 40, 120, W - 80, 40, 3); return; }
     rows.forEach((r, i) => {
       const y = 112 + i * 60;
       g.fillStyle = i % 2 ? '#f3f8fd' : '#e8f2fc'; rr(g, 26, y - 6, W - 52, 52, 12); g.fill();
@@ -1993,11 +2060,11 @@ function plcBoardTexture(){
   });
 }
 const OBJ_LABELS = {
-  board:['📌','กระดานปักหมุด','แชร์ไอเดียสอน ข่าวดี รีวิวการนำไปใช้'], vent:['🗒️','กระดานบ่น','ระบายแบบไม่แสดงชื่อ'], plcboard:['🧑‍🏫','กระดาน PLC','ดูคลังสรุป PLC ย้อนหลัง'], plctable:['🟢','โต๊ะกลม PLC','เปิดวงหรือเข้าร่วมคุย PLC'],
+  board:['📌','กระดานปักหมุด','แชร์ไอเดียสอน ข่าวดี รีวิวการนำไปใช้'], vent:['🗒️','กระดานบ่น','ระบายแบบไม่แสดงชื่อ'], plcboard:['📚','กระดาน PLC','คลังสรุป PLC ย้อนหลัง'],
   coffee:['☕','มุมกาแฟ','ชงเครื่องดื่มให้ใจสักแก้ว'], cooler:['💧','ตู้น้ำเย็น','ดื่มน้ำ เติมพลัง'], sofa:['🛋️','โซฟารับฟัง','คุยกับพี่ฟ้า (AI) หรืองีบพัก'],
   window:['🎧','หน้าต่างพักสายตา','ฟังเสียงฝน เสียงนก พักหายใจ'], duty:['📋','ตารางเวร','ดูเวรประตูประจำสัปดาห์'], shelf:['📚','ชั้นหนังสือ','อ่านแก้เครียด'],
   copier:['📄','แชร์ใบงาน','แชร์ ขอบคุณ เล่าผลการใช้ บันทึกใบงาน'], media:['🎬','มุมแบ่งปันสื่อการเรียนรู้','แชร์คลิป สไลด์ เกม สื่อทำมือ'], tree:['🪴','ต้นไม้พักใจ','รดน้ำและบันทึกเรื่องดี ๆ'], cards:['🃏','ไพ่กำลังใจ','เปิดไพ่ถึงคุณครู'],
-  play:['🎨','โต๊ะเล่นเพลิน','ระบายสี ต่อบล็อก ไม่มีคะแนน'], circle:['💬','โต๊ะวงคุย','คุยหัวข้อเบา ๆ กับเพื่อนครู'], mail:['📮','ตู้จดหมาย','เขียนจดหมายถึงตัวเอง'],
+  play:['🎨','โต๊ะเล่นเพลิน','ระบายสี ต่อบล็อก ไม่มีคะแนน'], circle:['🧑‍🏫','โต๊ะล้อมวง PLC','เปิดวง PLC · ดูคลัง PLC'], cheerboard:['💛','กระดานกำลังใจ','ส่งข้อความให้กำลังใจเพื่อนครู'], radio:['📻','มุมวิทยุ','แชร์เพลงเชื่อมใจ กดฟังได้เลย'], music:['🎸','มุมดนตรี · ยามว่าง','แลกเปลี่ยนกิจกรรมยามว่าง'], mail:['📮','ตู้จดหมาย','เขียนจดหมายถึงตัวเอง'],
   mirror:['🪞','กระจก','วันนี้ฉันรู้สึกอย่างไร'], myDesk:['🗂️','โต๊ะของฉัน','ทำงานค้าง เขียนแผน ตรวจงาน']
 };
 let showObjLabels = store.get('objLabels', true);
@@ -2053,10 +2120,10 @@ function buildRoom(){
   bench.add(box(0.15, 0.35, 0.4, '#ffcf5a', -0.2, 0.62, -0.8)); S.add(bench);
   G.obstacles.push([-10.75, -10.15, 0.3, 2.9]);
   addInteract({id:'window', kind:'obj', name:'หน้าต่างพักสายตา', verb:'ไปนั่งริมหน้าต่าง', icon:'🎧', group:w1, ax:-9.5, az:1.6, face:-Math.PI/2});
-  const w2 = new T.Group(); w2.position.set(7.8, 2.45, -7.78);
-  w2.add(plane(2.6, 1.6, skyM)); w2.add(box(2.8, 0.12, 0.12, '#ffffff', 0, 0.84, 0.04)); w2.add(box(2.8, 0.14, 0.22, '#ffffff', 0, -0.84, 0.08)); w2.add(box(0.1, 1.6, 0.1, '#ffffff', 0, 0, 0.04));
-  w2.add(box(0.1,1.7,0.1,'#ffffff',-1.35,0,0.04)); w2.add(box(0.1,1.7,0.1,'#ffffff',1.35,0,0.04));
-  [-1,1].forEach(s => w2.add(box(0.45, 2.0, 0.08, '#bfe3fa', s*1.55, -0.05, 0.12)));
+  const w2 = new T.Group(); w2.position.set(8.6, 2.9, -7.78);
+  w2.add(plane(1.9, 1.3, skyM)); w2.add(box(2.06, 0.1, 0.12, '#ffffff', 0, 0.69, 0.04)); w2.add(box(2.06, 0.12, 0.2, '#ffffff', 0, -0.69, 0.08)); w2.add(box(0.08, 1.3, 0.1, '#ffffff', 0, 0, 0.04));
+  w2.add(box(0.08,1.4,0.1,'#ffffff',-0.99,0,0.04)); w2.add(box(0.08,1.4,0.1,'#ffffff',0.99,0,0.04));
+  [-1,1].forEach(s => w2.add(box(0.32, 1.6, 0.08, '#bfe3fa', s*1.17, -0.05, 0.12)));
   S.add(w2);
   // cork pinboard
   const bg = new T.Group(); bg.position.set(-1.5, 0, -7.75);
@@ -2135,7 +2202,7 @@ function buildRoom(){
   S.add(cp); addObstacle(10.1, -2.6, 0.45, 0.55);
   addInteract({id:'copier', kind:'obj', name:'แชร์ใบงาน', verb:'เปิดคลังแบ่งปันใบงาน', icon:'🖨️', group:cp, ax:9.1, az:-2.6, face:Math.PI/2});
   // media-sharing corner (มุมแบ่งปันสื่อการเรียนรู้) — ชิดผนังหลัง มองเห็นชัด
-  const md = new T.Group(); md.position.set(8.2, 0, -7.25);
+  const md = new T.Group(); md.position.set(8.6, 0, -7.25);
   md.add(box(1.5, 0.75, 0.5, '#f4d9a8', 0, 0.375, 0)); md.add(box(1.56, 0.06, 0.54, '#d9b77e', 0, 0.77, 0));
   md.add(box(0.7, 0.28, 0.02, '#fbe8c6', -0.37, 0.4, 0.26)); md.add(box(0.7, 0.28, 0.02, '#fbe8c6', 0.37, 0.4, 0.26));
   md.add(box(1.25, 0.76, 0.07, '#33424a', 0, 1.36, -0.08)); md.add(box(1.15, 0.66, 0.01, '#7cc4f0', 0, 1.36, -0.04));
@@ -2143,16 +2210,35 @@ function buildRoom(){
   md.add(box(0.08, 0.14, 0.08, '#33424a', 0, 0.86, -0.08));
   md.add(box(0.2, 0.28, 0.05, '#ff9b9b', 0.55, 0.92, 0.12)); md.add(box(0.2, 0.22, 0.05, '#9be0b4', 0.6, 0.89, 0.04));
   md.add(cyl(0.09, 0.09, 0.04, '#ffcf5a', -0.55, 0.82, 0.12, 16));
-  S.add(md); addObstacle(8.2, -7.25, 0.78, 0.32);
-  addInteract({id:'media', kind:'obj', name:'มุมแบ่งปันสื่อการเรียนรู้', verb:'เปิดมุมแบ่งปันสื่อ', icon:'🎬', group:md, ax:8.2, az:-6.5, face:Math.PI});
-  // PLC round table (โต๊ะกลม PLC)
-  const pt = new T.Group(); pt.position.set(PLC_TABLE.x, 0, PLC_TABLE.z);
-  pt.add(cyl(0.75, 0.75, 0.06, '#e6f4fd', 0, 0.7, 0, 32)); pt.add(cyl(0.1, 0.25, 0.68, '#9aa8ae', 0, 0.34, 0, 12));
-  pt.add(cyl(0.3, 0.3, 0.012, '#2e86de', 0, 0.735, 0, 24)); pt.add(box(0.22, 0.01, 0.3, '#ffffff', 0.32, 0.74, 0.1)); pt.add(box(0.22, 0.01, 0.3, '#fff6d9', -0.3, 0.74, -0.12));
-  pt.add(cyl(0.05, 0.04, 0.09, '#ffcf5a', 0.1, 0.78, -0.35, 12));
-  PLC_SEATS.forEach((st, i) => pt.add(stool(st.x - PLC_TABLE.x, st.z - PLC_TABLE.z, ['#7cc4f0','#a99bf0','#3aa88f','#ffcf5a'][i])));
-  S.add(pt); addObstacle(PLC_TABLE.x, PLC_TABLE.z, 0.75, 0.75);
-  addInteract({id:'plctable', kind:'obj', name:'โต๊ะกลม PLC', verb:'เปิดวงหรือเข้าร่วมคุย PLC', icon:'🟢', group:pt, ax:PLC_TABLE.x - 1.35, az:PLC_TABLE.z + 0.55, face:Math.PI/2});
+  S.add(md); addObstacle(8.6, -7.25, 0.78, 0.32);
+  addInteract({id:'media', kind:'obj', name:'มุมแบ่งปันสื่อการเรียนรู้', verb:'เปิดมุมแบ่งปันสื่อ', icon:'🎬', group:md, ax:8.6, az:-6.5, face:Math.PI});
+  // กระดานกำลังใจ (ผนังหลัง ข้างกระดานบ่น)
+  const cb = new T.Group(); cb.position.set(6.55, 0, -7.75);
+  cb.add(box(1.55, 1.95, 0.1, '#ff9fb8', 0, 2.2, 0));
+  G.cheerTex = cheerTexture(); const cbp = plane(1.42, 1.82, new T.MeshBasicMaterial({map:G.cheerTex})); cbp.position.set(0, 2.2, 0.06); cb.add(cbp);
+  const hrt = mesh(new T.SphereGeometry(0.12, 12, 10), '#ff6b8a'); hrt.position.set(0.68, 3.15, 0.1); cb.add(hrt);
+  S.add(cb);
+  addInteract({id:'cheerboard', kind:'obj', name:'กระดานกำลังใจ', verb:'เปิดกระดานกำลังใจ', icon:'💛', group:cb, ax:6.55, az:-6.75, face:Math.PI});
+  // มุมวิทยุ (ด้านหน้าซ้าย)
+  const rd = new T.Group(); rd.position.set(-3.2, 0, 6.8);
+  rd.add(box(1.0, 0.7, 0.5, '#c98d5a', 0, 0.35, 0)); rd.add(box(1.04, 0.05, 0.54, '#a87043', 0, 0.72, 0));
+  rd.add(box(0.7, 0.4, 0.3, '#ff9b71', 0, 0.95, 0)); const spk = cyl(0.13, 0.13, 0.02, '#33424a', -0.17, 0.95, 0.16, 20); spk.rotation.x = Math.PI/2; rd.add(spk);
+  rd.add(box(0.24, 0.1, 0.02, '#fff6d9', 0.16, 1.02, 0.155)); rd.add(sph(0.035, '#ffcf5a', 0.1, 0.88, 0.16)); rd.add(sph(0.035, '#7cc4f0', 0.22, 0.88, 0.16));
+  const ant = cyl(0.012, 0.012, 0.55, '#9aa8ae', 0.22, 1.35, -0.05, 6); ant.rotation.z = -0.5; rd.add(ant);
+  rd.add(box(0.12, 0.16, 0.12, '#a99bf0', 0.38, 0.81, 0.1)); rd.add(box(0.1, 0.14, 0.1, '#9be0b4', -0.38, 0.8, 0.1));
+  S.add(rd); addObstacle(-3.2, 6.8, 0.52, 0.3);
+  addInteract({id:'radio', kind:'obj', name:'มุมวิทยุ · เพลงเชื่อมใจ', verb:'เปิดมุมวิทยุ ฟังเพลงเชื่อมใจ', icon:'📻', group:rd, ax:-3.2, az:5.95, face:0});
+  // มุมดนตรี · ยามว่าง (ด้านหน้าขวา)
+  const mu = new T.Group(); mu.position.set(4.45, 0, 6.85);
+  const rug = cyl(0.85, 0.85, 0.02, '#c9f2e4', 0, 0.01, 0, 28); rug.scale.z = 0.6; mu.add(rug);
+  mu.add(box(0.05, 0.6, 0.05, '#33424a', -0.35, 0.3, 0)); const gb = mesh(new T.SphereGeometry(0.2, 14, 12), '#e8916a'); gb.scale.set(1, 1.15, 0.45); gb.position.set(-0.35, 0.62, 0.05); mu.add(gb);
+  const gb2 = mesh(new T.SphereGeometry(0.15, 14, 12), '#e8916a'); gb2.scale.set(1, 1, 0.45); gb2.position.set(-0.35, 0.86, 0.05); mu.add(gb2);
+  mu.add(box(0.05, 0.5, 0.04, '#8a5a3c', -0.35, 1.2, 0.05)); mu.add(cyl(0.05, 0.05, 0.02, '#5b3a28', -0.35, 0.68, 0.14, 12));
+  mu.add(box(0.8, 0.06, 0.3, '#ffffff', 0.3, 0.72, 0)); mu.add(box(0.8, 0.02, 0.1, '#33424a', 0.3, 0.76, 0.06));
+  [[0.0,-0.1],[0.6,-0.1]].forEach(([x,z]) => mu.add(box(0.04, 0.7, 0.04, '#9aa8ae', x, 0.35, z)));
+  mu.add(sph(0.07, '#ffcf5a', 0.62, 0.05, 0.35)); mu.add(box(0.18, 0.04, 0.24, '#7cc4f0', -0.05, 0.03, 0.38));
+  S.add(mu); addObstacle(4.45, 6.85, 0.7, 0.38);
+  addInteract({id:'music', kind:'obj', name:'มุมดนตรี · ยามว่างของครู', verb:'แลกเปลี่ยนกิจกรรมยามว่าง', icon:'🎸', group:mu, ax:4.45, az:6.0, face:0});
   // tree of rest
   const tr = new T.Group(); tr.position.set(10.0, 0, -6.7);
   tr.add(cyl(0.42, 0.32, 0.6, '#ffffff', 0, 0.3, 0, 20)); tr.add(cyl(0.44, 0.44, 0.08, '#3aa88f', 0, 0.6, 0, 20)); tr.add(cyl(0.06, 0.09, 0.9, '#9c6b45', 0, 0.95, 0, 10));
@@ -2181,7 +2267,7 @@ function buildRoom(){
   cr.add(cyl(0.06,0.05,0.1,'#3aa88f',0.2,0.78,0.1,12)); cr.add(cyl(0.06,0.05,0.1,'#ffcf5a',-0.25,0.78,-0.1,12));
   [[-1.0,0,'#ffcf5a'],[1.0,0,'#7cc4f0'],[0,-1.0,'#a99bf0'],[0,1.0,'#3aa88f']].forEach(([x,z,c]) => cr.add(stool(x, z, c)));
   S.add(cr); addObstacle(2.2, 5.4, 0.75, 0.75);
-  addInteract({id:'circle', kind:'obj', name:'โต๊ะวงคุย', verb:'นั่งที่โต๊ะวงคุย', icon:'💬', group:cr, ax:0.55, az:5.4, face:Math.PI/2});
+  addInteract({id:'circle', kind:'obj', name:'โต๊ะล้อมวง PLC', verb:'เปิดวง PLC · ดูคลัง PLC', icon:'🧑‍🏫', group:cr, ax:0.55, az:5.4, face:Math.PI/2});
   // mailbox
   const mb = new T.Group(); mb.position.set(-5.0, 0, 6.9);
   mb.add(cyl(0.06, 0.06, 1.0, '#e5c49d', 0, 0.5, 0, 10)); mb.add(box(0.5, 0.42, 0.62, '#2e86de', 0, 1.15, 0));
@@ -2199,7 +2285,7 @@ function buildRoom(){
   const pf2 = plane(1.6, 1.05, pfm); pf2.position.set(0, 1.42, -0.035); pf2.rotation.y = Math.PI; pb.add(pf2);
   pb.add(box(1.5, 0.05, 0.14, '#9aa8ae', 0, 0.86, 0.05)); const mk = cyl(0.02, 0.02, 0.14, '#e74c3c', -0.4, 0.9, 0.08, 8); mk.rotation.z = Math.PI/2; pb.add(mk);
   S.add(pb); addObstacle(9.85, 1.6, 0.6, 0.55);
-  addInteract({id:'plcboard', kind:'obj', name:'กระดาน PLC', verb:'ดูคลังสรุป PLC', icon:'🧑‍🏫', group:pb, ax:9.2, az:2.35, face:2.44});
+  addInteract({id:'plcboard', kind:'obj', name:'กระดาน PLC', verb:'ดูคลัง PLC', icon:'🧑‍🏫', group:pb, ax:9.2, az:2.35, face:2.44});
   // mirror + entrance door
   const mr = new T.Group(); mr.position.set(9.7, 0, 3.4); mr.rotation.y = -Math.PI/2;
   const fr = mesh(new T.TorusGeometry(0.5, 0.07, 10, 32), '#ffcf5a'); fr.scale.set(0.8, 1.35, 1); fr.position.y = 1.35; mr.add(fr);
@@ -2481,7 +2567,7 @@ function moveBody(pos, dx, dz, r){
   return false;
 }
 function lerpAngle(a, b, t){ let d = ((b - a + Math.PI) % (Math.PI*2)) - Math.PI; if (d < -Math.PI) d += Math.PI*2; return a + d*t; }
-function sitAt(name){ const s = SEATS[name]; G.me.seat = s; G.me.target = null; G.me.pending = null; const o = G.me.obj; o.position.set(s.x, s.y, s.z); o.rotation.y = s.face; }
+function sitAt(name){ const s = SEATS[name]; G.me.vx = G.me.vz = 0; G.me.seat = s; G.me.target = null; G.me.pending = null; const o = G.me.obj; o.position.set(s.x, s.y, s.z); o.rotation.y = s.face; }
 function standUp(){ const s = G.me && G.me.seat; if (!s) return; G.me.seat = null; G.me.obj.position.set(s.exit.x, 0, s.exit.z); }
 
 function updatePlayer(dt){
@@ -2508,15 +2594,22 @@ function updatePlayer(dt){
     }
   }
   const len = Math.hypot(dx, dz);
-  if (len > 0){
-    dx /= len; dz /= len;
-    const sp = (P.energy < 20 ? 2.3 : 3.4) * dt;
-    let step = sp; if (me.target){ const d = Math.hypot(me.target.x-pos.x, me.target.z-pos.z) - me.stopDist; step = Math.min(sp, Math.max(d, 0.01)); }
-    const moved = moveBody(pos, dx*step, dz*step, 0.3);
-    o.rotation.y = lerpAngle(o.rotation.y, Math.atan2(dx, dz), Math.min(1, dt*12));
-    animChar(o, 'walk', G.time);
+  // เดินเร็วขึ้นและนุ่มขึ้น: เร่ง/ชะลอแบบลื่น ๆ แทนการขยับทีละสเต็ปคงที่
+  const vmax = P.energy < 20 ? 3.4 : 5.0;
+  const wx = len > 0 ? dx/len*vmax : 0, wz = len > 0 ? dz/len*vmax : 0;
+  const acc = Math.min(1, dt * (len > 0 ? 11 : 18));
+  me.vx = (me.vx || 0) + (wx - (me.vx || 0)) * acc; me.vz = (me.vz || 0) + (wz - (me.vz || 0)) * acc;
+  const spd = Math.hypot(me.vx, me.vz);
+  if (spd > 0.08){
+    let sx = me.vx*dt, sz = me.vz*dt;
+    if (me.target){ const rem = Math.hypot(me.target.x-pos.x, me.target.z-pos.z) - me.stopDist, sl = Math.hypot(sx, sz); if (sl > rem){ const f = Math.max(rem, 0.01)/sl; sx *= f; sz *= f; } }
+    const moved = moveBody(pos, sx, sz, 0.3);
+    if (!moved){ me.vx *= 0.4; me.vz *= 0.4; }
+    const face = len > 0 ? Math.atan2(dx, dz) : Math.atan2(me.vx, me.vz);
+    o.rotation.y = lerpAngle(o.rotation.y, face, Math.min(1, dt*14));
+    animChar(o, 'walk', G.time * (0.75 + spd / vmax * 0.5));
     if (me.target){ if (!moved){ me.stuck += dt; if (me.stuck > 0.4){ const it = me.pending; const ax = it && it.ax != null ? it.ax : me.target.x, az = it && it.az != null ? it.az : me.target.z; if (it && Math.hypot(ax-pos.x, az-pos.z) < 2.4) arrive(); else me.target = null; } } else me.stuck = 0; }
-  } else animChar(o, 'idle', G.time);
+  } else { me.vx = me.vz = 0; animChar(o, 'idle', G.time); }
 }
 function arrive(){ const it = G.me.pending; G.me.target = null; G.me.pending = null; if (it) interact(it); }
 function faceTo(obj, x, z){ obj.rotation.y = Math.atan2(x - obj.position.x, z - obj.position.z); }
@@ -2524,7 +2617,7 @@ function faceTo(obj, x, z){ obj.rotation.y = Math.atan2(x - obj.position.x, z - 
 /* NPC wandering */
 const DEST = [
   {x:-9.0, z:-5.9, say:'ขอกาแฟสักแก้ว…'}, {x:-9.3, z:-3.2, say:'น้ำเย็นชื่นใจ'}, {x:-9.4, z:-0.4, say:'ฟ้าสวยจัง อยากไปเที่ยว'},
-  {x:-1.5, z:-6.6, say:'มีใครปักหมุดอะไรใหม่บ้างนะ'}, {x:3.9, z:-6.6, say:'ได้ยินนะ ส่งกำลังใจให้'}, {x:6.2, z:2.7, say:'เปิดไพ่สักใบดีกว่า'}, {x:9.1, z:-1.9, say:'มีใครแชร์ใบงานใหม่บ้างนะ'}, {x:8.2, z:-6.3, say:'มีสื่อการสอนเจ๋ง ๆ มาใหม่ไหม'}
+  {x:-1.5, z:-6.6, say:'มีใครปักหมุดอะไรใหม่บ้างนะ'}, {x:3.9, z:-6.6, say:'ได้ยินนะ ส่งกำลังใจให้'}, {x:6.2, z:2.7, say:'เปิดไพ่สักใบดีกว่า'}, {x:9.1, z:-1.9, say:'มีใครแชร์ใบงานใหม่บ้างนะ'}, {x:8.6, z:-6.3, say:'มีสื่อการสอนเจ๋ง ๆ มาใหม่ไหม'}, {x:6.55, z:-6.55, say:'ขอรับกำลังใจสักหน่อย'}, {x:-3.2, z:5.85, say:'เปิดเพลงฟังสักเพลงดีกว่า'}, {x:4.45, z:5.9, say:'วันหยุดนี้ลองเล่นอูคูเลเล่ดีไหมนะ'}
 ];
 function route(n, dest){
   const h = n.def.home, row1 = h.z < -2, hubZ = row1 ? -3.85 : 0.2, pts = [{x:h.x, z:hubZ}];
@@ -2631,6 +2724,11 @@ const ACTIONS = {
     {label:'ดื่มน้ำเย็นชื่นใจ', fx:{energy:8, mood:3}, min:5, doing:'อึก อึก อึก…', msg:['สดชื่น! ดื่มน้ำวันละ 8 แก้วนะครู']},
     {label:'เติมน้ำใส่ขวดให้ครูบอล', fx:{}, min:5, doing:'กำลังเติมน้ำ…', show:()=>qState('pe_water')==='active' && !P.carry.includes('water'), msg:['ได้ขวดน้ำเย็นเจี๊ยบ เอาไปให้ครูบอลกัน'], after(){ P.carry.push('water'); }}
   ],
+  circle:[
+    {label:'🟢 เปิดวง / เข้าร่วมวง PLC', sub:'ตั้งหัวข้อคุยเรื่องการสอน แล้วชวนเพื่อนครูมานั่งล้อมวงที่โต๊ะนี้', feature:true, fx:{}, open:()=>PLC.openLobby('live')},
+    {label:'📚 ดูคลัง PLC', sub:'สรุปผลการแลกเปลี่ยนของวงที่ผ่านมา', feature:true, fx:{}, open:()=>PLC.openLobby('archive')},
+    {label:'💬 นั่งคุยหัวข้อเบา ๆ', sub:'ฟังเพื่อนครูเล่าเรื่องเล็ก ๆ ที่ทำให้ยิ้ม', fx:{}, open:()=>{ sitAt('circle'); openCircle(); }}
+  ],
   sofa:[
     {label:'คุยกับพี่ฟ้า (AI ผู้รับฟัง)', sub:'เลือกได้ว่าอยากให้ฟังเฉย ๆ ช่วยถาม หรือช่วยคิด', feature:true, fx:{}, open:()=>openListener()},
     {label:'งีบ 15 นาที', fx:{energy:35, mood:5}, min:30, doing:'Zzz…', seat:'sofa', risky:true, msg:['ตื่นมาสดชื่นเหมือนได้ปิดเทอม','ฝันว่าได้ OT แต่ตื่นมาก็ไม่ได้']},
@@ -2650,8 +2748,8 @@ const ACTIONS = {
     {label:'แอบลบชื่อตัวเองออก', fx:{mood:6}, min:5, doing:'กำลังลบอย่างเนียน…', msg:['ลบสำเร็จ! แต่พี่ภาถ่ายรูปตารางเก็บไว้แล้ว']}
   ]
 };
-const DIRECT = { plcboard:()=>PLC.openLobby('archive'), board:()=>openBoard(), vent:()=>openVents(), mirror:()=>openMirror(), cards:()=>openCards(), tree:()=>openTree(), play:()=>openPlay(), circle:()=>{ sitAt('circle'); openCircle(); }, mail:()=>openLetters(), media:()=>openShare('media'),
-  copier:()=>openShare('worksheet'), plctable:()=>PLC.openLobby('live') };
+const DIRECT = { plcboard:()=>PLC.openLobby('archive', true), board:()=>openBoard(), vent:()=>openVents(), mirror:()=>openMirror(), cards:()=>openCards(), tree:()=>openTree(), play:()=>openPlay(), mail:()=>openLetters(), media:()=>openShare('media'),
+  copier:()=>openShare('worksheet'), cheerboard:()=>openShare('cheer'), radio:()=>openShare('radio'), music:()=>openShare('hobby') };
 
 function interact(it){
   G.me.target = null; G.me.pending = null;
@@ -2740,7 +2838,7 @@ function syncClock(silent){
     const first = !P.dateKey;
     P.dateKey = key; P.flags = {}; P.talked = {}; G.dayOver = false;
     if (!first){
-      P.day += 1; P.energy = clamp(P.energy + 55, 0, 100); P.mood = clamp(P.mood + 10, 0, 100); P.work += 3; P.feeling = null;
+      P.day += 1; P.energy = clamp(P.energy + 55, 0, 100); P.mood = clamp(P.mood + 10, 0, 100); P.work += 3; P.feeling = null; P.feelText = '';
       Object.keys(P.quests).forEach(k => { if (P.quests[k] === 'done') P.quests[k] = 'none'; });
       toast(`อรุณสวัสดิ์ วันใหม่แล้ว! มีงานเข้ามา 3 ชิ้น แวะส่องกระจกหน้าประตูก่อนไหม`);
     }
@@ -2774,7 +2872,7 @@ function checkEvents(){
 function hudUpdate(){
   const now = syncClock(true);
   $('#hudName').textContent = 'ครู' + NAME(); $('#hudDay').textContent = `มาแล้ว ${P.day} วัน`;
-  const md = moodOf(P.feeling); $('#moodChip').textContent = md ? `วันนี้: ${md.ico} ${md.name}` : 'วันนี้รู้สึกอย่างไร? แตะเพื่อเลือก';
+  const md = moodOf(P.feeling); $('#moodChip').textContent = md ? `วันนี้: ${md.ico} ${(P.feelText || md.name || '').slice(0, 28)}` : 'วันนี้รู้สึกอย่างไร? แตะเพื่อเลือก';
   $('#barEnergy').style.width = P.energy + '%'; $('#valEnergy').textContent = Math.round(P.energy);
   $('#barMood').style.width = P.mood + '%'; $('#valMood').textContent = Math.round(P.mood);
   $('#valWork').textContent = P.work + ' ชิ้น'; $('#clockTime').textContent = hhmm(P.min);
@@ -2944,19 +3042,31 @@ const MOOD_TIPS = {
 };
 function openMirror(onDone){
   const first = typeof onDone === 'function';
-  const b = station('🪞 กระจกหน้าประตู', 'md', first ? onDone : null);
-  let sel = P.feeling;
+  const b = station('🪞 กระจกหน้าประตู · เช็กอินความรู้สึก', 'md', first ? onDone : null);
+  const legacy = MOODS.find(m => m.id === P.feeling);
+  let sel = legacy ? legacy.ico : (P.feeling || ''), text = P.feelText || '';
   const look = player || draft;
+  const tipOf = e => { const f = FEEL_EMOJIS.find(x => x[0] === e); return f ? MOOD_TIPS[f[2]] : (e ? 'ขอบคุณที่บอกความรู้สึกของตัวเองนะ' : ''); };
   b.innerHTML = `<div class="mirror">
-      <div class="mirror-frame"><img alt="ตัวละครของคุณในกระจก" src="${snap(look, 'bust')}"></div>
-      <div><p class="lead" style="margin-top:0">วันนี้ฉันเป็นอย่างไร? เลือกอารมณ์ที่ใกล้เคียงที่สุด ไอคอนเล็ก ๆ จะลอยอยู่เหนือตัวละคร เปลี่ยนได้ตลอดที่กระจกนี้ หรือข้ามไปก่อนก็ได้</p>
-      <div class="moods" id="moodGrid">${MOODS.map(m => `<button type="button" class="moodbtn" data-v="${m.id}" aria-pressed="${m.id===sel}"><span>${m.ico}</span>${esc(m.name)}<small>${esc(m.desc)}</small></button>`).join('')}</div>
-      <p class="lead" id="moodTip" style="margin:12px 0 0">${sel ? esc(MOOD_TIPS[sel]) : ''}</p>
-      <div class="row" style="margin-top:14px"><button class="btn" type="button" id="moodOk">${first ? 'เปิดประตูเข้าห้องพักครู' : 'บันทึก'}</button><button class="btn ghost" type="button" id="moodSkip">${first ? 'ข้ามไปก่อน' : 'ไม่ระบุอารมณ์'}</button></div></div>
+      <div class="mirror-side"><div class="mirror-frame"><img alt="ตัวละครของคุณในกระจก" src="${snap(look, 'bust')}"></div><div class="mirror-emoji" id="mEmo" aria-live="polite">${esc(sel || '❔')}</div></div>
+      <div><p class="lead" style="margin-top:0">วันนี้รู้สึกอย่างไร? <b>เลือกอิโมจิ</b> ที่ตรงใจ แล้ว<b>พิมพ์ความรู้สึก</b>สั้น ๆ ได้ตามใจ อิโมจิจะลอยอยู่เหนือตัวละครให้เพื่อนครูเห็น ส่วนข้อความเห็นเฉพาะคุณ</p>
+      <div class="feel-grid" id="feelGrid" role="radiogroup" aria-label="อิโมจิแทนความรู้สึก">${FEEL_EMOJIS.map(([e, n]) => `<button type="button" class="feelbtn" role="radio" data-e="${e}" aria-checked="${e===sel}" title="${esc(n)}"><span>${e}</span><small>${esc(n)}</small></button>`).join('')}</div>
+      <div class="fld" style="margin:12px 0 0"><label for="feelTxt">พิมพ์ความรู้สึกวันนี้ (ไม่บังคับ)</label>
+        <div class="cform"><input class="txt" id="feelTxt" maxlength="80" placeholder="เช่น เหนื่อยแต่ยังไหว / ดีใจที่เด็กเข้าใจบทเรียน" value="${esc(text)}"><button class="btn ghost" type="button" data-mic-for="feelTxt" title="พูดแทนพิมพ์" aria-label="พูดแทนพิมพ์">🎤</button></div></div>
+      <p class="lead" id="moodTip" style="margin:10px 0 0">${esc(tipOf(sel))}</p>
+      <div class="row" style="margin-top:14px"><button class="btn" type="button" id="moodOk">${first ? 'เปิดประตูเข้าห้องพักครู' : 'บันทึก'}</button><button class="btn ghost" type="button" id="moodSkip">${first ? 'ข้ามไปก่อน' : 'ไม่ระบุความรู้สึก'}</button></div></div>
     </div>`;
-  $$('.moodbtn', b).forEach(x => x.onclick = () => { sel = x.dataset.v; $$('.moodbtn', b).forEach(y => pressed(y, y === x)); $('#moodTip').textContent = MOOD_TIPS[sel]; SFX.pop(); });
-  $('#moodOk').onclick = () => { P.feeling = sel || P.feeling; saveGame(); if (G.started) hudUpdate(); closeModal('#mSt'); };
-  $('#moodSkip').onclick = () => { if (!first) P.feeling = null; saveGame(); if (G.started) hudUpdate(); closeModal('#mSt'); };
+  if (typeof bindVoiceTyping === 'function') bindVoiceTyping(b);
+  $$('.feelbtn', b).forEach(x => x.onclick = () => { sel = x.dataset.e; $$('.feelbtn', b).forEach(y => y.setAttribute('aria-checked', String(y === x))); $('#mEmo').textContent = sel; $('#mEmo').classList.remove('pop'); void $('#mEmo').offsetWidth; $('#mEmo').classList.add('pop'); $('#moodTip').textContent = tipOf(sel); SFX.pop(); });
+  $('#moodOk').onclick = () => {
+    text = $('#feelTxt').value.trim();
+    if (!sel && text) sel = '💭';
+    P.feeling = sel || P.feeling; P.feelText = text; saveGame(); if (G.started) hudUpdate();
+    if (sel) toast(`${sel} เช็กอินความรู้สึกแล้ว${text ? ': ' + text.slice(0, 40) : ''}`, 'good');
+    if (typeof NET !== 'undefined' && NET.running){ NET.dirty = true; if (typeof netPush === 'function') netPush(true); }
+    closeModal('#mSt');
+  };
+  $('#moodSkip').onclick = () => { if (!first){ P.feeling = null; P.feelText = ''; } saveGame(); if (G.started) hudUpdate(); closeModal('#mSt'); };
 }
 
 /* =========================================================
@@ -3389,10 +3499,13 @@ PRIV.on(() => { const st = $('#nbStatus'); if (st && !$('#mSt').hidden && nbRedr
 /* =========================================================
    📌 PIN BOARD — แลกเปลี่ยนวิธีสอน ข่าวดี (Google Sheet + Drive)
    ========================================================= */
-const CATS = ['แลกเปลี่ยนการสอน','ข่าวดี','ชวนคุย','ประกาศ'];
+const CATS = ['แลกเปลี่ยนการสอน','แผนการสอน','ไอเดียงาน 4 ฝ่าย','Workshop & งานแฟร์','ข่าวดี','ชวนคุย','ประกาศ'];
+const DEPTS = ['ฝ่ายบริหารวิชาการ','ฝ่ายบริหารงบประมาณ','ฝ่ายบริหารบุคคล','ฝ่ายบริหารทั่วไป'];
+const DEPT_ICO = {'ฝ่ายบริหารวิชาการ':'📘','ฝ่ายบริหารงบประมาณ':'💰','ฝ่ายบริหารบุคคล':'👥','ฝ่ายบริหารทั่วไป':'🏫'};
+const CAT_ICO = {'แลกเปลี่ยนการสอน':'💡','แผนการสอน':'📝','ไอเดียงาน 4 ฝ่าย':'🏫','Workshop & งานแฟร์':'🎪','ข่าวดี':'🎉','ชวนคุย':'💬','ประกาศ':'📣'};
 const SUBJECTS = ['ทุกกลุ่มสาระ','ภาษาไทย','คณิตศาสตร์','วิทยาศาสตร์และเทคโนโลยี','คอมพิวเตอร์/วิทยาการคำนวณ','สังคมศึกษาฯ','สุขศึกษาและพลศึกษา','ศิลปะ','การงานอาชีพ','ภาษาต่างประเทศ','แนะแนว/กิจกรรม','ปฐมวัย'];
-const CAT_COLOR = {'แลกเปลี่ยนการสอน':'#cdeefd','ข่าวดี':'#fff1a8','ชวนคุย':'#c9f2e4','ประกาศ':'#d9ceff'};
-const CAT_HINT = {'แลกเปลี่ยนการสอน':'เช่น เกมบิงโกเศษส่วน ทบทวนก่อนสอบใน 15 นาที','ข่าวดี':'เช่น นักเรียนชนะการประกวดเล่านิทานระดับเขต!','ชวนคุย':'เช่น ใครมีไอเดียกิจกรรมวันภาษาไทยบ้าง','ประกาศ':'เช่น ประชุมกลุ่มสาระวันศุกร์นี้ 15:30 น.'};
+const CAT_COLOR = {'แผนการสอน':'#ffe2c4','ไอเดียงาน 4 ฝ่าย':'#e3ddff','Workshop & งานแฟร์':'#c9f2e4','แลกเปลี่ยนการสอน':'#cdeefd','ข่าวดี':'#fff1a8','ชวนคุย':'#c9f2e4','ประกาศ':'#d9ceff'};
+const CAT_HINT = {'แผนการสอน':'เช่น แผนการสอนเรื่องเศษส่วน ป.4 แบบ Active Learning 2 คาบ','ไอเดียงาน 4 ฝ่าย':'เช่น ฟอร์มออนไลน์เช็กพัสดุ ลดเวลาฝ่ายงบประมาณ','Workshop & งานแฟร์':'เช่น อบรม AI สำหรับครู เสาร์นี้ ที่ สพป.','แลกเปลี่ยนการสอน':'เช่น เกมบิงโกเศษส่วน ทบทวนก่อนสอบใน 15 นาที','ข่าวดี':'เช่น นักเรียนชนะการประกวดเล่านิทานระดับเขต!','ชวนคุย':'เช่น ใครมีไอเดียกิจกรรมวันภาษาไทยบ้าง','ประกาศ':'เช่น ประชุมกลุ่มสาระวันศุกร์นี้ 15:30 น.'};
 const NOTE_COLORS = ['#fff1a8','#ffe2c4','#c9f2e4','#d9ceff','#cdeefd'];
 const BOARD = {data:null, filter:'ทั้งหมด', subject:'', q:'', sort:'new', view:'list', topic:null, ttab:'review', liked:store.get('liked', {}), draft:null};
 const arr = v => { if (Array.isArray(v)) return v; try { const a = JSON.parse(v || '[]'); return Array.isArray(a) ? a : []; } catch(e){ return []; } };
@@ -3408,7 +3521,9 @@ function canPost(){ return API.mode === 'local' || !!SESSION.token; }
 const isGuest = () => !!(NET.account && NET.account.guest);
 const isMember = () => API.mode === 'local' || (!!SESSION.token && !isGuest());
 const myAcctId = () => API.mode === 'local' ? 'local' : (NET.account && NET.account.id);
-const REVIEWABLE = ['แลกเปลี่ยนการสอน','ชวนคุย'];
+const REVIEWABLE = ['แลกเปลี่ยนการสอน','แผนการสอน','ไอเดียงาน 4 ฝ่าย','ชวนคุย'];
+function boardMetaChips(t){ const m = t.meta || {}; return `${m.dept ? `<span class="chip dept">${DEPT_ICO[m.dept] || ''} ${esc(m.dept)}</span>` : ''}${m.grade && m.grade !== 'ทุกระดับ' ? `<span class="chip">${esc(m.grade)}</span>` : ''}${m.time && t.category === 'แผนการสอน' ? `<span class="chip">⏱ ${esc(m.time)}</span>` : ''}${m.date ? `<span class="chip event">📅 ${esc(fmtEventDate(m.date))}</span>` : ''}${m.place ? `<span class="chip">📍 ${esc(m.place)}</span>` : ''}`; }
+function fmtEventDate(v){ const d = new Date(v + 'T00:00:00'); return isNaN(d) ? v : d.toLocaleDateString('th-TH', {day:'numeric', month:'short', year:'2-digit'}); }
 function reviewStats(id){
   const rs = ((BOARD.data && BOARD.data.reviews) || []).filter(r => r.topicId === id);
   const n = rs.length, avg = n ? rs.reduce((a, r) => a + (+r.rating || 0), 0) / n : 0, tried = rs.filter(r => r.tried).length;
@@ -3473,11 +3588,11 @@ function renderBoard(){
   body.innerHTML = `<div class="searchrow"><input class="txt" id="bSearch" type="search" placeholder="ค้นหาวิธีสอน ข่าวดี หรือชื่อครู" value="${esc(BOARD.q)}" aria-label="ค้นหา">
       <select id="bSubject" aria-label="กลุ่มสาระ"><option value="">ทุกกลุ่มสาระ</option>${SUBJECTS.slice(1).map(s => `<option ${s===BOARD.subject?'selected':''}>${esc(s)}</option>`).join('')}</select>
       <select id="bSort" aria-label="เรียงลำดับ"><option value="new" ${BOARD.sort==='new'?'selected':''}>ล่าสุด</option><option value="rating" ${BOARD.sort==='rating'?'selected':''}>หัวใจรีวิวสูงสุด</option><option value="tried" ${BOARD.sort==='tried'?'selected':''}>นำไปใช้มากที่สุด</option></select></div>
-    <div class="filters">${['ทั้งหมด', ...CATS].map(c => `<button class="seg" type="button" data-f="${esc(c)}" aria-pressed="${c===BOARD.filter}">${esc(c)}</button>`).join('')}<button class="seg" type="button" data-f="saved" aria-pressed="${BOARD.filter==='saved'}">🔖 ที่บันทึกไว้ (${(NB.saved || []).length})</button></div>
+    <div class="filters">${['ทั้งหมด', ...CATS].map(c => `<button class="seg" type="button" data-f="${esc(c)}" aria-pressed="${c===BOARD.filter}">${CAT_ICO[c] ? CAT_ICO[c] + ' ' : ''}${esc(c)}</button>`).join('')}<button class="seg" type="button" data-f="saved" aria-pressed="${BOARD.filter==='saved'}">🔖 ที่บันทึกไว้ (${(NB.saved || []).length})</button></div>
     ${list.length ? `<div class="notes">${list.map((t,i) => { const imgs = arr(t.images), links = arr(t.links); return `
       <button class="note clamp" type="button" data-id="${esc(t.id)}" style="background:${esc(t.color)};--r:${((i*53)%7-3)*0.6}deg">
         ${imgs[0] ? `<span class="note-img"><img alt="" src="${esc(safeUrl(imgs[0]))}" loading="lazy" referrerpolicy="no-referrer"></span>` : ''}
-        <span class="chips"><span class="chip">${esc(t.category)}</span>${t.subject && t.subject !== 'ทุกกลุ่มสาระ' ? `<span class="chip">${esc(t.subject)}</span>` : ''}${st[t.id].proven ? '<span class="chip proven">✅ นำไปใช้ได้จริง</span>' : ''}${isSaved(t.id) ? '<span class="chip">🔖</span>' : ''}</span>
+        <span class="chips"><span class="chip">${CAT_ICO[t.category] || ''} ${esc(t.category)}</span>${t.subject && t.subject !== 'ทุกกลุ่มสาระ' ? `<span class="chip">${esc(t.subject)}</span>` : ''}${boardMetaChips(t)}${st[t.id].proven ? '<span class="chip proven">✅ นำไปใช้ได้จริง</span>' : ''}${isSaved(t.id) ? '<span class="chip">🔖</span>' : ''}</span>
         <h5>${esc(t.title)}</h5><p>${esc(t.message)}</p>
         ${st[t.id].n ? `<span class="rv-line"><span class="hearts-sm">${heartsTxt(st[t.id].avg)}</span> ${st[t.id].avg.toFixed(1)} · ${st[t.id].n} รีวิว · ใช้แล้ว ${st[t.id].tried} คน</span>` : ''}
         <span class="meta"><img alt="" src="${portrait(avatarToLook(t.avatar))}"><span>${esc(t.author)}</span><span class="sp"></span>${imgs.length ? `<span>🖼 ${imgs.length}</span>` : ''}${links.length ? `<span>🔗 ${links.length}</span>` : ''}<span>♥ ${t.likes||0}</span><span>💬 ${counts[t.id]||0}</span></span>
@@ -3492,9 +3607,13 @@ function renderNewForm(){
   const body = $('#bBody'); const who = me();
   if (!isMember()){ body.innerHTML = memberGate('การปักหมุดกระดาน'); bindGate(body); return; }
   const D = BOARD.draft = BOARD.draft || {cat:CATS[0], subject:'ทุกกลุ่มสาระ', color:CAT_COLOR[CATS[0]], images:[], links:[], title:'', message:''};
+  D.meta = D.meta || {dept:DEPTS[0], grade:'ทุกระดับ', time:'', date:'', place:''};
   body.innerHTML = `<form class="form-grid" id="topicForm" style="max-width:700px">
-    <div class="fld" style="margin:0"><span class="lbl">หมวด</span><div class="row" id="tCat">${CATS.map(c=>`<button type="button" class="seg" data-v="${esc(c)}" aria-pressed="${c===D.cat}">${esc(c)}</button>`).join('')}</div></div>
-    <div class="fld" style="margin:0"><label for="tSubject">กลุ่มสาระ</label><select id="tSubject" class="txt">${SUBJECTS.map(s => `<option ${s===D.subject?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
+    <div class="fld" style="margin:0"><span class="lbl">หมวด</span><div class="row" id="tCat">${CATS.map(c=>`<button type="button" class="seg" data-v="${esc(c)}" aria-pressed="${c===D.cat}">${CAT_ICO[c] || ''} ${esc(c)}</button>`).join('')}</div></div>
+    ${D.cat === 'ไอเดียงาน 4 ฝ่าย' ? `<div class="fld" style="margin:0"><span class="lbl">งานฝ่ายไหน</span><div class="row" id="tDept">${DEPTS.map(x => `<button type="button" class="seg" data-v="${esc(x)}" aria-pressed="${x===D.meta.dept}">${DEPT_ICO[x]} ${esc(x)}</button>`).join('')}</div></div>` : ''}
+    ${D.cat === 'แผนการสอน' ? `<div class="row"><div class="fld" style="margin:0;flex:1;min-width:150px"><label for="tGrade">ระดับชั้น</label><select class="txt" id="tGrade">${GRADES.map(x => `<option ${x===D.meta.grade?'selected':''}>${esc(x)}</option>`).join('')}</select></div><div class="fld" style="margin:0;flex:1;min-width:150px"><label for="tTime">จำนวนคาบ / ชั่วโมง</label><input class="txt" id="tTime" maxlength="40" placeholder="เช่น 2 คาบ" value="${esc(D.meta.time || '')}"></div></div>` : ''}
+    ${D.cat === 'Workshop & งานแฟร์' ? `<div class="row"><div class="fld" style="margin:0;flex:1;min-width:150px"><label for="tDate">วันที่จัด</label><input class="txt" id="tDate" type="date" value="${esc(D.meta.date || '')}"></div><div class="fld" style="margin:0;flex:2;min-width:200px"><label for="tPlace">สถานที่ / ออนไลน์</label><input class="txt" id="tPlace" maxlength="80" placeholder="เช่น หอประชุม สพป. หรือ Zoom" value="${esc(D.meta.place || '')}"></div></div>` : ''}
+    <div class="fld" style="margin:0"${D.cat === 'ไอเดียงาน 4 ฝ่าย' ? ' hidden' : ''}><label for="tSubject">กลุ่มสาระ</label><select id="tSubject" class="txt">${SUBJECTS.map(s => `<option ${s===D.subject?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
     <div class="fld" style="margin:0"><label for="tTitle">หัวข้อ</label><input class="txt" id="tTitle" maxlength="100" required placeholder="${esc(CAT_HINT[D.cat])}" value="${esc(D.title)}"></div>
     <div class="fld" style="margin:0"><label for="tMsg">รายละเอียด</label><textarea class="txt" id="tMsg" maxlength="2000" required placeholder="เล่าขั้นตอน สื่อที่ใช้ ผลที่เกิดกับนักเรียน หรือข่าวดีที่อยากแบ่งปัน · วางลิงก์ในข้อความก็คลิกได้">${esc(D.message)}</textarea></div>
     <div class="uploader" id="upZone"><span class="lbl" style="font-weight:700;color:var(--pri-deep);font-size:13px">รูปภาพ (สูงสุด 4 รูป) · ลากรูปมาวาง วางจากคลิปบอร์ด หรือเลือกไฟล์</span>
@@ -3507,10 +3626,11 @@ function renderNewForm(){
     <p style="margin:0;font-size:13px;color:var(--ink-soft)">โพสต์ในชื่อ <b>${esc(who.author)}</b> · ถ้าอยากระบายแบบไม่แสดงชื่อ ใช้กระดานบ่นได้นะ</p>
     <div class="row"><button class="btn" type="submit" id="tSubmit">ปักหมุดเลย</button></div>
     <div class="err" id="tErr" hidden></div></form>`;
-  const keep = () => { D.title = $('#tTitle').value; D.message = $('#tMsg').value; D.subject = $('#tSubject').value; };
+  const keep = () => { D.title = $('#tTitle').value; D.message = $('#tMsg').value; D.subject = $('#tSubject').value; [['grade','#tGrade'],['time','#tTime'],['date','#tDate'],['place','#tPlace']].forEach(([k, id]) => { const el = $(id); if (el) D.meta[k] = el.value; }); };
   const again = () => { keep(); renderNewForm(); };
   const err = m => { $('#tErr').hidden = !m; $('#tErr').textContent = m || ''; };
   $$('#tCat .seg', body).forEach(b => b.onclick = () => { keep(); D.cat = b.dataset.v; if (NOTE_COLORS.includes(CAT_COLOR[D.cat])) D.color = CAT_COLOR[D.cat]; renderNewForm(); });
+  $$('#tDept .seg', body).forEach(b => b.onclick = () => { D.meta.dept = b.dataset.v; $$('#tDept .seg', body).forEach(x => pressed(x, x === b)); });
   $$('#tColor .sw', body).forEach(b => b.onclick = () => { D.color = b.dataset.v; $$('#tColor .sw', body).forEach(x => pressed(x, x === b)); });
   $$('[data-rmimg]', body).forEach(b => b.onclick = () => { D.images.splice(+b.dataset.rmimg, 1); again(); });
   $$('[data-rmlink]', body).forEach(b => b.onclick = e => { e.preventDefault(); D.links.splice(+b.dataset.rmlink, 1); again(); });
@@ -3546,7 +3666,9 @@ function renderNewForm(){
       for (let i=0;i<D.images.length;i++){ btn.textContent = `กำลังอัปโหลดรูป ${i+1}/${D.images.length}…`; const r = await API.uploadImage({dataUrl:D.images[i], name:title.slice(0,40)}); urls.push(r.url); }
       btn.textContent = 'กำลังปักหมุด…';
       const links = D.links.map(l => ({url:l.url, title:/^กำลังดึง/.test(l.title) ? l.url : l.title, site:l.site, image:l.image}));
-      const row = await API.addTopic(Object.assign(me(), {title, message, category:D.cat, subject:D.subject, color:D.color, images:urls, links}));
+      const meta = D.cat === 'ไอเดียงาน 4 ฝ่าย' ? {dept:D.meta.dept} : D.cat === 'แผนการสอน' ? {grade:D.meta.grade, time:(D.meta.time || '').trim()} : D.cat === 'Workshop & งานแฟร์' ? {date:D.meta.date, place:(D.meta.place || '').trim()} : {};
+      const row = await API.addTopic(Object.assign(me(), {title, message, category:D.cat, subject:D.cat === 'ไอเดียงาน 4 ฝ่าย' ? 'ทุกกลุ่มสาระ' : D.subject, color:D.color, images:urls, links, meta}));
+      if (!row.meta || !Object.keys(row.meta).length) row.meta = meta;
       BOARD.data.topics.unshift(row); BOARD.draft = null; toast('ปักหมุดแล้ว! เพื่อนครูที่ออนไลน์จะเห็นทันที', 'good');
       if (G.boardTex){ G.boardTopics = BOARD.data.topics; redraw(G.boardTex); }
       if (typeof netBoardPing === 'function') netBoardPing(title);
@@ -3565,7 +3687,7 @@ function renderTopic(){
   const mine = S.list.find(r => r.accountId === myAcctId());
   const R = BOARD.rdraft && BOARD.rdraft.topic === t.id ? BOARD.rdraft : (BOARD.rdraft = {topic:t.id, rating:mine ? +mine.rating : 0, tried:mine ? !!mine.tried : false, message:mine ? mine.message : ''});
   body.innerHTML = `<div class="thread">
-    <article class="big-note" style="background:${esc(t.color)}"><span class="chips"><span class="chip">${esc(t.category)}</span>${t.subject && t.subject !== 'ทุกกลุ่มสาระ' ? `<span class="chip">${esc(t.subject)}</span>` : ''}${S.proven ? '<span class="chip proven">✅ นำไปใช้ได้จริง</span>' : ''}</span>
+    <article class="big-note" style="background:${esc(t.color)}"><span class="chips"><span class="chip">${CAT_ICO[t.category] || ''} ${esc(t.category)}</span>${t.subject && t.subject !== 'ทุกกลุ่มสาระ' ? `<span class="chip">${esc(t.subject)}</span>` : ''}${boardMetaChips(t)}${S.proven ? '<span class="chip proven">✅ นำไปใช้ได้จริง</span>' : ''}</span>
       <h3>${esc(t.title)}</h3><p class="msgtext">${linkify(t.message)}</p>
       ${imgs.length ? `<div class="media">${imgs.map(u => `<button type="button" data-img="${esc(u)}" aria-label="ขยายรูป"><img alt="" src="${esc(u)}" loading="lazy" referrerpolicy="no-referrer"></button>`).join('')}</div>` : ''}
       ${links.length ? `<div class="linkcards">${links.map(l => linkCard(l)).join('')}</div>` : ''}
@@ -3683,8 +3805,8 @@ function loop(){
     if (!G.paused) scheduleNPCs();
     updateNear();
     const p = G.me.obj.position;
-    G.camTarget.x += (clamp(p.x, -7, 7) - G.camTarget.x) * Math.min(1, dt*3);
-    G.camTarget.z += (clamp(p.z, -4.5, 2.5) - G.camTarget.z) * Math.min(1, dt*3);
+    G.camTarget.x += (clamp(p.x, -7, 7) - G.camTarget.x) * Math.min(1, dt*4.5);
+    G.camTarget.z += (clamp(p.z, -4.5, 5.2) - G.camTarget.z) * Math.min(1, dt*4.5);
     const z = G.zoom * (G.zoomBase || 1), R = 12.5 * z, fz = G.camTarget.z - 2.2;
     G.cam.position.set(G.camTarget.x + Math.sin(G.yaw)*R, 11*z, fz + Math.cos(G.yaw)*R);
     G.cam.lookAt(G.camTarget.x, 0.8, fz);
@@ -3696,25 +3818,60 @@ function loop(){
 }
 
 /* =========================================================
-   📄🎬 SHARE HUBS — คลังแบ่งปันใบงาน (เครื่องถ่ายเอกสาร) และมุมแบ่งปันสื่อการเรียนรู้
-   ใช้ข้อมูลชุดเดียวกับกระดาน (Topics หมวด "ใบงาน" / "สื่อการเรียนรู้")
+   📄🎬💛📻🎸 SHARE HUBS — มุมแบ่งปันต่าง ๆ ในห้องพักครู
+   ใช้ข้อมูลชุดเดียวกับกระดาน (Topics) แยกตามหมวด
    ========================================================= */
-const SHARE_CATS = ['ใบงาน', 'สื่อการเรียนรู้'];
 const GRADES = ['ทุกระดับ', 'ปฐมวัย', 'ป.1–3', 'ป.4–6', 'ม.1–3', 'ม.4–6', 'อาชีวะ/อื่น ๆ'];
 const MEDIA_TYPES = ['วิดีโอ', 'สไลด์/พรีเซนเทชัน', 'เกม/แอป', 'เว็บไซต์', 'สื่อทำมือ', 'เพลง/เสียง', 'อื่น ๆ'];
-const HUBS = {
-  worksheet:{cat:'ใบงาน', ico:'📄', title:'คลังแบ่งปันใบงาน', noun:'ใบงาน', keep:'worksheet', color:'#fff6d9',
-    lead:'แชร์ใบงานที่ทำเอง แนบรูปตัวอย่างหรือลิงก์ไฟล์ (Google Drive, Canva, Liveworksheets) เพื่อนครูกดขอบคุณ ให้กำลังใจ เล่าผลตอนเอาไปใช้ และบันทึกเก็บไว้ได้',
-    titleHint:'เช่น ใบงานเศษส่วน ป.4 แบบระบายสีตามคำตอบ', bodyHint:'ใช้ตอนไหน วิธีใช้ จุดที่ควรระวัง เฉลยอยู่ตรงไหน'},
-  media:{cat:'สื่อการเรียนรู้', ico:'🎬', title:'มุมแบ่งปันสื่อการเรียนรู้', noun:'สื่อ', keep:'media', color:'#e6f4fd',
-    lead:'แชร์คลิป สไลด์ เกม เว็บไซต์ หรือสื่อทำมือที่ใช้ได้ผล ใส่ลิงก์ YouTube ระบบจะดึงภาพตัวอย่างให้ เพื่อนครูกดขอบคุณ เล่าผลการใช้ และบันทึกเก็บไว้ได้',
-    titleHint:'เช่น คลิปการ์ตูนอธิบายวัฏจักรน้ำ 4 นาที', bodyHint:'เหมาะกับบทไหน ใช้ช่วงไหนของคาบ เด็กชอบตรงไหน'}
+const HOBBY_TYPES = ['เล่นดนตรี', 'ร้องเพลง', 'วาดรูป/งานศิลปะ', 'ทำอาหาร/ขนม', 'ปลูกต้นไม้', 'ออกกำลังกาย', 'ท่องเที่ยว', 'อ่านหนังสือ', 'งานฝีมือ', 'อื่น ๆ'];
+const STICKERS = ['💛','🌈','🌻','☀️','🍀','🤗','💪','⭐','🎉','🫶','☕','🌷'];
+const CHEER_COLORS = ['#fff1a8','#ffe2c4','#c9f2e4','#d9ceff','#cdeefd','#e3ddff'];
+const HUB_ART = {
+  copier:`<svg viewBox="0 0 120 100" width="120" height="100"><rect x="14" y="40" width="92" height="46" rx="8" fill="#e6ecf0" stroke="#9aa9b1" stroke-width="3"/><rect x="10" y="32" width="100" height="12" rx="5" fill="#bcc6cc"/><rect x="72" y="50" width="22" height="9" rx="3" fill="#33424a"/><circle cx="99" cy="54" r="3" fill="#5ee0a0"/><rect x="26" y="6" width="40" height="44" rx="3" fill="#fff" stroke="#f0b429" stroke-width="3" transform="rotate(-8 46 28)"/><path d="M33 18h22M33 26h18M33 34h22" stroke="#f0b429" stroke-width="3" stroke-linecap="round" transform="rotate(-8 46 28)"/><rect x="20" y="66" width="48" height="26" rx="3" fill="#fff" stroke="#3aa58a" stroke-width="3"/><path d="M28 74h30M28 82h22" stroke="#3aa58a" stroke-width="3" stroke-linecap="round"/><circle cx="96" cy="16" r="12" fill="#ff8fa3"/><path d="M90 16l4 4 8-8" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+  media:`<svg viewBox="0 0 120 100" width="120" height="100"><rect x="8" y="10" width="86" height="56" rx="8" fill="#33424a"/><rect x="13" y="15" width="76" height="46" rx="4" fill="#7cc4f0"/><path d="M44 28v20l18-10z" fill="#fff"/><rect x="44" y="66" width="14" height="10" fill="#33424a"/><rect x="24" y="76" width="54" height="16" rx="5" fill="#f4d9a8" stroke="#d9b77e" stroke-width="3"/><rect x="92" y="44" width="20" height="30" rx="3" fill="#ff9b9b"/><rect x="98" y="52" width="20" height="26" rx="3" fill="#9be0b4"/><circle cx="104" cy="16" r="12" fill="#ffcf5a"/><path d="M99 16h10M104 11v10" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>`,
+  cheer:`<svg viewBox="0 0 120 100" width="120" height="100"><rect x="6" y="8" width="108" height="84" rx="8" fill="#ffb3c6"/><rect x="12" y="14" width="96" height="72" rx="5" fill="#fff5f8"/><rect x="18" y="20" width="36" height="30" rx="3" fill="#fff1a8" transform="rotate(-6 36 35)"/><rect x="62" y="22" width="38" height="28" rx="3" fill="#c9f2e4" transform="rotate(5 81 36)"/><rect x="36" y="52" width="40" height="28" rx="3" fill="#d9ceff" transform="rotate(-3 56 66)"/><path d="M36 30c0-4 6-4 6 0 0-4 6-4 6 0 0 5-6 8-6 8s-6-3-6-8z" fill="#ff6b8a"/><text x="76" y="42" font-size="14">🌈</text><text x="50" y="72" font-size="14">💪</text></svg>`,
+  radio:`<svg viewBox="0 0 120 100" width="120" height="100"><path d="M30 34L84 12" stroke="#9aa8ae" stroke-width="3" stroke-linecap="round"/><rect x="10" y="32" width="100" height="58" rx="12" fill="#ff9b71"/><circle cx="38" cy="62" r="18" fill="#33424a"/><circle cx="38" cy="62" r="11" fill="#5b6b73"/><rect x="64" y="44" width="36" height="16" rx="4" fill="#fff6d9"/><path d="M70 52h24" stroke="#ff9b71" stroke-width="2"/><circle cx="72" cy="74" r="5" fill="#ffcf5a"/><circle cx="90" cy="74" r="5" fill="#7cc4f0"/><text x="92" y="22" font-size="16">🎵</text><text x="6" y="22" font-size="13">🎶</text></svg>`,
+  hobby:`<svg viewBox="0 0 120 100" width="120" height="100"><ellipse cx="60" cy="92" rx="52" ry="7" fill="#c9f2e4"/><path d="M44 18l22 46" stroke="#8a5a3c" stroke-width="5" stroke-linecap="round"/><ellipse cx="72" cy="72" rx="18" ry="16" fill="#e8916a"/><ellipse cx="62" cy="58" rx="12" ry="11" fill="#e8916a"/><circle cx="68" cy="66" r="5" fill="#5b3a28"/><rect x="38" y="10" width="12" height="12" rx="3" fill="#5b3a28"/><rect x="86" y="40" width="28" height="44" rx="5" fill="#fff" stroke="#33424a" stroke-width="3"/><path d="M93 40v26M100 40v26M107 40v26" stroke="#33424a" stroke-width="3"/><text x="8" y="40" font-size="18">🎤</text><text x="10" y="76" font-size="16">🧁</text></svg>`
 };
-const HUB_ART_COPIER = `<svg viewBox="0 0 120 100" width="120" height="100"><rect x="14" y="40" width="92" height="46" rx="8" fill="#e6ecf0" stroke="#9aa9b1" stroke-width="3"/><rect x="10" y="32" width="100" height="12" rx="5" fill="#bcc6cc"/><rect x="72" y="50" width="22" height="9" rx="3" fill="#33424a"/><circle cx="99" cy="54" r="3" fill="#5ee0a0"/><rect x="26" y="6" width="40" height="44" rx="3" fill="#fff" stroke="#f0b429" stroke-width="3" transform="rotate(-8 46 28)"/><path d="M33 18h22M33 26h18M33 34h22" stroke="#f0b429" stroke-width="3" stroke-linecap="round" transform="rotate(-8 46 28)"/><rect x="20" y="66" width="48" height="26" rx="3" fill="#fff" stroke="#3aa58a" stroke-width="3"/><path d="M28 74h30M28 82h22" stroke="#3aa58a" stroke-width="3" stroke-linecap="round"/><circle cx="96" cy="16" r="12" fill="#ff8fa3"/><path d="M90 16l4 4 8-8" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
-const HUB_ART_MEDIA = `<svg viewBox="0 0 120 100" width="120" height="100"><rect x="8" y="10" width="86" height="56" rx="8" fill="#33424a"/><rect x="13" y="15" width="76" height="46" rx="4" fill="#7cc4f0"/><path d="M44 28v20l18-10z" fill="#fff"/><rect x="44" y="66" width="14" height="10" fill="#33424a"/><rect x="24" y="76" width="54" height="16" rx="5" fill="#f4d9a8" stroke="#d9b77e" stroke-width="3"/><rect x="92" y="44" width="20" height="30" rx="3" fill="#ff9b9b"/><rect x="98" y="52" width="20" height="26" rx="3" fill="#9be0b4"/><circle cx="104" cy="16" r="12" fill="#ffcf5a"/><path d="M99 16h10M104 11v10" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>`;
-const SHARE = {hub:null, view:'list', id:null, q:'', subject:'', grade:'', mtype:'', filter:'all', sort:'new', tab:'comment', draft:null, rdraft:null, ckind:'thanks'};
+const HUBS = {
+  worksheet:{cat:'ใบงาน', ico:'📄', title:'คลังแบ่งปันใบงาน', noun:'ใบงาน', keep:'worksheet', color:'#fff6d9', note:'#fff1a8', art:'copier',
+    fields:['subject','grade','time'], attach:'need', reviews:true, rx:{thanks:['🙏','ขอบคุณ'], cheer:['💛','ให้กำลังใจ']},
+    lead:'แชร์ใบงานที่ทำเอง แนบรูปตัวอย่างหรือลิงก์ไฟล์ (Google Drive, Canva, Liveworksheets) เพื่อนครูกดขอบคุณ ให้กำลังใจ เล่าผลตอนเอาไปใช้ และบันทึกเก็บไว้ได้',
+    titleHint:'เช่น ใบงานเศษส่วน ป.4 แบบระบายสีตามคำตอบ', bodyHint:'ใช้ตอนไหน วิธีใช้ จุดที่ควรระวัง เฉลยอยู่ตรงไหน', cmHint:'ถามวิธีใช้ หรือแนะนำเพิ่มเติม…',
+    steps:[['📤','แชร์ใบงาน','แนบรูป หรือลิงก์'],['🙏','ขอบคุณ · ให้กำลังใจ','เขียนถึงเจ้าของ'],['✔','เล่าผลการใช้','ใช้แล้วเป็นอย่างไร'],['★','บันทึกไว้','เก็บในสมุดของฉัน']]},
+  media:{cat:'สื่อการเรียนรู้', ico:'🎬', title:'มุมแบ่งปันสื่อการเรียนรู้', noun:'สื่อ', keep:'media', color:'#e6f4fd', note:'#cdeefd', art:'media',
+    fields:['subject','grade','mtype','time'], attach:'need', reviews:true, rx:{thanks:['🙏','ขอบคุณ'], cheer:['💛','ให้กำลังใจ']},
+    lead:'แชร์คลิป สไลด์ เกม เว็บไซต์ หรือสื่อทำมือที่ใช้ได้ผล ใส่ลิงก์ YouTube ระบบจะดึงภาพตัวอย่างให้ เพื่อนครูกดขอบคุณ เล่าผลการใช้ และบันทึกเก็บไว้ได้',
+    titleHint:'เช่น คลิปการ์ตูนอธิบายวัฏจักรน้ำ 4 นาที', bodyHint:'เหมาะกับบทไหน ใช้ช่วงไหนของคาบ เด็กชอบตรงไหน', cmHint:'ถามวิธีใช้ หรือแนะนำเพิ่มเติม…',
+    steps:[['📤','แชร์สื่อ','ลิงก์ หรือรูป'],['🙏','ขอบคุณ · ให้กำลังใจ','เขียนถึงเจ้าของ'],['✔','เล่าผลการใช้','ใช้แล้วเป็นอย่างไร'],['★','บันทึกไว้','เก็บในสมุดของฉัน']]},
+  cheer:{cat:'กำลังใจ', ico:'💛', title:'กระดานกำลังใจ', noun:'ข้อความกำลังใจ', keep:'cheer', color:'#ffeef3', art:'cheer', layout:'notes', noTitle:true,
+    fields:['to','sticker','color'], attach:'none', reviews:false, rx:{thanks:['🤗','รับกำลังใจ'], cheer:['💛','ส่งใจต่อ']},
+    lead:'เขียนข้อความให้กำลังใจเพื่อนครู ถึงทุกคนหรือถึงใครสักคนก็ได้ เลือกสติกเกอร์และสีกระดาษ เพื่อนครูกดรับกำลังใจ ส่งใจต่อ และเขียนตอบได้',
+    bodyHint:'เช่น เหนื่อยแค่ไหนก็อย่าลืมว่าเด็ก ๆ รักครูนะ พักบ้างนะคะ', cmHint:'ตอบกลับ หรือส่งกำลังใจเพิ่ม…',
+    steps:[['✍️','เขียนข้อความ','ถึงทุกคน หรือถึงใครสักคน'],['🎨','เลือกสติกเกอร์','และสีกระดาษ'],['🤗','รับกำลังใจ','กดรับ ส่งใจต่อ'],['★','เก็บไว้','อ่านซ้ำในสมุด']]},
+  radio:{cat:'เพลงเชื่อมใจ', ico:'📻', title:'มุมวิทยุ · เพลงเชื่อมใจ', noun:'เพลง', keep:'song', color:'#f1ebff', note:'#e3ddff', art:'radio', layout:'songs',
+    fields:['artist'], attach:'link', reviews:false, rx:{thanks:['🎧','ชอบเพลงนี้'], cheer:['💛','เชื่อมใจ']},
+    lead:'แชร์ลิงก์เพลงที่ฟังแล้วใจฟู (YouTube, Spotify, SoundCloud) พร้อมเล่าว่าเพลงนี้เชื่อมใจอย่างไร กด ▶ เปิดฟังได้ทันทีในห้องพักครู',
+    titleHint:'ชื่อเพลง', bodyHint:'เพลงนี้เชื่อมใจเพราะ… ฟังตอนไหนแล้วดีที่สุด', cmHint:'ฟังแล้วรู้สึกอย่างไร…',
+    steps:[['🔗','วางลิงก์เพลง','YouTube · Spotify'],['💬','เล่าความรู้สึก','ทำไมเพลงนี้'],['▶','กดฟังได้เลย','ในห้องพักครู'],['★','เก็บเพลงไว้','ในสมุดของฉัน']]},
+  hobby:{cat:'ยามว่าง', ico:'🎸', title:'มุมดนตรี · ยามว่างของครู', noun:'กิจกรรมยามว่าง', keep:'hobby', color:'#e6f7ee', note:'#c9f2e4', art:'hobby',
+    fields:['hobby'], attach:'optional', reviews:false, rx:{thanks:['🙌','อยากลองบ้าง'], cheer:['💛','ชอบเลย']},
+    lead:'เวลาว่างครูทำอะไรกันบ้าง เล่นดนตรี ร้องเพลง ทำขนม ปลูกต้นไม้ แชร์รูปหรือลิงก์ ชวนเพื่อนครูมาลองด้วยกัน',
+    titleHint:'เช่น หัดเล่นอูคูเลเล่วันละ 10 นาที', bodyHint:'ทำอะไร เริ่มยังไง ช่วยให้ผ่อนคลายอย่างไร ชวนใครมาลองบ้าง', cmHint:'ถามวิธีเริ่ม หรือชวนกันไปทำ…',
+    steps:[['📸','แชร์กิจกรรม','รูป หรือลิงก์'],['🙌','อยากลองบ้าง','กดบอกเจ้าของ'],['💬','คุยกัน','ถามวิธีเริ่ม'],['★','เก็บไอเดีย','ในสมุดของฉัน']]}
+};
+const SHARE_CATS = Object.values(HUBS).map(h => h.cat);
+const hubOfCat = c => Object.keys(HUBS).find(k => HUBS[k].cat === c);
+const SHARE = {hub:null, view:'list', id:null, q:'', subject:'', grade:'', mtype:'', hobby:'', filter:'all', sort:'new', tab:'comment', draft:null, rdraft:null, ckind:'thanks'};
 
-function ytId(u){ const m = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([\w-]{11})/.exec(String(u || '')); return m ? m[1] : ''; }
+function ytId(u){ const m = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|music\.youtube\.com\/watch\?v=)([\w-]{11})/.exec(String(u || '')); return m ? m[1] : ''; }
+function songEmbed(u){
+  const y = ytId(u); if (y) return `<iframe class="player yt-player" src="https://www.youtube-nocookie.com/embed/${y}?rel=0" title="เครื่องเล่นเพลง" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+  const sp = /open\.spotify\.com\/(?:intl-[\w-]+\/)?(track|album|playlist|episode)\/([\w]+)/.exec(u || '');
+  if (sp) return `<iframe class="player sp-player" src="https://open.spotify.com/embed/${sp[1]}/${sp[2]}" title="เครื่องเล่น Spotify" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" loading="lazy"></iframe>`;
+  if (/soundcloud\.com\//.test(u || '')) return `<iframe class="player sc-player" src="https://w.soundcloud.com/player/?url=${encodeURIComponent(u)}&color=%23ff9b71" title="เครื่องเล่น SoundCloud" allow="autoplay" loading="lazy"></iframe>`;
+  return '';
+}
 function shareThumb(t){
   const imgs = arr(t.images).map(safeUrl).filter(Boolean);
   if (imgs[0]) return imgs[0].replace(/&sz=w\d+/, '&sz=w480');
@@ -3728,15 +3885,20 @@ function shareStats(id){
   const uniq = a => { const seen = {}; return a.filter(c => { const k = c.accountId || c.author; if (seen[k]) return false; seen[k] = 1; return true; }); };
   return {thanks:uniq(cs.filter(c => c.kind === 'thanks')), cheer:uniq(cs.filter(c => c.kind === 'cheer')), comments:cs.filter(c => !c.kind || c.kind === 'comment'), all:cs, S};
 }
+const hasF = (H, f) => H.fields.includes(f);
+function metaChips(t, H){
+  const m = t.meta || {};
+  return `${t.subject && t.subject !== 'ทุกกลุ่มสาระ' && hasF(H, 'subject') ? `<span class="chip">${esc(t.subject)}</span>` : ''}${m.grade ? `<span class="chip">${esc(m.grade)}</span>` : ''}${m.mediaType ? `<span class="chip">${esc(m.mediaType)}</span>` : ''}${m.hobby ? `<span class="chip">${esc(m.hobby)}</span>` : ''}${m.artist ? `<span class="chip">🎤 ${esc(m.artist)}</span>` : ''}`;
+}
 
 /* ---------- keeps (สิ่งที่ประทับใจ) ---------- */
-const KEEP_TYPES = {comment:['💬','ความคิดเห็นที่แลกเปลี่ยน'], plc:['🧑‍🏫','PLC'], worksheet:['📄','ใบงาน'], media:['🎬','สื่อ'], post:['📌','โพสต์บนกระดาน']};
+const KEEP_TYPES = {comment:['💬','ความคิดเห็นที่แลกเปลี่ยน'], plc:['🧑‍🏫','PLC'], worksheet:['📄','ใบงาน'], media:['🎬','สื่อ'], post:['📌','โพสต์บนกระดาน'], cheer:['💛','ข้อความกำลังใจ'], song:['📻','เพลง'], hobby:['🎸','ยามว่าง']};
 const isKept = (k, id) => (NB.keeps || []).some(x => x.k === k && x.id === id);
 function toggleKeep(item){
   NB.keeps = NB.keeps || [];
   const i = NB.keeps.findIndex(x => x.k === item.k && x.id === item.id);
-  if (i >= 0){ NB.keeps.splice(i, 1); toast('เอาออกจากสิ่งที่ประทับใจแล้ว'); }
-  else { NB.keeps.unshift(Object.assign({at:new Date().toISOString()}, item)); NB.keeps = NB.keeps.slice(0, 300); toast('⭐ เก็บไว้ในสมุด "สิ่งที่ประทับใจ" แล้ว' + (PRIV.acct ? ' (เก็บในบัญชี)' : ''), 'good'); SFX.pop(); }
+  if (i >= 0){ NB.keeps.splice(i, 1); toast('เอาออกจากสมุดแล้ว'); }
+  else { NB.keeps.unshift(Object.assign({at:new Date().toISOString()}, item)); NB.keeps = NB.keeps.slice(0, 300); toast('⭐ เก็บไว้ในสมุดของฉันแล้ว' + (PRIV.acct ? ' (เก็บในบัญชี)' : ''), 'good'); SFX.pop(); }
   saveNB();
 }
 function keepBtn(item, label, onLabel){
@@ -3749,7 +3911,8 @@ function bindKeeps(root, after){
 
 /* ---------- open ---------- */
 function openShare(hubKey, id){
-  SHARE.hub = hubKey; SHARE.view = id ? 'detail' : 'list'; SHARE.id = id || null; SHARE.rdraft = null;
+  SHARE.hub = hubKey; SHARE.view = id ? 'detail' : 'list'; SHARE.id = id || null; SHARE.rdraft = null; SHARE.tab = 'comment';
+  if (SHARE.lastHub !== hubKey){ Object.assign(SHARE, {q:'', subject:'', grade:'', mtype:'', hobby:'', filter:'all', sort:'new', lastHub:hubKey}); }
   const H = HUBS[hubKey];
   station(`${H.ico} ${H.title}`, 'lg');
   renderShare();
@@ -3764,41 +3927,46 @@ function renderShare(){
   const H = HUBS[SHARE.hub], d = BOARD.data;
   if (!d){ b.innerHTML = '<div class="loading">กำลังโหลด…</div>'; return; }
   const q = SHARE.q.trim().toLowerCase(), mine = myAcctId();
-  let list = d.topics.filter(t => t.category === H.cat
-    && (!SHARE.subject || t.subject === SHARE.subject) && (!SHARE.grade || (t.meta || {}).grade === SHARE.grade) && (!SHARE.mtype || (t.meta || {}).mediaType === SHARE.mtype)
+  let list = d.topics.filter(t => { const m = t.meta || {}; return t.category === H.cat
+    && (!SHARE.subject || t.subject === SHARE.subject) && (!SHARE.grade || m.grade === SHARE.grade) && (!SHARE.mtype || m.mediaType === SHARE.mtype) && (!SHARE.hobby || m.hobby === SHARE.hobby)
     && (SHARE.filter !== 'kept' || isKept(H.keep, t.id)) && (SHARE.filter !== 'mine' || (t.authorId && t.authorId === mine) || (API.mode === 'local' && /\(ฉัน\)$/.test(t.author)))
-    && (!q || (t.title + ' ' + t.message + ' ' + t.author).toLowerCase().includes(q)));
+    && (!q || (t.title + ' ' + t.message + ' ' + t.author + ' ' + (m.artist || '') + ' ' + (m.to || '')).toLowerCase().includes(q)); });
   const st = {}; list.forEach(t => st[t.id] = shareStats(t.id));
   if (SHARE.sort === 'thanks') list.sort((a, b2) => (st[b2.id].thanks.length + st[b2.id].cheer.length) - (st[a.id].thanks.length + st[a.id].cheer.length));
-  if (SHARE.sort === 'used') list.sort((a, b2) => (st[b2.id].S.tried - st[a.id].S.tried) || (st[b2.id].S.avg - st[a.id].S.avg));
+  if (SHARE.sort === 'used' && H.reviews) list.sort((a, b2) => (st[b2.id].S.tried - st[a.id].S.tried) || (st[b2.id].S.avg - st[a.id].S.avg));
   const notice = (DATA.get('settings') || {}).share_notice;
-  const steps = [['📤', `แชร์${H.noun}`, 'แนบรูป หรือลิงก์'], ['🙏', 'ขอบคุณ · ให้กำลังใจ', 'เขียนถึงเจ้าของ'], ['✔', 'เล่าผลการใช้', 'ใช้แล้วเป็นอย่างไร'], ['★', 'บันทึกไว้', 'เก็บในสมุดของฉัน']];
   const jenny = SHARE.hub === 'worksheet' && G.started && qState('eng_print') === 'active' && !P.carry.includes('paper');
-  b.innerHTML = `<div class="hub-hero" style="--hub:${H.color}"><div class="hub-art" aria-hidden="true">${SHARE.hub === 'worksheet' ? HUB_ART_COPIER : HUB_ART_MEDIA}</div>
-      <div class="hub-txt"><p>${esc(H.lead)}</p><ol class="hub-steps">${steps.map(([i, t1, t2]) => `<li><span>${i}</span><b>${esc(t1)}</b><small>${esc(t2)}</small></li>`).join('')}</ol></div></div>
-    ${jenny ? `<div class="notice quest-note"><b>🎯 ภารกิจ: Teacher Jenny ขอใบงานไปใช้คาบหน้า</b><br>เลือกดูใบงานในคลังได้ตามสบาย แล้วกดหยิบไปให้ได้เลย <button class="btn sm" type="button" id="shJenny" style="margin-left:6px">📄 หยิบใบงานไปให้ Teacher Jenny</button></div>` : ''}
-    ${notice ? `<div class="notice">${esc(notice)}</div>` : ''}
-    <div class="searchrow"><input class="txt" id="shQ" type="search" placeholder="ค้นหา${esc(H.noun)} หรือชื่อครู" value="${esc(SHARE.q)}" aria-label="ค้นหา">
-      <select id="shSubject" aria-label="กลุ่มสาระ"><option value="">ทุกกลุ่มสาระ</option>${SUBJECTS.slice(1).map(s => `<option ${s===SHARE.subject?'selected':''}>${esc(s)}</option>`).join('')}</select>
-      <select id="shGrade" aria-label="ระดับชั้น"><option value="">ทุกระดับชั้น</option>${GRADES.slice(1).map(s => `<option ${s===SHARE.grade?'selected':''}>${esc(s)}</option>`).join('')}</select>
-      ${SHARE.hub === 'media' ? `<select id="shType" aria-label="ประเภทสื่อ"><option value="">ทุกประเภท</option>${MEDIA_TYPES.map(s => `<option ${s===SHARE.mtype?'selected':''}>${esc(s)}</option>`).join('')}</select>` : ''}
-      <select id="shSort" aria-label="เรียงลำดับ"><option value="new" ${SHARE.sort==='new'?'selected':''}>ล่าสุด</option><option value="thanks" ${SHARE.sort==='thanks'?'selected':''}>ได้รับคำขอบคุณมากที่สุด</option><option value="used" ${SHARE.sort==='used'?'selected':''}>นำไปใช้มากที่สุด</option></select></div>
-    <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div class="filters" style="margin:0"><button class="seg" type="button" data-sf="all" aria-pressed="${SHARE.filter==='all'}">ทั้งหมด</button><button class="seg" type="button" data-sf="kept" aria-pressed="${SHARE.filter==='kept'}">★ ที่บันทึกไว้</button><button class="seg" type="button" data-sf="mine" aria-pressed="${SHARE.filter==='mine'}">ของฉัน</button></div>
-      <span class="row" style="gap:8px"><button class="btn sm" type="button" id="shNew">＋ แชร์${esc(H.noun)}ของฉัน</button></span></div>
-    ${list.length ? `<div class="shares">${list.map(t => { const s2 = st[t.id], th = shareThumb(t), m = t.meta || {}; return `
+  const [ti, tl] = H.rx.thanks, [ci, cl] = H.rx.cheer;
+  const counts = (s2) => `<span class="sh-counts"><span title="${esc(tl)}">${ti} ${s2.thanks.length}</span><span title="${esc(cl)}">${ci} ${s2.cheer.length}</span>${H.reviews ? `<span title="นำไปใช้แล้ว">✔ ${s2.S.tried}</span>${s2.S.n ? `<span title="คะแนนรีวิว">♥ ${s2.S.avg.toFixed(1)}</span>` : ''}` : ''}<span title="ความคิดเห็น">💬 ${s2.comments.length}</span></span>`;
+  let grid = '';
+  if (H.layout === 'notes') grid = `<div class="cheer-wall">${list.map(t => { const m = t.meta || {}; return `
+      <button class="cheer-note" type="button" data-sid="${esc(t.id)}" style="background:${esc(t.color || '#fff1a8')}"><i class="pin" aria-hidden="true"></i><span class="cn-st">${esc(m.sticker || '💛')}</span>
+        ${m.to ? `<span class="cn-to">ถึง ${esc(m.to)}</span>` : ''}<span class="cn-msg">${esc(t.message)}</span><small>— ${esc(t.author)} · ${esc(ago(t.createdAt))}</small>${counts(st[t.id])}${isKept(H.keep, t.id) ? '<i class="sh-kept">★</i>' : ''}</button>`; }).join('')}</div>`;
+  else if (H.layout === 'songs') grid = `<div class="songs">${list.map(t => { const th = shareThumb(t), m = t.meta || {}; return `
+      <button class="song" type="button" data-sid="${esc(t.id)}"><span class="sg-art">${th ? `<img alt="" src="${esc(th)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}<span class="sg-play" aria-hidden="true">▶</span></span>
+        <span class="sg-txt"><b>${esc(t.title)}</b><small>${m.artist ? esc(m.artist) + ' · ' : ''}แชร์โดย ${esc(t.author)}</small><span class="sg-why">“${esc(t.message.slice(0, 90))}${t.message.length > 90 ? '…' : ''}”</span>${counts(st[t.id])}</span>${isKept(H.keep, t.id) ? '<i class="sh-kept">★</i>' : ''}</button>`; }).join('')}</div>`;
+  else grid = `<div class="shares">${list.map(t => { const s2 = st[t.id], th = shareThumb(t); return `
       <button class="share" type="button" data-sid="${esc(t.id)}">
         <span class="sh-img" style="background:${H.color}"><span>${H.ico}</span>${th ? `<img alt="" src="${esc(th)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()" style="position:absolute;inset:0">` : ''}${isKept(H.keep, t.id) ? '<i class="sh-kept">★</i>' : ''}</span>
-        <span class="sh-body"><span class="chips">${t.subject && t.subject !== 'ทุกกลุ่มสาระ' ? `<span class="chip">${esc(t.subject)}</span>` : ''}${m.grade ? `<span class="chip">${esc(m.grade)}</span>` : ''}${m.mediaType ? `<span class="chip">${esc(m.mediaType)}</span>` : ''}${s2.S.proven ? '<span class="chip proven">✅ ใช้ได้จริง</span>' : ''}</span>
-          <b>${esc(t.title)}</b><small>${esc(t.author)} · ${esc(ago(t.createdAt))}</small>
-          <span class="sh-counts"><span title="ขอบคุณ">🙏 ${s2.thanks.length}</span><span title="ให้กำลังใจ">💛 ${s2.cheer.length}</span><span title="นำไปใช้แล้ว">✔ ${s2.S.tried}</span>${s2.S.n ? `<span title="คะแนนรีวิว">♥ ${s2.S.avg.toFixed(1)}</span>` : ''}<span title="ความคิดเห็น">💬 ${s2.comments.length}</span></span></span>
-      </button>`; }).join('')}</div>`
-      : `<div class="empty">${SHARE.filter === 'kept' ? `ยังไม่ได้บันทึก${esc(H.noun)}ไว้ กด ☆ บันทึก ในหน้ารายละเอียด` : SHARE.filter === 'mine' ? `ยังไม่ได้แชร์${esc(H.noun)}` : `ยังไม่มี${esc(H.noun)}ที่ตรงกับที่ค้นหา`}<br><button class="btn sm" type="button" id="shNew2" style="margin-top:10px">＋ แชร์${esc(H.noun)}ชิ้นแรก</button></div>`}`;
+        <span class="sh-body"><span class="chips">${metaChips(t, H)}${s2.S.proven && H.reviews ? '<span class="chip proven">✅ ใช้ได้จริง</span>' : ''}</span>
+          <b>${esc(t.title)}</b><small>${esc(t.author)} · ${esc(ago(t.createdAt))}</small>${counts(s2)}</span>
+      </button>`; }).join('')}</div>`;
+  b.innerHTML = `<div class="hub-hero" style="--hub:${H.color}"><div class="hub-art" aria-hidden="true">${HUB_ART[H.art]}</div>
+      <div class="hub-txt"><p>${esc(H.lead)}</p><ol class="hub-steps">${H.steps.map(([i, t1, t2]) => `<li><span>${i}</span><b>${esc(t1)}</b><small>${esc(t2)}</small></li>`).join('')}</ol></div></div>
+    ${jenny ? `<div class="notice quest-note"><b>🎯 ภารกิจ: Teacher Jenny ขอใบงานไปใช้คาบหน้า</b><br>เลือกดูใบงานในคลังได้ตามสบาย แล้วกดหยิบไปให้ได้เลย <button class="btn sm" type="button" id="shJenny" style="margin-left:6px">📄 หยิบใบงานไปให้ Teacher Jenny</button></div>` : ''}
+    ${notice && H.reviews ? `<div class="notice">${esc(notice)}</div>` : ''}
+    <div class="searchrow"><input class="txt" id="shQ" type="search" placeholder="ค้นหา${esc(H.noun)} หรือชื่อครู" value="${esc(SHARE.q)}" aria-label="ค้นหา">
+      ${hasF(H, 'subject') ? `<select id="shSubject" aria-label="กลุ่มสาระ"><option value="">ทุกกลุ่มสาระ</option>${SUBJECTS.slice(1).map(s => `<option ${s===SHARE.subject?'selected':''}>${esc(s)}</option>`).join('')}</select>` : ''}
+      ${hasF(H, 'grade') ? `<select id="shGrade" aria-label="ระดับชั้น"><option value="">ทุกระดับชั้น</option>${GRADES.slice(1).map(s => `<option ${s===SHARE.grade?'selected':''}>${esc(s)}</option>`).join('')}</select>` : ''}
+      ${hasF(H, 'mtype') ? `<select id="shType" aria-label="ประเภทสื่อ"><option value="">ทุกประเภท</option>${MEDIA_TYPES.map(s => `<option ${s===SHARE.mtype?'selected':''}>${esc(s)}</option>`).join('')}</select>` : ''}
+      ${hasF(H, 'hobby') ? `<select id="shHobby" aria-label="ประเภทกิจกรรม"><option value="">ทุกกิจกรรม</option>${HOBBY_TYPES.map(s => `<option ${s===SHARE.hobby?'selected':''}>${esc(s)}</option>`).join('')}</select>` : ''}
+      <select id="shSort" aria-label="เรียงลำดับ"><option value="new" ${SHARE.sort==='new'?'selected':''}>ล่าสุด</option><option value="thanks" ${SHARE.sort==='thanks'?'selected':''}>ได้รับ ${esc(tl)} มากที่สุด</option>${H.reviews ? `<option value="used" ${SHARE.sort==='used'?'selected':''}>นำไปใช้มากที่สุด</option>` : ''}</select></div>
+    <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div class="filters" style="margin:0"><button class="seg" type="button" data-sf="all" aria-pressed="${SHARE.filter==='all'}">ทั้งหมด</button><button class="seg" type="button" data-sf="kept" aria-pressed="${SHARE.filter==='kept'}">★ ที่เก็บไว้</button><button class="seg" type="button" data-sf="mine" aria-pressed="${SHARE.filter==='mine'}">ของฉัน</button></div>
+      <button class="btn sm" type="button" id="shNew">＋ ${H.layout === 'notes' ? 'เขียนข้อความกำลังใจ' : 'แชร์' + esc(H.noun)}</button></div>
+    ${list.length ? grid : `<div class="empty">${SHARE.filter === 'kept' ? `ยังไม่ได้เก็บ${esc(H.noun)}ไว้ กด ☆ ในหน้ารายละเอียด` : SHARE.filter === 'mine' ? `ยังไม่ได้แชร์${esc(H.noun)}` : `ยังไม่มี${esc(H.noun)}ที่ตรงกับที่ค้นหา`}<br><button class="btn sm" type="button" id="shNew2" style="margin-top:10px">＋ ${H.layout === 'notes' ? 'เขียนข้อความแรก' : 'แชร์' + esc(H.noun) + 'ชิ้นแรก'}</button></div>`}`;
   const sI = $('#shQ'); sI.oninput = () => { SHARE.q = sI.value; clearTimeout(SHARE.t); SHARE.t = setTimeout(() => { renderShare(); const n = $('#shQ'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }, 250); };
-  $('#shSubject').onchange = e => { SHARE.subject = e.target.value; renderShare(); };
-  $('#shGrade').onchange = e => { SHARE.grade = e.target.value; renderShare(); };
-  if ($('#shType')) $('#shType').onchange = e => { SHARE.mtype = e.target.value; renderShare(); };
-  $('#shSort').onchange = e => { SHARE.sort = e.target.value; renderShare(); };
+  [['#shSubject','subject'],['#shGrade','grade'],['#shType','mtype'],['#shHobby','hobby'],['#shSort','sort']].forEach(([id, k]) => { const el = $(id); if (el) el.onchange = e => { SHARE[k] = e.target.value; renderShare(); }; });
   $$('[data-sf]', b).forEach(x => x.onclick = () => { SHARE.filter = x.dataset.sf; renderShare(); });
   if ($('#shJenny')) $('#shJenny').onclick = () => { P.carry.push('paper'); saveGame(); SFX.chime(); toast('ได้ใบงานแล้ว เอาไปให้ Teacher Jenny ที่โต๊ะได้เลย', 'good'); closeModal('#mSt'); };
   [$('#shNew'), $('#shNew2')].forEach(x => { if (x) x.onclick = () => { SHARE.view = 'new'; renderShare(); }; });
@@ -3809,67 +3977,89 @@ function renderShare(){
 function renderShareNew(b){
   const H = HUBS[SHARE.hub];
   if (!isMember()){ b.innerHTML = memberGate(`การแชร์${H.noun}`) + '<button class="btn ghost sm" type="button" id="shBack">← กลับ</button>'; bindGate(b); $('#shBack').onclick = () => { SHARE.view = 'list'; renderShare(); }; return; }
-  const D = SHARE.draft && SHARE.draft.hub === SHARE.hub ? SHARE.draft : (SHARE.draft = {hub:SHARE.hub, title:'', message:'', subject:'ทุกกลุ่มสาระ', grade:'ทุกระดับ', mtype:SHARE.hub === 'media' ? 'วิดีโอ' : '', time:'', images:[], links:[]});
-  b.innerHTML = `<button class="btn ghost sm" type="button" id="shBack">← กลับไปที่คลัง</button>
+  const D = SHARE.draft && SHARE.draft.hub === SHARE.hub ? SHARE.draft : (SHARE.draft = {hub:SHARE.hub, title:'', message:'', subject:'ทุกกลุ่มสาระ', grade:'ทุกระดับ', mtype:hasF(H, 'mtype') ? 'วิดีโอ' : '', time:'', to:'', sticker:'💛', color:H.note || CHEER_COLORS[0], artist:'', hobby:HOBBY_TYPES[0], images:[], links:[]});
+  const fld = (id, label, inner, w) => `<div class="fld" style="margin:0;flex:1;min-width:${w || 150}px"><label for="${id}">${label}</label>${inner}</div>`;
+  const sel = (id, list, v) => `<select class="txt" id="${id}">${list.map(s => `<option ${s===v?'selected':''}>${esc(s)}</option>`).join('')}</select>`;
+  const linkLbl = H.attach === 'link' ? 'ลิงก์เพลง (YouTube, Spotify, SoundCloud)' : `ลิงก์ (สูงสุด 5) · ${SHARE.hub === 'hobby' ? 'คลิป เพจ หรือบทความ' : 'Google Drive, Canva, YouTube, Liveworksheets'}`;
+  b.innerHTML = `<button class="btn ghost sm" type="button" id="shBack">← กลับ</button>
     <form class="form-grid" id="shForm" style="max-width:720px;margin-top:10px">
-      <div class="fld" style="margin:0"><label for="shTitle">ชื่อ${esc(H.noun)}</label><input class="txt" id="shTitle" maxlength="100" placeholder="${esc(H.titleHint)}" value="${esc(D.title)}"></div>
-      <div class="fld" style="margin:0"><label for="shMsg">รายละเอียด</label><textarea class="txt" id="shMsg" maxlength="2000" placeholder="${esc(H.bodyHint)}">${esc(D.message)}</textarea></div>
-      <div class="row">
-        <div class="fld" style="margin:0;flex:1;min-width:160px"><label for="shSub2">กลุ่มสาระ</label><select class="txt" id="shSub2">${SUBJECTS.map(s => `<option ${s===D.subject?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
-        <div class="fld" style="margin:0;flex:1;min-width:140px"><label for="shGrade2">ระดับชั้น</label><select class="txt" id="shGrade2">${GRADES.map(s => `<option ${s===D.grade?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
-        ${SHARE.hub === 'media' ? `<div class="fld" style="margin:0;flex:1;min-width:150px"><label for="shType2">ประเภทสื่อ</label><select class="txt" id="shType2">${MEDIA_TYPES.map(s => `<option ${s===D.mtype?'selected':''}>${esc(s)}</option>`).join('')}</select></div>` : ''}
-        <div class="fld" style="margin:0;flex:1;min-width:140px"><label for="shTime">เวลาที่ใช้ (ไม่บังคับ)</label><input class="txt" id="shTime" maxlength="40" placeholder="เช่น 15 นาที / 1 คาบ" value="${esc(D.time)}"></div>
-      </div>
-      <div class="uploader" id="shUp"><span class="lbl" style="font-weight:700;color:var(--pri-deep);font-size:13px">รูปตัวอย่าง (สูงสุด 4 รูป) · ลากรูปมาวาง วางจากคลิปบอร์ด หรือเลือกไฟล์</span>
+      ${H.noTitle ? '' : `<div class="fld" style="margin:0"><label for="shTitle">${H.layout === 'songs' ? 'ชื่อเพลง' : 'ชื่อ' + esc(H.noun)}</label><input class="txt" id="shTitle" maxlength="100" placeholder="${esc(H.titleHint)}" value="${esc(D.title)}"></div>`}
+      ${hasF(H, 'artist') ? `<div class="fld" style="margin:0"><label for="shArtist">ศิลปิน (ไม่บังคับ)</label><input class="txt" id="shArtist" maxlength="60" value="${esc(D.artist)}"></div>` : ''}
+      ${hasF(H, 'to') ? `<div class="fld" style="margin:0"><label for="shTo">ถึง (ไม่บังคับ)</label><input class="txt" id="shTo" maxlength="40" placeholder="เช่น ครูทุกคน / ครูมะลิ / ครูที่เหนื่อยวันนี้" value="${esc(D.to)}"></div>` : ''}
+      <div class="fld" style="margin:0"><label for="shMsg">${H.layout === 'notes' ? 'ข้อความกำลังใจ' : H.layout === 'songs' ? 'เพลงนี้เชื่อมใจอย่างไร' : 'รายละเอียด'}</label><textarea class="txt" id="shMsg" maxlength="2000" placeholder="${esc(H.bodyHint)}">${esc(D.message)}</textarea>
+        <div class="row" style="margin-top:6px"><button class="btn ghost sm" type="button" data-mic-for="shMsg">🎤 พูดแทนพิมพ์</button></div></div>
+      ${hasF(H, 'sticker') ? `<div class="fld" style="margin:0"><span class="lbl">สติกเกอร์</span><div class="stickers" id="shSt">${STICKERS.map(x => `<button type="button" class="stk-pick" data-v="${x}" aria-pressed="${x===D.sticker}">${x}</button>`).join('')}</div></div>` : ''}
+      ${hasF(H, 'color') ? `<div class="fld" style="margin:0"><span class="lbl">สีกระดาษ</span><div class="colors" id="shColor">${CHEER_COLORS.map(c => `<button type="button" class="sw" style="background:${c}" data-v="${c}" aria-pressed="${c===D.color}" aria-label="สีกระดาษ"></button>`).join('')}</div></div>` : ''}
+      ${['subject','grade','mtype','time','hobby'].some(f => hasF(H, f)) ? `<div class="row">
+        ${hasF(H, 'subject') ? fld('shSub2', 'กลุ่มสาระ', sel('shSub2', SUBJECTS, D.subject), 160) : ''}
+        ${hasF(H, 'grade') ? fld('shGrade2', 'ระดับชั้น', sel('shGrade2', GRADES, D.grade), 140) : ''}
+        ${hasF(H, 'mtype') ? fld('shType2', 'ประเภทสื่อ', sel('shType2', MEDIA_TYPES, D.mtype)) : ''}
+        ${hasF(H, 'hobby') ? fld('shHobby2', 'ประเภทกิจกรรม', sel('shHobby2', HOBBY_TYPES, D.hobby)) : ''}
+        ${hasF(H, 'time') ? fld('shTime', 'เวลาที่ใช้ (ไม่บังคับ)', `<input class="txt" id="shTime" maxlength="40" placeholder="เช่น 15 นาที / 1 คาบ" value="${esc(D.time)}">`, 140) : ''}
+      </div>` : ''}
+      ${H.attach === 'need' || H.attach === 'optional' ? `<div class="uploader" id="shUp"><span class="lbl" style="font-weight:700;color:var(--pri-deep);font-size:13px">รูป${H.attach === 'optional' ? ' (ไม่บังคับ)' : 'ตัวอย่าง'} สูงสุด 4 รูป · ลากรูปมาวาง วางจากคลิปบอร์ด หรือเลือกไฟล์</span>
         <div class="thumbs-up">${D.images.map((src,i) => `<div><img alt="" src="${src}"><button type="button" data-rmimg="${i}" aria-label="ลบรูป">✕</button></div>`).join('')}</div>
-        <div><label class="btn ghost sm" for="shFile" style="display:inline-block;cursor:pointer">เลือกรูป</label><input id="shFile" type="file" accept="image/*" multiple hidden></div></div>
-      <div class="uploader"><span class="lbl" style="font-weight:700;color:var(--pri-deep);font-size:13px">ลิงก์ไฟล์${SHARE.hub === 'media' ? '/สื่อ' : 'ใบงาน'} (สูงสุด 5) · Google Drive, Canva, YouTube, Liveworksheets</span>
+        <div><label class="btn ghost sm" for="shFile" style="display:inline-block;cursor:pointer">เลือกรูป</label><input id="shFile" type="file" accept="image/*" multiple hidden></div></div>` : ''}
+      ${H.attach !== 'none' ? `<div class="uploader"><span class="lbl" style="font-weight:700;color:var(--pri-deep);font-size:13px">${esc(linkLbl)}</span>
         <div class="linkrow"><input class="txt" id="shLk" type="url" inputmode="url" placeholder="https://"><button class="btn ghost sm" type="button" id="shLkAdd">เพิ่มลิงก์</button></div>
-        <div class="linkcards" style="margin:0">${D.links.map((l,i) => linkCard(l, true, i)).join('')}</div></div>
-      <p style="margin:0;font-size:13px;color:var(--ink-soft)">แชร์ในชื่อ <b>${esc(me().author)}</b> · ถ้าใช้ผลงานของคนอื่น อย่าลืมให้เครดิตแหล่งที่มานะ</p>
-      <div class="row"><button class="btn" type="submit" id="shGo">แชร์${esc(H.noun)}</button></div><div class="err" id="shErr" hidden></div>
+        <div class="linkcards" style="margin:0">${D.links.map((l,i) => linkCard(l, true, i)).join('')}</div>
+        ${H.attach === 'link' && D.links[0] && songEmbed(D.links[0].url) ? `<div class="player-wrap">${songEmbed(D.links[0].url)}</div>` : ''}</div>` : ''}
+      <p style="margin:0;font-size:13px;color:var(--ink-soft)">แชร์ในชื่อ <b>${esc(me().author)}</b>${H.reviews ? ' · ถ้าใช้ผลงานของคนอื่น อย่าลืมให้เครดิตแหล่งที่มานะ' : ''}</p>
+      <div class="row"><button class="btn" type="submit" id="shGo">${H.layout === 'notes' ? 'ติดบนกระดานกำลังใจ' : 'แชร์' + esc(H.noun)}</button></div><div class="err" id="shErr" hidden></div>
     </form>`;
-  const keep = () => { D.title = $('#shTitle').value; D.message = $('#shMsg').value; D.subject = $('#shSub2').value; D.grade = $('#shGrade2').value; D.time = $('#shTime').value; if ($('#shType2')) D.mtype = $('#shType2').value; };
+  const v = id => { const el = $(id); return el ? el.value : null; };
+  const keep = () => { [['title','#shTitle'],['message','#shMsg'],['subject','#shSub2'],['grade','#shGrade2'],['time','#shTime'],['mtype','#shType2'],['hobby','#shHobby2'],['artist','#shArtist'],['to','#shTo']].forEach(([k, id]) => { const x = v(id); if (x !== null) D[k] = x; }); };
   const again = () => { keep(); renderShareNew(b); };
   const err = m => { $('#shErr').hidden = !m; $('#shErr').textContent = m || ''; };
+  if (typeof bindVoiceTyping === 'function') bindVoiceTyping(b);
   $('#shBack').onclick = () => { keep(); SHARE.view = 'list'; renderShare(); };
+  $$('#shSt .stk-pick', b).forEach(x => x.onclick = () => { D.sticker = x.dataset.v; $$('#shSt .stk-pick', b).forEach(y => pressed(y, y === x)); SFX.pop(); });
+  $$('#shColor .sw', b).forEach(x => x.onclick = () => { D.color = x.dataset.v; $$('#shColor .sw', b).forEach(y => pressed(y, y === x)); });
   $$('[data-rmimg]', b).forEach(x => x.onclick = () => { D.images.splice(+x.dataset.rmimg, 1); again(); });
   $$('[data-rmlink]', b).forEach(x => x.onclick = e => { e.preventDefault(); D.links.splice(+x.dataset.rmlink, 1); again(); });
   const addFiles = async files => { for (const f of Array.from(files || []).filter(f => /^image\//.test(f.type))){ if (D.images.length >= 4){ toast('ใส่รูปได้สูงสุด 4 รูป'); break; } try { D.images.push(await shrinkImage(f)); } catch(e){ toast(e.message, 'bad'); } } again(); };
-  $('#shFile').onchange = e => addFiles(e.target.files);
   const z = $('#shUp');
-  z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('over'); }); z.addEventListener('dragleave', () => z.classList.remove('over'));
-  z.addEventListener('drop', e => { e.preventDefault(); z.classList.remove('over'); addFiles(e.dataTransfer.files); });
-  $('#shForm').addEventListener('paste', e => { const fs = Array.from(e.clipboardData && e.clipboardData.files || []); if (fs.length){ e.preventDefault(); addFiles(fs); } });
+  if (z){
+    $('#shFile').onchange = e => addFiles(e.target.files);
+    z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('over'); }); z.addEventListener('dragleave', () => z.classList.remove('over'));
+    z.addEventListener('drop', e => { e.preventDefault(); z.classList.remove('over'); addFiles(e.dataTransfer.files); });
+    $('#shForm').addEventListener('paste', e => { const fs = Array.from(e.clipboardData && e.clipboardData.files || []); if (fs.length){ e.preventDefault(); addFiles(fs); } });
+  }
   const addLink = async () => {
     let u = $('#shLk').value.trim(); if (!u) return; if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
     try { const x = new URL(u); if (!/\./.test(x.hostname)) throw 0; } catch(e){ toast('ลิงก์นี้ดูไม่ถูกต้อง', 'bad'); return; }
-    if (D.links.length >= 5){ toast('ใส่ลิงก์ได้สูงสุด 5 ลิงก์'); return; }
+    const max = H.attach === 'link' ? 1 : 5;
+    if (D.links.length >= max){ if (max === 1) D.links = []; else { toast('ใส่ลิงก์ได้สูงสุด 5 ลิงก์'); return; } }
     const y = ytId(u); const l = {url:u, title:'กำลังดึงชื่อหน้าเว็บ…', site:'', image:y ? `https://img.youtube.com/vi/${y}/hqdefault.jpg` : ''}; D.links.push(l); $('#shLk').value = ''; again();
-    try { const p = await API.previewLink(u); Object.assign(l, {title:p.title || u, site:p.site || '', image:l.image || p.image || ''}); } catch(e){ l.title = u; }
+    try { const p = await API.previewLink(u); Object.assign(l, {title:p.title || u, site:p.site || '', image:l.image || p.image || ''}); if (H.layout === 'songs' && !D.title.trim() && p.title) D.title = String(p.title).replace(/\s*-\s*YouTube$/i, '').slice(0, 100); } catch(e){ l.title = u; }
     if (SHARE.view === 'new' && !$('#mSt').hidden) again();
   };
-  $('#shLkAdd').onclick = addLink; $('#shLk').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); addLink(); } });
+  if ($('#shLkAdd')){ $('#shLkAdd').onclick = addLink; $('#shLk').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); addLink(); } }); }
   $('#shForm').onsubmit = async e => {
     e.preventDefault(); keep();
-    if (!D.title.trim()) return err(`ตั้งชื่อ${H.noun}ก่อนนะ`);
-    if (!D.message.trim()) return err('เขียนรายละเอียดสั้น ๆ ว่าใช้อย่างไร');
-    if (!D.images.length && !D.links.length) return err('แนบรูปตัวอย่างหรือลิงก์อย่างน้อย 1 อย่าง เพื่อนครูจะได้เอาไปใช้ได้');
+    const msg = D.message.trim();
+    if (!H.noTitle && !D.title.trim()) return err(H.layout === 'songs' ? 'ใส่ชื่อเพลงก่อนนะ' : `ตั้งชื่อ${H.noun}ก่อนนะ`);
+    if (!msg) return err(H.layout === 'notes' ? 'เขียนข้อความกำลังใจก่อนนะ' : H.layout === 'songs' ? 'เล่าสั้น ๆ ว่าเพลงนี้เชื่อมใจอย่างไร' : 'เขียนรายละเอียดสั้น ๆ ก่อนนะ');
+    if (H.attach === 'need' && !D.images.length && !D.links.length) return err('แนบรูปตัวอย่างหรือลิงก์อย่างน้อย 1 อย่าง เพื่อนครูจะได้เอาไปใช้ได้');
+    if (H.attach === 'link' && !D.links.length) return err('วางลิงก์เพลงก่อนนะ');
     err(''); const btn = $('#shGo'); btn.disabled = true;
     try {
       const urls = [];
-      for (let i = 0; i < D.images.length; i++){ btn.textContent = `กำลังอัปโหลดรูป ${i+1}/${D.images.length}…`; urls.push((await API.uploadImage({dataUrl:D.images[i], name:D.title.slice(0,40)})).url); }
+      for (let i = 0; i < D.images.length; i++){ btn.textContent = `กำลังอัปโหลดรูป ${i+1}/${D.images.length}…`; urls.push((await API.uploadImage({dataUrl:D.images[i], name:(D.title || msg).slice(0,40)})).url); }
       btn.textContent = 'กำลังแชร์…';
       const links = D.links.map(l => ({url:l.url, title:/^กำลังดึง/.test(l.title) ? l.url : l.title, site:l.site, image:l.image}));
-      const row = await API.addTopic(Object.assign(me(), {title:D.title.trim(), message:D.message.trim(), category:H.cat, subject:D.subject, color:H.color === '#fff6d9' ? '#fff1a8' : '#cdeefd', images:urls, links,
-        meta:{grade:D.grade, mediaType:D.mtype, time:D.time.trim()}}));
-      if (!row.meta) row.meta = {grade:D.grade, mediaType:D.mtype, time:D.time.trim()};
+      const title = H.noTitle ? ((D.to.trim() ? 'ถึง ' + D.to.trim() + ': ' : '') + msg).slice(0, 90) : D.title.trim();
+      const meta = {};
+      if (hasF(H, 'grade')) meta.grade = D.grade; if (hasF(H, 'mtype')) meta.mediaType = D.mtype; if (hasF(H, 'time') && D.time.trim()) meta.time = D.time.trim();
+      if (hasF(H, 'to') && D.to.trim()) meta.to = D.to.trim(); if (hasF(H, 'sticker')) meta.sticker = D.sticker; if (hasF(H, 'artist') && D.artist.trim()) meta.artist = D.artist.trim(); if (hasF(H, 'hobby')) meta.hobby = D.hobby;
+      const row = await API.addTopic(Object.assign(me(), {title, message:msg, category:H.cat, subject:hasF(H, 'subject') ? D.subject : 'ทุกกลุ่มสาระ', color:hasF(H, 'color') ? D.color : (H.note || '#fff1a8'), images:urls, links, meta}));
+      if (!row.meta || !Object.keys(row.meta).length) row.meta = meta;
       if (!row.authorId) row.authorId = myAcctId();
       BOARD.data.topics.unshift(row); DATA.set('board', BOARD.data); SHARE.draft = null;
-      toast(`แชร์${H.noun}แล้ว ขอบคุณที่แบ่งปันนะ!`, 'good'); SFX.chime();
-      if (typeof netBoardPing === 'function') netBoardPing(`แชร์${H.noun}: ${row.title}`);
+      toast(H.layout === 'notes' ? '💛 ติดข้อความบนกระดานกำลังใจแล้ว' : `แชร์${H.noun}แล้ว ขอบคุณที่แบ่งปันนะ!`, 'good'); SFX.chime();
+      if (typeof netBoardPing === 'function') netBoardPing(`${H.ico} ${H.noun}: ${row.title}`);
       SHARE.view = 'detail'; SHARE.id = row.id; renderShare();
-    } catch(ex){ btn.disabled = false; btn.textContent = `แชร์${H.noun}`; err('แชร์ไม่สำเร็จ: ' + ex.message); }
+    } catch(ex){ btn.disabled = false; btn.textContent = 'แชร์อีกครั้ง'; err('แชร์ไม่สำเร็จ: ' + ex.message); }
   };
 }
 
@@ -3885,26 +4075,33 @@ function renderShareDetail(b){
   const R = SHARE.rdraft && SHARE.rdraft.id === t.id ? SHARE.rdraft : (SHARE.rdraft = {id:t.id, rating:myRv ? +myRv.rating : 0, tried:myRv ? !!myRv.tried : true, message:myRv ? myRv.message : ''});
   const names = arr => [...new Set(arr.map(c => c.author))];
   const yt = links.map(l => ytId(l.url)).find(Boolean);
-  b.innerHTML = `<button class="btn ghost sm" type="button" id="shBack">← กลับไปที่คลัง</button>
+  const player = H.layout === 'songs' ? links.map(l => songEmbed(l.url)).find(Boolean) : '';
+  const [ti, tl] = H.rx.thanks, [ci, cl] = H.rx.cheer;
+  const tab = H.reviews ? SHARE.tab : 'comment';
+  const isNote = H.layout === 'notes';
+  b.innerHTML = `<button class="btn ghost sm" type="button" id="shBack">← กลับ</button>
     <div class="thread" style="margin-top:10px">
-      <article class="big-note" style="background:${H.color}">
-        <span class="chips"><span class="chip">${H.ico} ${esc(H.cat)}</span>${t.subject && t.subject !== 'ทุกกลุ่มสาระ' ? `<span class="chip">${esc(t.subject)}</span>` : ''}${m.grade ? `<span class="chip">${esc(m.grade)}</span>` : ''}${m.mediaType ? `<span class="chip">${esc(m.mediaType)}</span>` : ''}${m.time ? `<span class="chip">⏱ ${esc(m.time)}</span>` : ''}${S.proven ? '<span class="chip proven">✅ นำไปใช้ได้จริง</span>' : ''}</span>
-        <h3>${esc(t.title)}</h3><p class="msgtext">${linkify(t.message)}</p>
-        ${yt && !imgs.length ? `<a class="yt" href="https://www.youtube.com/watch?v=${esc(yt)}" target="_blank" rel="noopener noreferrer"><img alt="ภาพตัวอย่างวิดีโอ" src="https://img.youtube.com/vi/${esc(yt)}/hqdefault.jpg" referrerpolicy="no-referrer"><span>▶ เปิดดูบน YouTube</span></a>` : ''}
+      <article class="big-note${isNote ? ' cheer-big' : ''}" style="background:${isNote ? esc(t.color || '#fff1a8') : H.color}">
+        ${isNote ? `<span class="cn-st big">${esc(m.sticker || '💛')}</span>${m.to ? `<span class="cn-to">ถึง ${esc(m.to)}</span>` : ''}<p class="msgtext cheer-msg">${linkify(t.message)}</p>` : `
+        <span class="chips"><span class="chip">${H.ico} ${esc(H.cat)}</span>${metaChips(t, H)}${m.time ? `<span class="chip">⏱ ${esc(m.time)}</span>` : ''}${S.proven && H.reviews ? '<span class="chip proven">✅ นำไปใช้ได้จริง</span>' : ''}</span>
+        <h3>${esc(t.title)}</h3>
+        ${player ? `<div class="player-wrap">${player}</div>` : ''}
+        <p class="msgtext">${linkify(t.message)}</p>
+        ${yt && !imgs.length && !player ? `<a class="yt" href="https://www.youtube.com/watch?v=${esc(yt)}" target="_blank" rel="noopener noreferrer"><img alt="ภาพตัวอย่างวิดีโอ" src="https://img.youtube.com/vi/${esc(yt)}/hqdefault.jpg" referrerpolicy="no-referrer"><span>▶ เปิดดูบน YouTube</span></a>` : ''}`}
         ${imgs.length ? `<div class="media">${imgs.map(u => `<button type="button" data-img="${esc(u)}" aria-label="ขยายรูป"><img alt="" src="${esc(u.replace(/&sz=w\d+/, '&sz=w800'))}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.remove()"></button>`).join('')}</div>` : ''}
         ${links.length ? `<div class="linkcards">${links.map(l => linkCard(l)).join('')}</div>` : ''}
         <div class="meta"><img alt="" src="${portrait(avatarToLook(t.avatar))}" style="width:32px;height:32px"><span><b>${esc(t.author)}</b> · ${esc(ago(t.createdAt))}</span></div>
         <div class="sh-actions">
-          <button class="like" type="button" id="shThanks" aria-pressed="${didThanks}">🙏 ขอบคุณ ${st.thanks.length}</button>
-          <button class="like" type="button" id="shCheer" aria-pressed="${didCheer}">💛 ให้กำลังใจ ${st.cheer.length}</button>
-          <button class="like" type="button" id="shUsed" aria-pressed="${!!myRv}">✔ ฉันเอาไปใช้แล้ว ${S.tried}</button>
-          ${keepBtn({k:H.keep, id:t.id, title:t.title, text:t.message.slice(0, 160), by:t.author, ref:SHARE.hub, img:shareThumb(t)}, 'บันทึก' + H.noun, 'บันทึกไว้แล้ว')}
+          <button class="like" type="button" id="shThanks" aria-pressed="${didThanks}">${ti} ${esc(tl)} ${st.thanks.length}</button>
+          <button class="like" type="button" id="shCheer" aria-pressed="${didCheer}">${ci} ${esc(cl)} ${st.cheer.length}</button>
+          ${H.reviews ? `<button class="like" type="button" id="shUsed" aria-pressed="${!!myRv}">✔ ฉันเอาไปใช้แล้ว ${S.tried}</button>` : ''}
+          ${keepBtn({k:H.keep, id:t.id, title:t.title, text:t.message.slice(0, 160), by:t.author, ref:SHARE.hub, img:shareThumb(t), st:m.sticker || '', color:t.color || ''}, 'เก็บไว้', 'เก็บไว้แล้ว')}
         </div>
-        ${st.thanks.length || st.cheer.length ? `<p class="thanks-line">${st.thanks.length ? `🙏 ขอบคุณจาก ${names(st.thanks).slice(0, 8).map(esc).join(', ')}${names(st.thanks).length > 8 ? ' และคนอื่น ๆ' : ''}` : ''}${st.cheer.length ? `<br>💛 กำลังใจจาก ${names(st.cheer).slice(0, 8).map(esc).join(', ')}` : ''}</p>` : ''}
+        ${st.thanks.length || st.cheer.length ? `<p class="thanks-line">${st.thanks.length ? `${ti} ${esc(tl)}: ${names(st.thanks).slice(0, 8).map(esc).join(', ')}${names(st.thanks).length > 8 ? ' และคนอื่น ๆ' : ''}` : ''}${st.cheer.length ? `<br>${ci} ${esc(cl)}: ${names(st.cheer).slice(0, 8).map(esc).join(', ')}` : ''}</p>` : ''}
       </article>
       <section>
-        <div class="filters"><button class="seg" type="button" data-st="comment" aria-pressed="${SHARE.tab==='comment'}">💬 ขอบคุณ & ความคิดเห็น (${st.all.length})</button><button class="seg" type="button" data-st="used" aria-pressed="${SHARE.tab==='used'}">✔ ผลการใช้ (${S.n})</button></div>
-        ${SHARE.tab === 'used' ? `
+        ${H.reviews ? `<div class="filters"><button class="seg" type="button" data-st="comment" aria-pressed="${tab==='comment'}">💬 ขอบคุณ & ความคิดเห็น (${st.all.length})</button><button class="seg" type="button" data-st="used" aria-pressed="${tab==='used'}">✔ ผลการใช้ (${S.n})</button></div>` : `<h3 class="plc-h" style="margin-top:0">💬 ข้อความถึงเจ้าของ (${st.all.length})</h3>`}
+        ${tab === 'used' ? `
           <div class="rv-sum"><div class="rv-big"><b>${S.n ? S.avg.toFixed(1) : '–'}</b><span class="hearts-lg">${heartsTxt(S.avg)}</span></div><div><b>${S.n ? `${S.n} คนเล่าผล · นำไปใช้แล้ว ${S.tried} คน` : 'ยังไม่มีใครเล่าผลการใช้'}</b><small>ใช้${esc(H.noun)}นี้แล้วเป็นอย่างไร เล่าให้เจ้าของและเพื่อนครูรู้หน่อย</small></div></div>
           ${isMember() ? `<form class="rv-form" id="shRv">
             <div class="rv-hearts" role="radiogroup" aria-label="ให้คะแนนเป็นหัวใจ">${[1,2,3,4,5].map(n => `<button type="button" role="radio" aria-checked="${R.rating===n}" aria-label="${n} หัวใจ" data-rate="${n}" class="${n <= R.rating ? 'on' : ''}">♥</button>`).join('')}<span>${['แตะหัวใจเพื่อให้คะแนน','ยังไม่เหมาะกับห้องฉัน','พอใช้ได้','ดี ใช้ได้','ดีมาก','ยอดเยี่ยม แนะนำเลย'][R.rating]}</span></div>
@@ -3914,10 +4111,10 @@ function renderShareDetail(b){
           <div class="cmts" style="margin-top:12px">${S.list.slice().sort((a,b2) => a.createdAt < b2.createdAt ? 1 : -1).map(r => `<div class="cmt"><img alt="" src="${portrait(avatarToLook(r.avatar))}"><div><b>${esc(r.author)}</b><small>${esc(ago(r.createdAt))}</small> ${keepBtn({k:'comment', id:r.id, title:`ผลการใช้ "${t.title}"`, text:r.message || heartsTxt(r.rating), by:r.author, ref:t.id})}<div><span class="hearts-sm">${heartsTxt(r.rating)}</span>${r.tried ? ' <span class="chip proven">นำไปใช้แล้ว</span>' : ''}</div>${r.message ? `<p class="msgtext">${linkify(r.message)}</p>` : ''}</div></div>`).join('')}</div>`
         : `
           ${canPost() ? `<form class="sh-cform" id="shCm">
-            <div class="kind-pick" role="radiogroup" aria-label="ประเภทข้อความ">${[['thanks','🙏 ขอบคุณ','ขอบคุณที่แบ่งปัน ใช้ได้ดีมาก…'],['cheer','💛 ให้กำลังใจ','เป็นกำลังใจให้ทำใบงานดี ๆ ต่อไปนะ…'],['comment','💬 ถาม / แนะนำ','ถามวิธีใช้ หรือแนะนำเพิ่มเติม…']].map(([k,l]) => `<button type="button" role="radio" class="kp kp-${k}" data-kind="${k}" aria-checked="${SHARE.ckind===k}">${l}</button>`).join('')}</div>
-            <div class="cform"><input class="txt" id="shCmMsg" maxlength="600" placeholder="${esc(({thanks:'ขอบคุณที่แบ่งปัน ใช้ได้ดีมาก…', cheer:'เป็นกำลังใจให้ทำ' + H.noun + 'ดี ๆ ต่อไปนะ…', comment:'ถามวิธีใช้ หรือแนะนำเพิ่มเติม…'})[SHARE.ckind])}" aria-label="ข้อความ"><button class="btn" type="button" data-mic-for="shCmMsg" title="พิมพ์ด้วยเสียง" aria-label="พิมพ์ด้วยเสียง">🎤</button><button class="btn" type="submit" id="shCmGo">ส่ง</button></div></form>` : '<p class="lead">เข้าสู่ระบบเพื่อขอบคุณหรือแสดงความคิดเห็น</p>'}
+            <div class="kind-pick" role="radiogroup" aria-label="ประเภทข้อความ">${[['thanks', ti + ' ' + tl], ['cheer', ci + ' ' + cl], ['comment', H.layout === 'notes' ? '💬 ตอบกลับ' : '💬 ถาม / แนะนำ']].map(([k,l]) => `<button type="button" role="radio" class="kp kp-${k}" data-kind="${k}" aria-checked="${SHARE.ckind===k}">${esc(l)}</button>`).join('')}</div>
+            <div class="cform"><input class="txt" id="shCmMsg" maxlength="600" placeholder="${esc(H.cmHint)}" aria-label="ข้อความ"><button class="btn" type="button" data-mic-for="shCmMsg" title="พิมพ์ด้วยเสียง" aria-label="พิมพ์ด้วยเสียง">🎤</button><button class="btn" type="submit" id="shCmGo">ส่ง</button></div></form>` : '<p class="lead">เข้าสู่ระบบเพื่อส่งข้อความ</p>'}
           <div class="err" id="shCmErr" hidden></div>
-          <div class="cmts" style="margin-top:12px">${st.all.length ? st.all.slice().reverse().map(c => `<div class="cmt ck-${esc(c.kind || 'comment')}"><img alt="" src="${portrait(avatarToLook(c.avatar))}"><div><b>${esc(c.author)}</b> <span class="ck-tag">${({thanks:'🙏 ขอบคุณ', cheer:'💛 ให้กำลังใจ'})[c.kind] || '💬'}</span><small>${esc(ago(c.createdAt))}</small> ${keepBtn({k:'comment', id:c.id, title:`ความคิดเห็นใน "${t.title}"`, text:c.message, by:c.author, ref:t.id})}<p class="msgtext">${linkify(c.message)}</p></div></div>`).join('') : `<div class="empty-q">ยังไม่มีใครเขียนถึง${esc(H.noun)}นี้ เป็นคนแรกที่ขอบคุณเลย</div>`}</div>`}
+          <div class="cmts" style="margin-top:12px">${st.all.length ? st.all.slice().reverse().map(c => `<div class="cmt ck-${esc(c.kind || 'comment')}"><img alt="" src="${portrait(avatarToLook(c.avatar))}"><div><b>${esc(c.author)}</b> <span class="ck-tag">${c.kind === 'thanks' ? ti + ' ' + esc(tl) : c.kind === 'cheer' ? ci + ' ' + esc(cl) : '💬'}</span><small>${esc(ago(c.createdAt))}</small> ${keepBtn({k:'comment', id:c.id, title:`ใน "${t.title}"`, text:c.message, by:c.author, ref:t.id})}<p class="msgtext">${linkify(c.message)}</p></div></div>`).join('') : `<div class="empty-q">ยังไม่มีใครเขียนถึง เป็นคนแรกเลย</div>`}</div>`}
       </section></div>`;
   $('#shBack').onclick = () => { SHARE.view = 'list'; renderShare(); };
   $$('[data-img]', b).forEach(x => x.onclick = () => openLightbox(x.dataset.img));
@@ -3925,18 +4122,19 @@ function renderShareDetail(b){
   bindGate(b); bindKeeps(b, () => {}); if (typeof bindVoiceTyping === 'function') bindVoiceTyping(b);
   const react = async kind => {
     if (!canPost()){ toast('เข้าสู่ระบบก่อนนะ'); return; }
-    const flag = store.get('shx', {}); if (flag[t.id + ':' + kind]) return toast(kind === 'thanks' ? 'ขอบคุณไปแล้วนะ' : 'ส่งกำลังใจไปแล้วนะ');
+    const lbl = kind === 'thanks' ? tl : cl, ico = kind === 'thanks' ? ti : ci;
+    const flag = store.get('shx', {}); if (flag[t.id + ':' + kind]) return toast(`กด ${lbl} ไปแล้วนะ`);
     try {
-      const row = await API.addComment(Object.assign(me(), {topicId:t.id, kind, quick:true, message:kind === 'thanks' ? 'ขอบคุณที่แบ่งปันนะ' : 'เป็นกำลังใจให้นะ'}));
+      const row = await API.addComment(Object.assign(me(), {topicId:t.id, kind, quick:true, message:`${ico} ${lbl}`}));
       if (!row.kind) row.kind = kind; if (!row.accountId) row.accountId = mine;
       d.comments.push(row); flag[t.id + ':' + kind] = 1; store.set('shx', flag); DATA.set('board', d);
-      SFX.chime(); toast(kind === 'thanks' ? '🙏 ส่งคำขอบคุณแล้ว' : '💛 ส่งกำลังใจแล้ว', 'good'); renderShare();
-      if (typeof netBoardPing === 'function') netBoardPing((kind === 'thanks' ? 'ขอบคุณ ' : 'ส่งกำลังใจให้ ') + `"${t.title}"`);
+      SFX.chime(); toast(`${ico} ${lbl} แล้ว`, 'good'); renderShare();
+      if (typeof netBoardPing === 'function') netBoardPing(`${ico} ${lbl} "${t.title}"`);
     } catch(e){ if (/ไปแล้ว/.test(e.message)){ flag[t.id + ':' + kind] = 1; store.set('shx', flag); renderShare(); } toast(e.message, 'bad'); }
   };
   $('#shThanks').onclick = () => react('thanks');
   $('#shCheer').onclick = () => react('cheer');
-  $('#shUsed').onclick = () => { SHARE.tab = 'used'; renderShare(); const x = $('#shRvMsg'); if (x){ x.scrollIntoView({block:'center'}); x.focus(); } else { const s2 = $('.rv-sum'); if (s2) s2.scrollIntoView({block:'center'}); } };
+  if ($('#shUsed')) $('#shUsed').onclick = () => { SHARE.tab = 'used'; renderShare(); const x = $('#shRvMsg'); if (x){ x.scrollIntoView({block:'center'}); x.focus(); } else { const s2 = $('.rv-sum'); if (s2) s2.scrollIntoView({block:'center'}); } };
   $$('[data-kind]', b).forEach(x => x.onclick = () => { const v = $('#shCmMsg') ? $('#shCmMsg').value : ''; SHARE.ckind = x.dataset.kind; renderShare(); const n = $('#shCmMsg'); if (n){ n.value = v; n.focus(); } });
   const rf = $('#shRv');
   if (rf){
@@ -3978,10 +4176,10 @@ function keepsHTML(){
 }
 function openKept(k, id, ref){
   closeModal('#mSt');
-  if (k === 'worksheet' || k === 'media') return openShare(k, id);
+  if (HUBS[ref] && k !== 'comment') return openShare(ref, id);
   if (k === 'plc' || /^plc:/.test(ref)){ PLC.arch = PLC.arch || {q:'', subject:'', month:'', view:'list', id:null}; PLC.arch.view = 'detail'; PLC.arch.id = k === 'plc' ? id : ref.slice(4); PLC.openLobby('archive'); return; }
   const t = BOARD.data && BOARD.data.topics.find(x => x.id === ref);
-  if (t && SHARE_CATS.includes(t.category)) return openShare(t.category === 'ใบงาน' ? 'worksheet' : 'media', ref);
+  if (t && SHARE_CATS.includes(t.category)) return openShare(hubOfCat(t.category), ref);
   openBoard(); BOARD.view = 'topic'; BOARD.topic = ref; renderBoard();
 }
 function bindKeepsSection(root, redraw){
@@ -3996,6 +4194,7 @@ function bindKeepsSection(root, redraw){
 const NB_SHELVES = [
   {id:'teach', ico:'📚', title:'คลังการสอนของฉัน', sub:'ใบงาน สื่อ โพสต์ และวง PLC ที่บันทึกไว้นำไปใช้', secs:['worksheet','media','saved','plc','comment']},
   {id:'heart', ico:'💛', title:'มุมใจของฉัน', sub:'กำลังใจ ความรู้สึก และเรื่องดี ๆ ของตัวเอง', secs:['cards','tree','letters','cups','vents']},
+  {id:'inspire', ico:'🎵', title:'กำลังใจ เพลง และยามว่าง', sub:'ข้อความกำลังใจ เพลงเชื่อมใจ และไอเดียยามว่างที่เก็บไว้', secs:['cheer','song','hobby']},
   {id:'make', ico:'🎨', title:'ผลงานของฉัน', sub:'ภาพที่ระบายจากโต๊ะเล่นเพลิน', secs:['art']}
 ];
 const nbKeeps = k => (NB.keeps || []).filter(x => x.k === k);
@@ -4010,6 +4209,9 @@ const NB_SECS = {
   letters:{ico:'✉️', t:'จดหมายถึงตัวเอง', bg:'#fdeedd', list:() => NB.letters, empty:'เขียนจดหมายถึงตัวเองที่ตู้จดหมาย', go:['✉️ เขียนจดหมาย', () => openLetters()]},
   cups:{ico:'☕', t:'คำตอบจากมุมกาแฟ', bg:'#f3e7dc', list:() => NB.cups, empty:'ชงเครื่องดื่มที่มุมกาแฟ แล้วตอบคำถามระหว่างรอ', go:['☕ ไปมุมกาแฟ', () => openCoffee()]},
   vents:{ico:'🗒️', t:'โพสต์อิทส่วนตัว', bg:'#fff8b8', list:() => NB.vents, empty:'เขียนระบายที่กระดานบ่น แล้วเลือก "เก็บไว้คนเดียว"', go:['🗒️ ไปกระดานบ่น', () => openVents()]},
+  cheer:{ico:'💛', t:'ข้อความกำลังใจที่เก็บไว้', bg:'#ffeef3', list:() => nbKeeps('cheer'), empty:'กด ☆ เก็บไว้ ที่ข้อความบนกระดานกำลังใจ', go:['💛 ไปกระดานกำลังใจ', () => openShare('cheer')]},
+  song:{ico:'📻', t:'เพลงที่เก็บไว้', bg:'#f1ebff', list:() => nbKeeps('song'), empty:'กด ☆ เก็บไว้ ที่เพลงในมุมวิทยุ', go:['📻 ไปมุมวิทยุ', () => openShare('radio')]},
+  hobby:{ico:'🎸', t:'ไอเดียยามว่าง', bg:'#e6f7ee', list:() => nbKeeps('hobby'), empty:'กด ☆ เก็บไว้ ที่กิจกรรมในมุมดนตรี · ยามว่าง', go:['🎸 ไปมุมดนตรี', () => openShare('hobby')]},
   art:{ico:'🎨', t:'ภาพที่ระบาย', bg:'#f1e9ff', list:() => NB.art, empty:'ระบายสีที่โต๊ะเล่นเพลิน แล้วกดเก็บผลงาน', go:['🎨 ไปโต๊ะเล่นเพลิน', () => openPlay()]}
 };
 const NBV = {sec:null};
@@ -4042,7 +4244,7 @@ function nbDraw(){
   if (NBV.sec) return nbSection(b, NBV.sec);
   const total = Object.keys(NB_SECS).reduce((n, k) => n + (k === 'tree' ? NB.tree.logs.length : NB_SECS[k].list().length), 0);
   const prev = (k, list) => {
-    if (k === 'worksheet' || k === 'media' || k === 'art'){
+    if (['worksheet','media','art','song','hobby'].includes(k)){
       const imgs = list.slice(0, 3).map(x => k === 'art' ? x.img : nbThumb(x)).filter(Boolean);
       if (imgs.length) return `<span class="nbt-thumbs">${imgs.map(u => `<img alt="" src="${esc(u)}" referrerpolicy="no-referrer" onerror="this.remove()">`).join('')}</span>`;
     }
@@ -4074,7 +4276,8 @@ function nbSection(b, k){
   const openK = x => x.ref ? `<button class="stk go" type="button" data-kopen="${esc(x.k + '|' + x.id + '|' + x.ref)}">เปิดดู</button>` : '';
   let body = '';
   if (!list.length && k !== 'tree') body = '';
-  else if (k === 'worksheet' || k === 'media') body = `<div class="nb-grid">${list.map(x => { const th = nbThumb(x); return `<article class="nb-wcard"><span class="nbw-img" style="background:${S.bg}"><span>${S.ico}</span>${th ? `<img alt="" src="${esc(th)}" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}</span><div><b>${esc(x.title)}</b><small>${esc(x.by || '')} · เก็บ ${day(x.at)}</small>${x.text ? `<p>${esc(x.text)}</p>` : ''}<div class="meta">${openK(x)}<span class="sp"></span>${rmK(x)}</div></div></article>`; }).join('')}</div>`;
+  else if (['worksheet','media','song','hobby'].includes(k)) body = `<div class="nb-grid">${list.map(x => { const th = nbThumb(x); return `<article class="nb-wcard"><span class="nbw-img" style="background:${S.bg}"><span>${S.ico}</span>${th ? `<img alt="" src="${esc(th)}" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}</span><div><b>${esc(x.title)}</b><small>${esc(x.by || '')} · เก็บ ${day(x.at)}</small>${x.text ? `<p>${esc(x.text)}</p>` : ''}<div class="meta">${openK(x)}<span class="sp"></span>${rmK(x)}</div></div></article>`; }).join('')}</div>`;
+  else if (k === 'cheer') body = `<div class="nb-notes">${list.map(x => `<article class="nb-note" style="background:${esc(x.color || '#fff1a8')}"><i class="pin" aria-hidden="true"></i><span style="font-size:26px">${esc(x.st || '💛')}</span><p>${esc(x.text || x.title)}</p><small>— ${esc(x.by || '')}</small><div class="meta">${openK(x)}<span class="sp"></span>${rmK(x)}</div></article>`).join('')}</div>`;
   else if (k === 'saved') body = `<div class="nb-notes">${list.map((x, i) => `<article class="nb-note" style="background:${CAT_COLOR[x.cat] || '#fff1a8'}"><i class="pin" aria-hidden="true"></i><small>${esc(x.cat || '')}</small><b>${esc(x.title)}</b>${x.note ? `<p>${esc(x.note)}</p>` : ''}<div class="meta"><button class="stk go" type="button" data-open="${esc(x.id)}">เปิดโพสต์</button><span class="sp"></span>${rmI(i)}</div></article>`).join('')}</div>`;
   else if (k === 'plc') body = `<div class="nb-grid">${list.map(x => `<article class="nb-plc"><span class="nbp-top">🧑‍🏫 วง PLC</span><b>${esc(x.title)}</b>${x.text ? `<p>${esc(x.text)}</p>` : ''}<small>เปิดวงโดย ${esc(x.by || '-')} · เก็บ ${day(x.at)}</small><div class="meta">${openK(x)}<span class="sp"></span>${rmK(x)}</div></article>`).join('')}</div>`;
   else if (k === 'comment') body = `<div class="nb-quotes">${list.map(x => `<article class="nb-quote"><p>“${esc(x.text || '')}”</p><small>— ${esc(x.by || '')} · ${esc(x.title || '')}</small><div class="meta">${openK(x)}<span class="sp"></span>${rmK(x)}</div></article>`).join('')}</div>`;
@@ -4349,8 +4552,11 @@ function netFrame(dt){
   if (!NET.running) return;
   netPush(false);
   for (const e of NET.peers.values()){
-    const o = e.obj, k = Math.min(1, dt*8), dx = e.tx - o.position.x, dz = e.tz - o.position.z;
-    o.position.x += dx*k; o.position.z += dz*k; o.position.y += (e.ty - o.position.y)*k;
+    const o = e.obj, dx = e.tx - o.position.x, dz = e.tz - o.position.z, dd = Math.hypot(dx, dz);
+    // เพื่อนครูเดินด้วยความเร็วคงที่ไปยังตำแหน่งล่าสุด (ไม่กระตุกตามรอบซิงก์)
+    if (dd > 6){ o.position.x = e.tx; o.position.z = e.tz; }
+    else if (dd > 0.001){ const st = Math.min(dd, Math.max(5.2, dd * 2.2) * dt); o.position.x += dx/dd*st; o.position.z += dz/dd*st; }
+    o.position.y += (e.ty - o.position.y)*Math.min(1, dt*8);
     o.rotation.y = lerpAngle(o.rotation.y, e.ry, Math.min(1, dt*10));
     const moving = Math.hypot(dx, dz) > 0.05;
     animChar(o, e.sit ? 'sit' : (moving || e.walk && Math.hypot(dx, dz) > 0.01) ? 'walk' : 'idle', G.time);
@@ -4401,7 +4607,7 @@ window.addEventListener('keydown', e => {
 /* ---------- emotes ---------- */
 function openPeerMenu(e){
   const m = $('#actmenu'); const md = moodOf(e.mood);
-  m.innerHTML = `<h3><span>👋 ${esc(e.name)}</span><button class="x" type="button" aria-label="ปิด">✕</button></h3><p class="sub">${md ? `วันนี้รู้สึก ${md.ico} ${esc(md.name)} · ` : ''}เพื่อนครูที่ออนไลน์อยู่ตอนนี้</p>`;
+  m.innerHTML = `<h3><span>👋 ${esc(e.name)}</span><button class="x" type="button" aria-label="ปิด">✕</button></h3><p class="sub">${md ? `วันนี้รู้สึก ${md.ico}${md.name ? ' ' + esc(md.name) : ''} · ` : ''}เพื่อนครูที่ออนไลน์อยู่ตอนนี้</p>`;
   Object.keys(EMOTES).forEach(k => {
     const [ico, verb] = EMOTES[k]; const b = document.createElement('button'); b.type = 'button'; b.className = 'act';
     b.innerHTML = `<span class="l">${ico} ${esc(verb)}${esc(e.name)}</span>`;
@@ -4642,13 +4848,15 @@ const PLC = {
   },
 
   /* ---------- lobby ---------- */
-  openLobby(tab){
+  openLobby(tab, archiveOnly){
     setTab('plc');
+    if (archiveOnly) tab = 'archive';
     this.tab = tab || this.tab || (this.list.length ? 'live' : 'archive');
-    const b = station('🧑‍🏫 กระดาน PLC · ชุมชนการเรียนรู้ทางวิชาชีพ', 'lg');
+    const b = station(archiveOnly ? '📚 กระดาน PLC · คลังสรุป PLC' : '🧑‍🏫 วง PLC · ชุมชนการเรียนรู้ทางวิชาชีพ', 'lg');
     const online = API.mode !== 'local';
-    b.innerHTML = `<div class="filters" id="plcTabs"><button class="seg" type="button" data-pt="live" aria-pressed="${this.tab==='live'}">🟢 วงที่เปิดอยู่ / เปิดวงใหม่</button><button class="seg" type="button" data-pt="archive" aria-pressed="${this.tab==='archive'}">📚 คลังสรุป PLC</button></div><div id="plcBody"></div>`;
+    b.innerHTML = archiveOnly ? `<p class="lead" style="margin-top:0">คลังสรุปการแลกเปลี่ยนของวง PLC ที่ผ่านมา อยากเปิดวงใหม่ ไปที่ 🧑‍🏫 โต๊ะล้อมวง PLC ได้เลย</p><div id="plcBody"></div>` : `<div class="filters" id="plcTabs"><button class="seg" type="button" data-pt="live" aria-pressed="${this.tab==='live'}">🟢 วงที่เปิดอยู่ / เปิดวงใหม่</button><button class="seg" type="button" data-pt="archive" aria-pressed="${this.tab==='archive'}">📚 คลังสรุป PLC</button></div><div id="plcBody"></div>`;
     $$('[data-pt]', b).forEach(x => x.onclick = () => { this.tab = x.dataset.pt; this.openLobby(this.tab); });
+    this.archiveOnly = !!archiveOnly;
     const body = $('#plcBody');
     if (this.tab === 'archive'){
       if (!online){ body.innerHTML = '<div class="empty">คลังสรุป PLC ใช้ได้เมื่อเชื่อมต่อ Google Apps Script</div>'; return; }
@@ -4966,7 +5174,7 @@ $('#plcLeave').onclick = () => PLC.leave();
 $('#plcClose').onclick = () => PLC.openClose();
 $('#plcMicBtn').onclick = () => PLC.toggleMic();
 $('#plcInvJoin').onclick = () => { const p = PLC.invite; $('#plcInvite').hidden = true; if (p) PLC.join(p); };
-$('#plcInvLater').onclick = () => { $('#plcInvite').hidden = true; toast('เข้าร่วมภายหลังได้ที่โต๊ะกลม PLC หรือแท็บ "กระดาน PLC"'); };
+$('#plcInvLater').onclick = () => { $('#plcInvite').hidden = true; toast('เข้าร่วมภายหลังได้ที่โต๊ะล้อมวง PLC หรือแท็บ "กระดาน PLC"'); };
 $('#plcForm').addEventListener('submit', async e => {
   e.preventDefault();
   const inp = $('#plcInput'), text = inp.value.trim(); if (!text || !PLC.room) return;
