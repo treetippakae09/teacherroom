@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>คลังสรุป PLC · ครูขอพัก</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Itim&family=Mali:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: archive bulletin — header band, stat row, filter bar, card grid; detail opens as a side sheet */
+:root{
+  --bg:#eef6f1; --paper:#fff; --ink:#2f3e46; --ink-soft:#6c7d84; --line:#d8ebfb; --pri:#2e86de; --pri-deep:#1f5f9e; --pri-soft:#eef6ff; --mint:#3aa88f; --butter:#ffcf5a;
+  --f-display:'Itim','Mali',system-ui,sans-serif; --f-body:'Mali','Itim',system-ui,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+a{color:var(--pri-deep)}
+:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{background:var(--paper);border-bottom:3px dashed var(--line)}
+header .wrap{display:flex;gap:14px;align-items:center;padding-block:12px;flex-wrap:wrap}
+header img{width:52px;height:52px;border-radius:14px;box-shadow:0 0 0 3px var(--mint);transform:rotate(-4deg);background:#fff}
+header h1{margin:0;font-family:var(--f-display);font-weight:400;font-size:30px;line-height:1.1}
+header p{margin:2px 0 0;color:var(--ink-soft);font-size:13.5px}
+header .sp{flex:1}
+.btn{border:0;border-radius:14px;padding:9px 16px;font:inherit;font-weight:700;background:var(--pri);color:#fff;box-shadow:0 4px 0 var(--pri-deep);cursor:pointer;text-decoration:none;display:inline-block}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line);box-shadow:0 3px 0 var(--line)}
+main{padding-block:18px 40px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.stats div{background:var(--paper);border-radius:18px;padding:12px 14px;box-shadow:0 4px 0 var(--line)}
+.stats b{display:block;font-family:var(--f-display);font-weight:400;font-size:32px;line-height:1.1;font-variant-numeric:tabular-nums}
+.stats b.sm{font-size:17px;line-height:1.35;padding-top:6px}
+.stats small{color:var(--ink-soft);font-size:12.5px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.filters input,.filters select{font:inherit;border:2.5px solid var(--line);border-radius:14px;padding:9px 12px;background:#fff;max-width:100%}
+.filters input{flex:1;min-width:200px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{text-align:left;font:inherit;color:inherit;border:2px solid var(--line);background:var(--paper);border-radius:20px;padding:14px 16px;display:flex;flex-direction:column;gap:7px;box-shadow:0 4px 0 var(--line);cursor:pointer;min-width:0;transition:transform .12s}
+.card:hover{transform:translateY(-2px);border-color:var(--pri)}
+.card h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:20px;line-height:1.3;overflow-wrap:anywhere}
+.card p{margin:0;font-size:13.5px;line-height:1.6;color:#2f3e46d9;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap;overflow-wrap:anywhere}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{font-size:11.5px;font-weight:700;background:var(--pri-soft);color:var(--pri-deep);border-radius:99px;padding:2px 9px}
+.chip.live{background:var(--pri);color:#fff}
+.meta{display:flex;gap:8px;font-size:12px;color:var(--ink-soft);margin-top:auto;flex-wrap:wrap}
+.meta .sp{flex:1}
+.empty{padding:40px 16px;text-align:center;color:var(--ink-soft);background:var(--paper);border-radius:20px}
+.sheet{position:fixed;inset:0;z-index:20;background:#2f3e4659;display:flex;justify-content:flex-end}
+.sheet article{background:var(--paper);width:min(640px,100%);height:100%;overflow:auto;padding:18px max(18px,env(safe-area-inset-right,0px)) 30px 22px;box-shadow:-10px 0 40px #2f3e4633}
+.sheet h2{font-family:var(--f-display);font-weight:400;font-size:28px;line-height:1.25;margin:10px 0}
+.sheet h3{font-size:15px;color:var(--pri-deep);margin:18px 0 6px}
+dl{display:grid;grid-template-columns:110px minmax(0,1fr);gap:6px 12px;margin:0;font-size:14px}
+dt{color:var(--ink-soft)} dd{margin:0;overflow-wrap:anywhere}
+.sum{white-space:pre-wrap;line-height:1.75;background:var(--pri-soft);border-radius:14px;padding:12px 14px;overflow-wrap:anywhere;margin:0}
+.log{background:#f7f9fa;border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:5px;font-size:13.5px;max-height:360px;overflow:auto}
+.log b{color:var(--mint)} .log small{color:var(--ink-soft);margin-left:4px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.note{font-size:12.5px;color:var(--ink-soft)}
+.skel{height:150px;border-radius:20px;background:linear-gradient(90deg,#fff 0%,#f3f7fa 50%,#fff 100%);background-size:200% 100%;animation:sh 1.2s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+@media (max-width:700px){ .stats{grid-template-columns:repeat(2,minmax(0,1fr))} dl{grid-template-columns:1fr} header h1{font-size:24px} }
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{ header .btn,.filters,.row{display:none!important} body{background:#fff} .card{break-inside:avoid;box-shadow:none} .sheet{position:static;background:none} .sheet article{box-shadow:none;width:100%} }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <img alt="โลโก้ครูขอพัก" src="data:image/png;base64,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">
+  <div><h1>คลังสรุป PLC</h1><p>วงชุมชนการเรียนรู้ทางวิชาชีพของห้องพักครู · ครูขอพัก</p></div>
+  <span class="sp"></span>
+  <a class="btn ghost" href="./">← เข้าห้องพักครู</a>
+  <button class="btn" type="button" id="printBtn">พิมพ์ / บันทึก PDF</button>
+</div></header>
+<main class="wrap">
+  <div class="stats" id="stats"><div><b>–</b><small>วง PLC ทั้งหมด</small></div><div><b>–</b><small>มีสรุปผลแล้ว</small></div><div><b>–</b><small>ครูที่ร่วมวง</small></div><div><b class="sm">–</b><small>กลุ่มสาระที่คุยมากที่สุด</small></div></div>
+  <div class="filters">
+    <input id="q" type="search" placeholder="ค้นหาหัวข้อ สรุป หรือชื่อครู" aria-label="ค้นหา">
+    <select id="subject" aria-label="กลุ่มสาระ"><option value="">ทุกกลุ่มสาระ</option></select>
+    <select id="month" aria-label="เดือน"><option value="">ทุกเดือน</option></select>
+  </div>
+  <div id="list" class="grid"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
+  <p class="note" id="foot"></p>
+</main>
+<div class="sheet" id="sheet" hidden><article id="detail" aria-live="polite"></article></div>
+<script>
+(function(){
+'use strict';
+const API_URL_DEFAULT = 'https://script.google.com/macros/s/AKfycbw01JxQ5pnPUD7XUwCfA2UnqgEVhYPJk0ObfENDGKc_ihkLU_boZOJ80k7lFUwgiN02/exec';
+const ls = (() => { try { return window.localStorage; } catch(e){ return null; } })();
+const lget = k => { try { return ls ? ls.getItem(k) : null; } catch(e){ return null; } };
+const API = (() => { const q = new URLSearchParams(location.search).get('api'); if (q && /^https?:\/\//.test(q)){ try { ls.setItem('kkp_api', q); } catch(e){} return q; } return lget('kkp_api') || API_URL_DEFAULT; })();
+const TOKEN = (() => { try { return JSON.parse(lget('kkp_tok') || 'null'); } catch(e){ return null; } })();
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const linkify = t => esc(t).replace(/(https?:\/\/[^\s<]+[^\s<.,;:!?)\]'"])/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+const CACHE = 'kkp_plc_page_' + API;
+let DATA = null, S = {q:'', subject:'', month:''};
+async function call(action, payload){
+  payload = Object.assign({}, payload || {}, TOKEN ? {token:TOKEN} : {});
+  const tries = [
+    () => fetch(API, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({action, payload})}),
+    () => fetch(API + (API.includes('?') ? '&' : '?') + 'action=' + encodeURIComponent(action) + '&payload=' + encodeURIComponent(JSON.stringify(payload)))
+  ];
+  if (lget('kkp_via') === 'get') tries.reverse();
+  let last;
+  for (const t of tries){
+    try { const r = await t(); const j = JSON.parse(await r.text()); if (!j.ok) throw Object.assign(new Error(j.error), {server:true}); return j.data; }
+    catch(e){ if (e.server) throw e; last = e; }
+  }
+  throw new Error('ติดต่อเซิร์ฟเวอร์ไม่ได้ ลองรีเฟรชอีกครั้ง หรือแจ้งผู้ดูแลให้ตรวจการ Deploy');
+}
+const people = p => String(p.participants || '').split(',').map(x => x.trim()).filter(Boolean);
+const monthKey = t => new Date(t).toISOString().slice(0, 7);
+const fmtMonth = m => new Date(m + '-01').toLocaleDateString('th-TH', {month:'long', year:'numeric'});
+function render(){
+  const all = (DATA && DATA.list) || [];
+  const ppl = new Set(); all.forEach(p => people(p).forEach(x => ppl.add(x)));
+  const bySub = {}; all.forEach(p => bySub[p.subject] = (bySub[p.subject] || 0) + 1);
+  const top = Object.keys(bySub).sort((a, b) => bySub[b] - bySub[a])[0] || '–';
+  $('#stats').innerHTML = `<div><b>${all.length}</b><small>วง PLC ทั้งหมด</small></div><div><b>${all.filter(p => p.status === 'closed').length}</b><small>มีสรุปผลแล้ว</small></div><div><b>${ppl.size}</b><small>ครูที่ร่วมวง</small></div><div><b class="sm">${esc(top)}</b><small>กลุ่มสาระที่คุยมากที่สุด</small></div>`;
+  const subs = [...new Set(all.map(p => p.subject).filter(Boolean))], months = [...new Set(all.map(p => monthKey(p.createdAt)))];
+  $('#subject').innerHTML = '<option value="">ทุกกลุ่มสาระ</option>' + subs.map(x => `<option ${x===S.subject?'selected':''}>${esc(x)}</option>`).join('');
+  $('#month').innerHTML = '<option value="">ทุกเดือน</option>' + months.map(m => `<option value="${m}" ${m===S.month?'selected':''}>${esc(fmtMonth(m))}</option>`).join('');
+  const q = S.q.trim().toLowerCase();
+  const list = all.filter(p => (!S.subject || p.subject === S.subject) && (!S.month || monthKey(p.createdAt) === S.month) && (!q || [p.title, p.detail, p.summary, p.hostName, p.participants].join(' ').toLowerCase().includes(q)));
+  $('#list').innerHTML = list.length ? list.map(p => `<button type="button" class="card" data-id="${esc(p.id)}">
+      <span class="chips"><span class="chip">${p.mode === 'voice' ? '🎙️ คุยด้วยเสียง' : '💬 พิมพ์สนทนา'}</span>${p.subject && p.subject !== 'ทุกกลุ่มสาระ' ? `<span class="chip">${esc(p.subject)}</span>` : ''}${p.status === 'open' ? '<span class="chip live">● กำลังคุย</span>' : ''}</span>
+      <h2>${esc(p.title)}</h2><p>${esc(p.summary || (p.status === 'open' ? 'วงนี้ยังเปิดอยู่' : 'ยังไม่มีสรุปผล'))}</p>
+      <span class="meta"><span>${new Date(p.createdAt).toLocaleDateString('th-TH', {day:'numeric', month:'short', year:'numeric'})} · ${esc(p.hostName)}</span><span class="sp"></span><span>👥 ${people(p).length}</span><span>💬 ${p.msgCount || 0}</span></span></button>`).join('')
+    : `<div class="empty" style="grid-column:1/-1">${all.length ? 'ไม่พบวง PLC ที่ตรงกับที่ค้นหา' : 'ยังไม่มีวง PLC เมื่อครูเปิดวงในห้องพักครู สรุปจะมาแสดงที่นี่'}</div>`;
+  document.querySelectorAll('.card').forEach(c => c.onclick = () => { location.hash = c.dataset.id; });
+  $('#foot').textContent = DATA ? `อัปเดตล่าสุด ${new Date(DATA.updatedAt || Date.now()).toLocaleString('th-TH', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'})} น.` : '';
+  openFromHash();
+}
+function openFromHash(){
+  const id = decodeURIComponent(location.hash.slice(1));
+  const p = id && DATA && (DATA.list || []).find(x => x.id === id);
+  if (!p){ $('#sheet').hidden = true; return; }
+  const dt = d => new Date(d).toLocaleString('th-TH', {day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'});
+  $('#detail').innerHTML = `<button class="btn ghost" type="button" id="close">← กลับ</button>
+    <div class="chips" style="margin-top:12px"><span class="chip">${p.mode === 'voice' ? '🎙️ คุยด้วยเสียง' : '💬 พิมพ์สนทนา'}</span><span class="chip">${esc(p.subject)}</span>${p.status === 'open' ? '<span class="chip live">● กำลังคุย</span>' : ''}</div>
+    <h2>${esc(p.title)}</h2>
+    <dl><dt>ผู้เปิดวง</dt><dd>${esc(p.hostName)}</dd><dt>วันที่</dt><dd>${dt(p.createdAt)}</dd>${p.detail ? `<dt>ประเด็น</dt><dd>${esc(p.detail)}</dd>` : ''}
+      <dt>ผู้ร่วมวง</dt><dd>${people(p).map(esc).join(', ') || '–'}</dd><dt>ข้อความในวง</dt><dd>${p.msgCount || 0} ข้อความ</dd></dl>
+    <h3>สรุปผลการแลกเปลี่ยน</h3>${p.summary ? `<p class="sum">${linkify(p.summary)}</p>` : '<p class="note">ยังไม่มีสรุปผล</p>'}
+    <div class="row">${TOKEN ? '<button class="btn ghost" type="button" id="logBtn">📜 ดูบันทึกการคุยทั้งหมด</button>' : '<span class="note">เข้าสู่ระบบในห้องพักครูก่อน เพื่อดูบันทึกการคุยฉบับเต็ม</span>'}<button class="btn ghost" type="button" id="copyBtn">🔗 คัดลอกลิงก์</button></div>
+    <div id="logBox"></div>`;
+  $('#sheet').hidden = false; $('#close').focus();
+  $('#close').onclick = () => { history.replaceState(null, '', location.pathname + location.search); $('#sheet').hidden = true; };
+  $('#copyBtn').onclick = async () => { try { await navigator.clipboard.writeText(location.href); $('#copyBtn').textContent = '✓ คัดลอกแล้ว'; } catch(e){ $('#copyBtn').textContent = location.href; } };
+  if ($('#logBtn')) $('#logBtn').onclick = async () => {
+    $('#logBox').innerHTML = '<p class="note">กำลังโหลด…</p>';
+    try { const m = await call('getPlcLog', {id:p.id}); $('#logBox').innerHTML = `<h3>บันทึกการคุย</h3><div class="log">${m.length ? m.map(x => `<div><b>${esc(x.name)}</b>: ${linkify(x.text)}<small>${new Date(x.t).toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'})}</small></div>`).join('') : 'ไม่มีข้อความ'}</div>`; }
+    catch(e){ $('#logBox').innerHTML = `<p class="note">${esc(e.message)}</p>`; }
+  };
+}
+$('#q').oninput = e => { S.q = e.target.value; render(); };
+$('#subject').onchange = e => { S.subject = e.target.value; render(); };
+$('#month').onchange = e => { S.month = e.target.value; render(); };
+$('#sheet').onclick = e => { if (e.target.id === 'sheet') $('#close').click(); };
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#sheet').hidden) $('#close').click(); });
+window.addEventListener('hashchange', openFromHash);
+$('#printBtn').onclick = () => window.print();
+try { const c = JSON.parse(lget(CACHE) || 'null'); if (c){ DATA = c; render(); } } catch(e){}
+if (!/^https?:\/\//.test(API)){ $('#list').innerHTML = '<div class="empty" style="grid-column:1/-1">ยังไม่ได้ตั้งค่า URL เซิร์ฟเวอร์ เปิดห้องพักครูแล้วตั้งค่าการเชื่อมต่อก่อน</div>'; return; }
+call('plcArchive').then(d => { DATA = d; try { ls.setItem(CACHE, JSON.stringify(d)); } catch(e){} render(); })
+  .catch(e => { if (!DATA) $('#list').innerHTML = `<div class="empty" style="grid-column:1/-1">${esc(e.message)}</div>`; else $('#foot').textContent += ' · อัปเดตไม่สำเร็จ แสดงข้อมูลที่เก็บไว้'; });
+})();
+</script>
+</body>
+</html>
