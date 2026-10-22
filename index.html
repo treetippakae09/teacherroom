@@ -152,6 +152,13 @@ textarea.txt{resize:vertical;min-height:100px;line-height:1.55}
 .tag .ai{display:inline-block;margin-left:4px;font-size:10px;background:var(--lav);color:#fff;border-radius:6px;padding:0 5px}
 .tag .mk{display:inline-block;margin-left:4px;width:17px;height:17px;line-height:17px;text-align:center;border-radius:50%;background:var(--butter);color:#6b4a00;font-size:12px;animation:bob 1s ease-in-out infinite}
 .tag .mk.ready{background:var(--pri);color:#fff}
+.olabel{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;pointer-events:none;will-change:transform;opacity:.88;transition:opacity .15s}
+.olabel span{font-size:11px;font-weight:700;white-space:nowrap;background:#ffffffd9;color:var(--ink);border-radius:999px;padding:1px 8px;box-shadow:0 1px 0 #00000014;border:1px solid #cfe5da}
+.olabel small{display:none;font-size:11px;white-space:nowrap;background:var(--ink);color:#fff;border-radius:8px;padding:2px 8px;margin-top:3px}
+.olabel.hot{opacity:1;z-index:2}
+.olabel.hot span{background:var(--pri);color:#fff;border-color:var(--pri-deep);font-size:12px}
+.olabel.hot small{display:block}
+.zoom button[aria-pressed="false"]{opacity:.55}
 .bubble{position:absolute;left:0;top:0;max-width:200px;white-space:normal;font-size:12.5px;line-height:1.35;background:#fff;border-radius:14px;padding:6px 10px;box-shadow:0 3px 0 var(--line);will-change:transform}
 .bubble::after{content:"";position:absolute;left:50%;bottom:-7px;margin-left:-7px;border:7px solid transparent;border-bottom:0;border-top-color:#fff}
 @keyframes bob{50%{transform:translateY(-3px)}}
@@ -485,6 +492,26 @@ button.note:hover{transform:rotate(0deg) translateY(-3px)}
 .past b{display:block}
 .past p{margin:4px 0 0;white-space:pre-wrap}
 @media (max-width:640px){ .plc-panel{top:auto;height:62%} }
+.chip.live{background:#2e86de;color:#fff}
+.arch-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.arch-stats div{background:#eef6ff;border-radius:16px;padding:10px 12px}
+.arch-stats b{display:block;font-family:var(--f-display);font-weight:400;font-size:28px;line-height:1.1;font-variant-numeric:tabular-nums}
+.arch-stats b.sm{font-size:16px;line-height:1.35;padding-top:6px}
+.arch-stats small{color:var(--ink-soft);font-size:12px}
+.arch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.arch-card{text-align:left;border:2px solid #d8ebfb;background:#fff;border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;box-shadow:0 4px 0 #d8ebfb;min-width:0;transition:transform .12s}
+.arch-card:hover{transform:translateY(-2px);border-color:#2e86de}
+.arch-card b{font-family:var(--f-display);font-weight:400;font-size:19px;line-height:1.3;overflow-wrap:anywhere}
+.arch-card p{margin:0;font-size:13.5px;line-height:1.55;color:#2f3e46d9;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap;overflow-wrap:anywhere}
+.arch-detail{margin-top:12px;background:#fff;border:2px solid #d8ebfb;border-radius:20px;padding:16px 18px}
+.arch-detail h3{font-family:var(--f-display);font-weight:400;font-size:26px;margin:8px 0 10px;line-height:1.25}
+.arch-detail h4{margin:16px 0 6px;font-size:15px;color:#2e86de}
+.arch-detail dl{display:grid;grid-template-columns:110px minmax(0,1fr);gap:6px 12px;margin:0;font-size:14px;line-height:1.5}
+.arch-detail dt{color:var(--ink-soft)}
+.arch-detail dd{margin:0;overflow-wrap:anywhere}
+.arch-sum{white-space:pre-wrap;line-height:1.7;margin:0 0 12px;background:#f7fbff;border-radius:14px;padding:12px 14px;overflow-wrap:anywhere}
+.arch-log{max-height:320px;overflow:auto;background:#f7f9fa;border-radius:14px;padding:10px 12px;margin-top:10px;display:flex;flex-direction:column;gap:5px;font-size:13.5px}
+@media (max-width:640px){ .arch-stats{grid-template-columns:repeat(2,minmax(0,1fr))} .arch-detail dl{grid-template-columns:1fr} }
 .chip.proven{background:#2a8a70;color:#fff}
 .rv-line{font-size:12px;color:#2f3e46cc;font-weight:600}
 .hearts-sm{color:#e8603c;letter-spacing:1px}
@@ -686,6 +713,7 @@ button.note:hover{transform:rotate(0deg) translateY(-3px)}
           <div id="questList"></div>
         </div>
         <div class="zoom">
+          <button type="button" id="lblBtn" aria-label="แสดงหรือซ่อนป้ายชื่อจุดต่าง ๆ" title="ป้ายชื่อจุดต่าง ๆ" aria-pressed="true">🏷️</button>
           <button type="button" id="zIn" aria-label="ซูมเข้า">+</button>
           <button type="button" id="zOut" aria-label="ซูมออก">−</button>
         </div>
@@ -796,7 +824,7 @@ button.note:hover{transform:rotate(0deg) translateY(-3px)}
    ถ้าเว้นว่างไว้ หน้าเว็บจะมีหน้าตั้งค่าให้วาง URL และทดสอบการเชื่อมต่อ แล้วสร้างลิงก์ ?api=... ไว้แจกครูได้
    ========================================================= */
 const API_URL_DEFAULT = 'https://script.google.com/macros/s/AKfycbw01JxQ5pnPUD7XUwCfA2UnqgEVhYPJk0ObfENDGKc_ihkLU_boZOJ80k7lFUwgiN02/exec';
-const APP_VERSION = '2026.10.22.2';
+const APP_VERSION = '2026.10.22.3';
 const API_URL = (() => {
   const okUrl = u => typeof u === 'string' && /^https?:\/\/\S+$/.test(u.trim());
   let ls = null; try { ls = window.localStorage; } catch(e){}
@@ -1267,7 +1295,42 @@ const API = (() => {
     async createPlc(d){ return call('createPlc','createPlc',d); },
     async closePlc(d){ return call('closePlc','closePlc',d); },
     async rtSignal(d){ return call('rtSignal','rtSignal',d); },
+    async bootstrap(){ if (mode !== 'local') return call('bootstrap','bootstrap',{}); const x = db(); return {board:{topics:x.topics, comments:x.comments, reviews:x.reviews || []}, vents:x.vents, settings:{}, plcs:[]}; },
+    async plcArchive(){ return call('plcArchive','plcArchive',{}); },
+    async updatePlcSummary(d){ return call('updatePlcSummary','updatePlcSummary',d); },
     hasGAS
+  };
+})();
+
+/* =========================================================
+   DATA — แคชข้อมูลไว้ในเครื่อง แสดงผลทันที แล้วค่อยอัปเดตจากเซิร์ฟเวอร์ (stale-while-revalidate)
+   ========================================================= */
+const DATA = (() => {
+  const KEY = 'kkp_cache_' + (API_URL || 'gas');
+  const useLS = API.mode !== 'local';
+  let c = {};
+  if (useLS){ try { c = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ c = {}; } }
+  let timer = 0;
+  const persist = () => { if (!useLS) return; clearTimeout(timer); timer = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(c)); } catch(e){ try { delete c.archive; localStorage.setItem(KEY, JSON.stringify(c)); } catch(e2){} } }, 800); };
+  const listeners = {};
+  return {
+    get(k){ return c[k] ? c[k].v : null; },
+    age(k){ return c[k] ? Date.now() - c[k].t : Infinity; },
+    set(k, v){ c[k] = {v, t:Date.now()}; persist(); (listeners[k] || []).forEach(f => { try { f(v); } catch(e){} }); },
+    touch(k){ if (c[k]){ c[k].t = Date.now(); persist(); } },
+    on(k, f){ (listeners[k] = listeners[k] || []).push(f); },
+    booting:null,
+    boot(){
+      if (this.booting) return this.booting;
+      this.booting = API.bootstrap().then(r => {
+        if (r.board) this.set('board', r.board);
+        if (r.vents) this.set('vents', r.vents);
+        if (r.settings) this.set('settings', r.settings);
+        if (r.plcs) this.set('plcs', r.plcs);
+        return r;
+      }).catch(() => null).finally(() => { setTimeout(() => { this.booting = null; }, 1000); });
+      return this.booting;
+    }
   };
 })();
 
@@ -1685,6 +1748,57 @@ function buildTree(){
   if (lv >= 6) for (let i=0;i<Math.min(lv-5, 8);i++){ const a = i*0.9; g.add(sph(0.06,'#ffffff',Math.cos(a)*0.4,1.3+(i%3)*0.25,Math.sin(a)*0.4)); }
 }
 
+function plcBoardTexture(){
+  return canvasTex(640, 420, (g, W, H) => {
+    g.fillStyle = '#ffffff'; g.fillRect(0, 0, W, H);
+    g.fillStyle = '#2e86de'; rr(g, 20, 16, W - 40, 64, 20); g.fill();
+    g.fillStyle = '#fff'; g.font = '36px Itim, Mali, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('🧑‍🏫 วง PLC · คลังสรุป', W/2, 49);
+    const open = (typeof PLC !== 'undefined' && PLC.list) ? PLC.list : [];
+    const arch = ((DATA.get('archive') || {}).list || []).filter(p => p.status === 'closed');
+    const rows = open.map(p => ['● กำลังคุย', p.title, '#2e86de']).concat(arch.map(p => [new Date(p.createdAt).toLocaleDateString('th-TH', {day:'numeric', month:'short'}), p.title, '#2f3e46'])).slice(0, 5);
+    g.textAlign = 'left';
+    if (!rows.length){ g.fillStyle = '#6c7d84'; g.font = '28px Mali, sans-serif'; wrapText(g, 'ยังไม่มีวง PLC แตะที่กระดานเพื่อเปิดวงแรก', 40, 120, W - 80, 40, 3); return; }
+    rows.forEach((r, i) => {
+      const y = 112 + i * 60;
+      g.fillStyle = i % 2 ? '#f3f8fd' : '#e8f2fc'; rr(g, 26, y - 6, W - 52, 52, 12); g.fill();
+      g.fillStyle = r[2]; g.font = 'bold 20px Mali, sans-serif'; g.fillText(r[0], 40, y + 20);
+      g.fillStyle = '#2f3e46'; g.font = '24px Mali, sans-serif'; wrapText(g, r[1], 170, y + 6, W - 210, 30, 1);
+    });
+  });
+}
+const OBJ_LABELS = {
+  board:['📌','กระดานปักหมุด','แชร์ไอเดียสอน ข่าวดี รีวิวการนำไปใช้'], vent:['🗒️','กระดานบ่น','ระบายแบบไม่แสดงชื่อ'], plcboard:['🧑‍🏫','วง PLC','เปิดวงคุยการสอน และดูคลังสรุป PLC'],
+  coffee:['☕','มุมกาแฟ','ชงเครื่องดื่มให้ใจสักแก้ว'], cooler:['💧','ตู้น้ำเย็น','ดื่มน้ำ เติมพลัง'], sofa:['🛋️','โซฟารับฟัง','คุยกับพี่ฟ้า (AI) หรืองีบพัก'],
+  window:['🎧','หน้าต่างพักสายตา','ฟังเสียงฝน เสียงนก พักหายใจ'], duty:['📋','ตารางเวร','ดูเวรประตูประจำสัปดาห์'], shelf:['📚','ชั้นหนังสือ','อ่านแก้เครียด'],
+  copier:['🖨️','เครื่องถ่ายเอกสาร','ถ่ายใบงาน'], tree:['🪴','ต้นไม้พักใจ','รดน้ำและบันทึกเรื่องดี ๆ'], cards:['🃏','ไพ่กำลังใจ','เปิดไพ่ถึงคุณครู'],
+  play:['🎨','โต๊ะเล่นเพลิน','ระบายสี ต่อบล็อก ไม่มีคะแนน'], circle:['💬','โต๊ะวงคุย','คุยหัวข้อเบา ๆ กับเพื่อนครู'], mail:['📮','ตู้จดหมาย','เขียนจดหมายถึงตัวเอง'],
+  mirror:['🪞','กระจก','วันนี้ฉันรู้สึกอย่างไร'], myDesk:['🗂️','โต๊ะของฉัน','ทำงานค้าง เขียนแผน ตรวจงาน']
+};
+let showObjLabels = store.get('objLabels', true);
+function makeObjLabels(){
+  G.objLabels = [];
+  G.interactables.filter(it => it.kind === 'obj' && OBJ_LABELS[it.id]).forEach(it => {
+    const bb = new T.Box3().setFromObject(it.group); const c = new T.Vector3(); bb.getCenter(c);
+    const [ico, name, desc] = OBJ_LABELS[it.id];
+    const el = document.createElement('div'); el.className = 'olabel'; el.innerHTML = `<span>${ico} ${esc(name)}</span><small>${esc(desc)}</small>`;
+    $('#labels').appendChild(el);
+    G.objLabels.push({it, el, pos:new T.Vector3(c.x, Math.min(bb.max.y + 0.3, 3.9), c.z)});
+  });
+  $('#lblBtn').setAttribute('aria-pressed', String(showObjLabels));
+}
+function updateObjLabels(){
+  if (!G.objLabels) return;
+  const hot = G.hoverIt || G.near;
+  G.objLabels.forEach(L => {
+    const show = showObjLabels || L.it === hot;
+    if (!show){ L.el.hidden = true; return; }
+    _v.copy(L.pos); _v.project(G.cam);
+    const vis = _v.z < 1 && _v.x > -1.1 && _v.x < 1.1 && _v.y > -1.1 && _v.y < 1.1;
+    L.el.hidden = !vis; if (!vis) return;
+    L.el.style.transform = `translate(${(_v.x*0.5+0.5)*G.w}px,${(-_v.y*0.5+0.5)*G.h}px) translate(-50%,-100%)`;
+    L.el.classList.toggle('hot', L.it === hot);
+  });
+}
 function buildRoom(){
   const S = G.scene;
   const floor = new T.Mesh(new T.PlaneGeometry(22, 16), mat('#ffffff', {map:tex('wood')}));
@@ -1830,6 +1944,17 @@ function buildRoom(){
   mb.add(box(0.26, 0.04, 0.02, '#1b4f8a', 0, 1.2, 0.32)); mb.add(box(0.04, 0.3, 0.04, '#e8603c', 0.28, 1.4, 0.05)); mb.add(box(0.14, 0.09, 0.03, '#e8603c', 0.34, 1.5, 0.05));
   S.add(mb); addObstacle(-5.0, 6.9, 0.32, 0.35);
   addInteract({id:'mail', kind:'obj', name:'ตู้จดหมายถึงตัวเอง', verb:'เขียนจดหมายถึงตัวเอง', icon:'📮', group:mb, ax:-5.0, az:6.0, face:0});
+  // PLC whiteboard (standing, double-sided)
+  const pb = new T.Group(); pb.position.set(9.85, 0, 0.7); pb.rotation.y = -0.7;
+  [-0.75, 0.75].forEach(x => { pb.add(box(0.06, 1.9, 0.06, '#9aa8ae', x, 0.95, 0)); pb.add(box(0.5, 0.05, 0.06, '#9aa8ae', x, 0.05, 0)); [-0.2, 0.2].forEach(z => pb.add(sph(0.05, '#2f3e46', x, 0.03, z))); });
+  pb.add(box(1.7, 1.15, 0.06, '#2e86de', 0, 1.42, 0));
+  G.plcTex = plcBoardTexture();
+  const pfm = new T.MeshBasicMaterial({map:G.plcTex});
+  const pf1 = plane(1.6, 1.05, pfm); pf1.position.set(0, 1.42, 0.035); pb.add(pf1);
+  const pf2 = plane(1.6, 1.05, pfm); pf2.position.set(0, 1.42, -0.035); pf2.rotation.y = Math.PI; pb.add(pf2);
+  pb.add(box(1.5, 0.05, 0.14, '#9aa8ae', 0, 0.86, 0.05)); const mk = cyl(0.02, 0.02, 0.14, '#e74c3c', -0.4, 0.9, 0.08, 8); mk.rotation.z = Math.PI/2; pb.add(mk);
+  S.add(pb); addObstacle(9.85, 0.7, 0.6, 0.55);
+  addInteract({id:'plcboard', kind:'obj', name:'กระดานวง PLC', verb:'เปิดวง PLC และคลังสรุป', icon:'🧑‍🏫', group:pb, ax:9.2, az:1.45, face:2.44});
   // mirror + entrance door
   const mr = new T.Group(); mr.position.set(9.7, 0, 3.4); mr.rotation.y = -Math.PI/2;
   const fr = mesh(new T.TorusGeometry(0.5, 0.07, 10, 32), '#ffcf5a'); fr.scale.set(0.8, 1.35, 1); fr.position.y = 1.35; mr.add(fr);
@@ -2007,7 +2132,7 @@ function initGame(){
   const sun = new T.DirectionalLight(0xfff6e8, 0.52); sun.position.set(6, 14, 8); sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, {left:-14, right:14, top:12, bottom:-12, near:1, far:40}); sun.shadow.bias = -0.0008; sun.shadow.normalBias = 0.03;
   G.scene.add(sun);
-  buildRoom(); createNPCs();
+  buildRoom(); createNPCs(); makeObjLabels();
   G.me = {obj:buildCharacter(player), target:null, pending:null, stopDist:0.2, stuck:0, seat:null};
   G.me.obj.position.set(9.9, 0, 6.0); G.me.obj.rotation.y = -Math.PI/2; G.scene.add(G.me.obj);
   if (P.cup) setCup(G.me.obj, P.cup.cup, P.cup.liq);
@@ -2020,8 +2145,13 @@ function initGame(){
   bindGameInput(r.domElement);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { G.labelTexs.forEach(redraw); redraw(G.boardTex); redraw(G.ventTex); redraw(G.clockTex); });
   G.nextTrip = 10; G.nextBubble = 4;
-  API.getBoard().then(d => { BOARD.data = d; G.boardTopics = d.topics || []; redraw(G.boardTex); }).catch(()=>{});
-  API.getVents().then(v => { G.ventList = v || []; redraw(G.ventTex); }).catch(()=>{});
+  const applyBoard = d => { if (!d) return; if (!BOARD.data || BOARD.view !== 'new') BOARD.data = d; G.boardTopics = d.topics || []; redraw(G.boardTex); };
+  const applyVents = v => { G.ventList = v || []; redraw(G.ventTex); };
+  applyBoard(DATA.get('board')); applyVents(DATA.get('vents'));
+  DATA.on('board', applyBoard); DATA.on('vents', applyVents);
+  DATA.boot();
+  DATA.on('archive', () => redraw(G.plcTex));
+  if (API.mode !== 'local') PLC.loadArchive();
   hudUpdate(); renderQuests();
 }
 
@@ -2029,10 +2159,22 @@ function initGame(){
 function bindGameInput(cv){
   let down = null;
   cv.addEventListener('pointerdown', e => { down = {x:e.clientX, y:e.clientY, yaw:G.yaw, moved:false}; cv.setPointerCapture(e.pointerId); });
+  let hvT = 0;
+  cv.addEventListener('pointermove', e => {
+    if (!down && e.pointerType === 'mouse' && performance.now() - hvT > 80){
+      hvT = performance.now();
+      const rect = cv.getBoundingClientRect();
+      G.ray.setFromCamera(new T.Vector2(((e.clientX-rect.left)/rect.width)*2-1, -((e.clientY-rect.top)/rect.height)*2+1), G.cam);
+      const h = G.ray.intersectObjects(G.clickables, false); G.hoverIt = h.length ? h[0].object.userData.iref : null;
+      cv.style.cursor = G.hoverIt ? 'pointer' : '';
+    }
+  });
+  cv.addEventListener('pointerleave', () => { G.hoverIt = null; });
   cv.addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - down.x; if (Math.abs(dx) > 8 || Math.abs(e.clientY-down.y) > 8) down.moved = true; if (down.moved) G.yaw = clamp(down.yaw - dx*0.006, -0.25, 1.25); });
   cv.addEventListener('pointerup', e => { if (down && !down.moved) handleClick(e); down = null; });
   cv.addEventListener('pointercancel', () => { down = null; });
   cv.addEventListener('wheel', e => { e.preventDefault(); G.zoom = clamp(G.zoom + e.deltaY*0.001, 0.55, 1.4); }, {passive:false});
+  $('#lblBtn').onclick = () => { showObjLabels = !showObjLabels; store.set('objLabels', showObjLabels); $('#lblBtn').setAttribute('aria-pressed', String(showObjLabels)); toast(showObjLabels ? 'แสดงป้ายชื่อทุกจุด' : 'ซ่อนป้ายชื่อ (ยังขึ้นเมื่อเดินเข้าใกล้หรือชี้เมาส์)'); };
   $('#zIn').onclick = () => { G.zoom = clamp(G.zoom - 0.15, 0.55, 1.4); };
   $('#zOut').onclick = () => { G.zoom = clamp(G.zoom + 0.15, 0.55, 1.4); };
 }
@@ -2199,6 +2341,7 @@ function placeTag(tag, obj, extraY){
   if (!tag.bub.hidden){ if (G.time > tag.bubUntil) tag.bub.hidden = true; else tag.bub.style.transform = `translate(${x}px,${y - 30}px) translate(-50%,-100%)`; }
 }
 function updateTags(){
+  updateObjLabels();
   placeTag(G.me.tag, G.me.obj);
   const md = moodOf(P.feeling); const mdEl = G.me.tag.el.querySelector('.md'); const want = md ? md.ico : '';
   if (mdEl.textContent !== want) mdEl.textContent = want;
@@ -2254,7 +2397,7 @@ const ACTIONS = {
     {label:'แอบลบชื่อตัวเองออก', fx:{mood:6}, min:5, doing:'กำลังลบอย่างเนียน…', msg:['ลบสำเร็จ! แต่พี่ภาถ่ายรูปตารางเก็บไว้แล้ว']}
   ]
 };
-const DIRECT = { board:()=>openBoard(), vent:()=>openVents(), mirror:()=>openMirror(), cards:()=>openCards(), tree:()=>openTree(), play:()=>openPlay(), circle:()=>{ sitAt('circle'); openCircle(); }, mail:()=>openLetters() };
+const DIRECT = { plcboard:()=>PLC.openLobby(PLC.list.length ? 'live' : 'archive'), board:()=>openBoard(), vent:()=>openVents(), mirror:()=>openMirror(), cards:()=>openCards(), tree:()=>openTree(), play:()=>openPlay(), circle:()=>{ sitAt('circle'); openCircle(); }, mail:()=>openLetters() };
 
 function interact(it){
   G.me.target = null; G.me.pending = null;
@@ -2652,12 +2795,14 @@ function openVents(){
       const msg = $('#vMsg').value.trim(); if (!msg){ $('#vErr').hidden = false; $('#vErr').textContent = 'ลองเขียนอะไรสักหน่อยก่อนนะ'; return; }
       if (vis === 'private'){ NB.vents.unshift({at:today(), message:msg, color}); saveNB(); applyFx({mood:5}); hudUpdate(); toast('เก็บไว้ในสมุดของฉันแล้ว วางลงได้แล้วนะ', 'good'); tab = 'mine'; draw(); return; }
       $('#vPost').disabled = true;
-      try { const row = await API.addVent({message:msg, color}); list = [row].concat(list || []); G.ventList = list; redraw(G.ventTex); applyFx({mood:5}); hudUpdate(); toast('แปะแล้ว แบบไม่แสดงชื่อ', 'good'); tab = 'all'; draw(); }
+      try { const row = await API.addVent({message:msg, color}); list = [row].concat(list || []); G.ventList = list; DATA.set('vents', list); redraw(G.ventTex); applyFx({mood:5}); hudUpdate(); toast('แปะแล้ว แบบไม่แสดงชื่อ', 'good'); tab = 'all'; draw(); }
       catch(e){ $('#vPost').disabled = false; $('#vErr').hidden = false; $('#vErr').textContent = 'แปะไม่สำเร็จ: ' + e.message; }
     };
   };
   draw();
-  API.getVents().then(v => { list = v || []; G.ventList = list; redraw(G.ventTex); if (!$('#mSt').hidden) { const keep = $('#vMsg') ? $('#vMsg').value : ''; draw(); if ($('#vMsg')) $('#vMsg').value = keep; } }).catch(e => { list = []; draw(); toast('โหลดกระดานบ่นไม่สำเร็จ: ' + e.message, 'bad'); });
+  if (DATA.get('vents')){ list = DATA.get('vents').slice(); draw(); }
+  if (DATA.age('vents') < 15000) return;
+  API.getVents().then(v => { list = v || []; DATA.set('vents', list); G.ventList = list; redraw(G.ventTex); if (!$('#mSt').hidden) { const keep = $('#vMsg') ? $('#vMsg').value : ''; draw(); if ($('#vMsg')) $('#vMsg').value = keep; } }).catch(e => { list = []; draw(); toast('โหลดกระดานบ่นไม่สำเร็จ: ' + e.message, 'bad'); });
 }
 
 /* =========================================================
@@ -2888,7 +3033,8 @@ function openCircle(){
     <div class="topics" id="cTopics">${CIRCLE_TOPICS.map((t,i) => `<button type="button" class="seg" data-v="${t.id}" aria-pressed="${i===0}">${esc(t.t)}</button>`).join('')}</div>
     <div id="cBody"></div>`;
   $('#toPlc').onclick = () => { closeModal('#mSt'); PLC.openLobby(); };
-  API.getSettings().then(s => { $('#cNotice').textContent = (s && s.circle_notice) || 'วงคุยแบบมีผู้ดูแล: ติดตามประกาศรอบสดได้ที่นี่'; }).catch(() => { $('#cNotice').hidden = true; });
+  if (DATA.get('settings') && DATA.get('settings').circle_notice) $('#cNotice').textContent = DATA.get('settings').circle_notice;
+  API.getSettings().then(s => { DATA.set('settings', s); $('#cNotice').textContent = (s && s.circle_notice) || 'วงคุยแบบมีผู้ดูแล: ติดตามประกาศรอบสดได้ที่นี่'; }).catch(() => { $('#cNotice').hidden = true; });
   const render = async () => {
     const body = $('#cBody'); const ids = Object.keys(topic.npc); const two = ids.sort(() => Math.random()-0.5).slice(0,2);
     body.innerHTML = `<h3 style="font-family:var(--f-display);font-weight:400;margin:6px 0 10px">${esc(topic.t)}</h3>
@@ -3067,12 +3213,17 @@ function linkCard(l, removable, i){
 }
 function openBoard(){ setTab('board'); openModal('#mBoard'); BOARD.view = 'list'; renderBoard(); loadBoard(); }
 async function loadBoard(){
+  if (!BOARD.data && DATA.get('board')) BOARD.data = DATA.get('board');
   if (!BOARD.data) $('#bBody').innerHTML = '<div class="loading">กำลังโหลดกระดาน…</div>';
-  try { BOARD.data = await API.getBoard(); if (G.boardTex){ G.boardTopics = BOARD.data.topics; redraw(G.boardTex); } if (BOARD.view !== 'new') renderBoard(); }
+  else renderBoard();
+  if (BOARD.data && DATA.age('board') < 15000) return;
+  $('#bCount').textContent = (BOARD.data ? `${BOARD.data.topics.length} หัวข้อ · ` : '') + 'กำลังอัปเดต…';
+  try { BOARD.data = await API.getBoard(); DATA.set('board', BOARD.data); if (G.boardTex){ G.boardTopics = BOARD.data.topics; redraw(G.boardTex); } if (BOARD.view !== 'new') renderBoard(); else $('#bCount').textContent = `${BOARD.data.topics.length} หัวข้อ`; }
   catch(e){ $('#bBody').innerHTML = `<div class="empty">โหลดกระดานไม่สำเร็จ: ${esc(e.message)}<br>ตรวจว่ารัน setupDatabase แล้ว และ Deploy เป็น Web app</div>`; }
 }
 function renderBoard(){
   const body = $('#bBody'); const d = BOARD.data;
+  if (d && d !== DATA.get('board')) DATA.set('board', d);
   $('#bNew').hidden = BOARD.view !== 'list'; $('#bBack').hidden = BOARD.view === 'list';
   if (!d) return;
   $('#bCount').textContent = `${d.topics.length} หัวข้อ`;
@@ -3170,7 +3321,8 @@ function renderNewForm(){
   };
 }
 function renderTopic(){
-  const body = $('#bBody'); const d = BOARD.data; const t = d.topics.find(x => x.id === BOARD.topic);
+  const body = $('#bBody'); const d = BOARD.data;
+  if (d){ DATA.set('board', d); } const t = d.topics.find(x => x.id === BOARD.topic);
   if (!t){ BOARD.view = 'list'; return renderBoard(); }
   const cs = d.comments.filter(c => c.topicId === t.id).sort((a,b) => a.createdAt < b.createdAt ? -1 : 1);
   const liked = !!BOARD.liked[t.id], imgs = arr(t.images).map(safeUrl).filter(Boolean), links = arr(t.links);
@@ -3635,7 +3787,7 @@ function netBoardIn(b){
   NET.boardSeen = Math.max(NET.boardSeen || 0, b.t || b.v || 0);
   if (b.by && b.by !== 'ครู' + NAME()) toast(`📌 ${b.by} ${/^ตอบ/.test(b.title || '') ? b.title : 'ปักหมุด: ' + (b.title || 'เรื่องใหม่')}`, 'good');
   API.getBoard().then(d => {
-    BOARD.data = d; G.boardTopics = d.topics || []; redraw(G.boardTex);
+    BOARD.data = d; DATA.set('board', d); G.boardTopics = d.topics || []; redraw(G.boardTex);
     if (!$('#mBoard').hidden && BOARD.view !== 'new') renderBoard();
   }).catch(() => {});
 }
@@ -3813,6 +3965,7 @@ const PLC = {
 
   onSync(r){
     this.list = r.plcs || [];
+    const sig = this.list.map(p => p.id).join(','); if (sig !== this.listSig){ this.listSig = sig; if (G.plcTex) redraw(G.plcTex); }
     const now = Date.now();
     this.list.forEach(p => {
       if (this.seen.has(p.id)) return;
@@ -3843,19 +3996,104 @@ const PLC = {
   },
 
   /* ---------- lobby ---------- */
-  openLobby(){
+  openLobby(tab){
     setTab('plc');
+    this.tab = tab || this.tab || (this.list.length ? 'live' : 'archive');
     const b = station('🧑‍🏫 วง PLC · ชุมชนการเรียนรู้ทางวิชาชีพ', 'lg');
+    const online = API.mode !== 'local';
+    b.innerHTML = `<div class="filters" id="plcTabs"><button class="seg" type="button" data-pt="live" aria-pressed="${this.tab==='live'}">🟢 วงที่เปิดอยู่ / เปิดวงใหม่</button><button class="seg" type="button" data-pt="archive" aria-pressed="${this.tab==='archive'}">📚 คลังสรุป PLC</button></div><div id="plcBody"></div>`;
+    $$('[data-pt]', b).forEach(x => x.onclick = () => { this.tab = x.dataset.pt; this.openLobby(this.tab); });
+    const body = $('#plcBody');
+    if (this.tab === 'archive'){
+      if (!online){ body.innerHTML = '<div class="empty">คลังสรุป PLC ใช้ได้เมื่อเชื่อมต่อ Google Apps Script</div>'; return; }
+      this.arch = this.arch || {q:'', subject:'', month:'', view:'list', id:null};
+      this.renderArchive(); this.loadArchive(); return;
+    }
     if (!this.supported()){
-      b.innerHTML = `<div class="empty">วง PLC ใช้ได้เมื่อเชื่อมต่อออนไลน์ผ่าน Google Apps Script และเข้าสู่ระบบแล้ว<br><small>${NET.kind === 'room' ? 'หน้านี้เปิดในโหมดห้อง Claude ซึ่งยังไม่รองรับวง PLC' : 'ตอนนี้อยู่ในโหมดออฟไลน์หรือโหมดทดลอง'}</small></div>`;
+      body.innerHTML = `<div class="empty">การเปิดและร่วมวง PLC แบบสด ใช้ได้เมื่อเชื่อมต่อออนไลน์ผ่าน Google Apps Script และเข้าสู่ระบบแล้ว<br><small>${NET.kind === 'room' ? 'หน้านี้เปิดในโหมดห้อง Claude ซึ่งยังไม่รองรับวง PLC' : 'ตอนนี้อยู่ในโหมดออฟไลน์หรือโหมดทดลอง'}</small></div>`;
       return;
     }
-    b.innerHTML = `<div id="plcLobby"><p class="lead">ตั้งหัวข้อคุยเรื่องการสอน แล้วระบบจะแจ้งเพื่อนครูที่ออนไลน์อยู่ตอนนี้ให้มาร่วมวง ผู้เปิดวงเลือกได้ว่าจะพิมพ์สนทนาหรือเปิดไมโครโฟนคุยกัน ทุกข้อความในวงถูกบันทึกเป็นหลักฐาน PLC ในชีต</p>
+    body.innerHTML = `<div id="plcLobby"><p class="lead">ตั้งหัวข้อคุยเรื่องการสอน แล้วระบบจะแจ้งเพื่อนครูที่ออนไลน์อยู่ตอนนี้ให้มาร่วมวง ผู้เปิดวงเลือกได้ว่าจะพิมพ์สนทนาหรือเปิดไมโครโฟนคุยกัน ทุกข้อความในวงถูกบันทึกเป็นหลักฐาน PLC และสรุปจะไปอยู่ใน 📚 คลังสรุป PLC</p>
       <h3 class="plc-h">วงที่เปิดอยู่ตอนนี้</h3><div class="plc-list" id="plcOpen"></div>
-      <h3 class="plc-h">เปิดวงใหม่</h3><div id="plcCreate"></div>
-      <h3 class="plc-h" style="margin-top:18px">วงที่ผ่านมา</h3><div class="plc-list" id="plcPast"><div class="loading" style="padding:10px">กำลังโหลด…</div></div></div>`;
+      <h3 class="plc-h">เปิดวงใหม่</h3><div id="plcCreate"></div></div>`;
     this.renderLobbyLists(); this.renderCreate();
-    API.getPlcs().then(list => this.renderPast(list)).catch(e => { $('#plcPast').innerHTML = `<div class="empty-q">โหลดไม่สำเร็จ: ${esc(e.message)}</div>`; });
+  },
+
+  /* ---------- 📚 archive ---------- */
+  async loadArchive(force){
+    const cached = DATA.get('archive');
+    if (cached && !force && DATA.age('archive') < 20000) return;
+    try { const r = await API.plcArchive(); DATA.set('archive', r); if (!$('#mSt').hidden && $('#archBox')) this.renderArchive(); }
+    catch(e){ if (!cached && $('#archBox')) $('#archBox').innerHTML = `<div class="empty">โหลดคลังสรุปไม่สำเร็จ: ${esc(e.message)}</div>`; }
+  },
+  archLink(id){ if (!API_URL) return ''; const base = location.origin + location.pathname.replace(/[^/]*$/, ''); return base + 'plc.html' + (id ? '#' + id : ''); },
+  renderArchive(){
+    const body = $('#plcBody'); if (!body) return;
+    const data = DATA.get('archive'); const A = this.arch;
+    if (!data){ body.innerHTML = '<div id="archBox"><div class="loading">กำลังโหลดคลังสรุป PLC…</div></div>'; return; }
+    const all = data.list || [];
+    if (A.view === 'detail'){ const p = all.find(x => x.id === A.id); if (p) return this.renderArchDetail(p); A.view = 'list'; }
+    const months = [...new Set(all.map(p => new Date(p.createdAt).toISOString().slice(0,7)))];
+    const q = A.q.trim().toLowerCase();
+    const list = all.filter(p => (!A.subject || p.subject === A.subject) && (!A.month || new Date(p.createdAt).toISOString().slice(0,7) === A.month)
+      && (!q || [p.title, p.detail, p.summary, p.hostName, p.participants].join(' ').toLowerCase().includes(q)));
+    const people = new Set(); all.forEach(p => String(p.participants || '').split(',').map(x => x.trim()).filter(Boolean).forEach(x => people.add(x)));
+    const bySub = {}; all.forEach(p => bySub[p.subject] = (bySub[p.subject] || 0) + 1);
+    const topSub = Object.keys(bySub).sort((a, b) => bySub[b] - bySub[a])[0] || '-';
+    const closed = all.filter(p => p.status === 'closed').length;
+    const fmtM = m => new Date(m + '-01').toLocaleDateString('th-TH', {month:'long', year:'numeric'});
+    body.innerHTML = `<div id="archBox">
+      <div class="arch-stats"><div><b>${all.length}</b><small>วง PLC ทั้งหมด</small></div><div><b>${closed}</b><small>มีสรุปผลแล้ว</small></div><div><b>${people.size}</b><small>ครูที่ร่วมวง</small></div><div><b class="sm">${esc(topSub)}</b><small>กลุ่มสาระที่คุยมากที่สุด</small></div></div>
+      <div class="searchrow"><input class="txt" id="aSearch" type="search" placeholder="ค้นหาหัวข้อ สรุป หรือชื่อครู" value="${esc(A.q)}" aria-label="ค้นหาในคลังสรุป">
+        <select id="aSubject" aria-label="กลุ่มสาระ"><option value="">ทุกกลุ่มสาระ</option>${SUBJECTS.slice(1).map(x => `<option ${x===A.subject?'selected':''}>${esc(x)}</option>`).join('')}</select>
+        <select id="aMonth" aria-label="เดือน"><option value="">ทุกเดือน</option>${months.map(m => `<option value="${m}" ${m===A.month?'selected':''}>${esc(fmtM(m))}</option>`).join('')}</select></div>
+      ${this.archLink() ? `<p class="lead" style="margin:-4px 0 12px;font-size:13px">แชร์ให้ผู้บริหารหรือครูที่ไม่ได้เล่นเกมดูได้ที่หน้าเว็บ <a href="${esc(this.archLink())}" target="_blank" rel="noopener">คลังสรุป PLC ↗</a></p>` : ''}
+      ${list.length ? `<div class="arch-grid">${list.map(p => this.archCard(p)).join('')}</div>` : '<div class="empty">ยังไม่มีวง PLC ที่ตรงกับที่ค้นหา</div>'}
+      <p class="lead" style="font-size:12px;margin-top:10px">อัปเดตล่าสุด ${new Date(data.updatedAt || Date.now()).toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'})} น.</p></div>`;
+    const sI = $('#aSearch'); sI.oninput = () => { A.q = sI.value; clearTimeout(this.aT); this.aT = setTimeout(() => { this.renderArchive(); const n = $('#aSearch'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }, 250); };
+    $('#aSubject').onchange = e => { A.subject = e.target.value; this.renderArchive(); };
+    $('#aMonth').onchange = e => { A.month = e.target.value; this.renderArchive(); };
+    $$('[data-arch]', body).forEach(x => x.onclick = () => { A.view = 'detail'; A.id = x.dataset.arch; this.renderArchive(); });
+  },
+  archCard(p){
+    const n = String(p.participants || '').split(',').filter(x => x.trim()).length;
+    return `<button type="button" class="arch-card" data-arch="${esc(p.id)}">
+      <span class="chips"><span class="chip">${p.mode === 'voice' ? '🎙️ คุยด้วยเสียง' : '💬 พิมพ์สนทนา'}</span>${p.subject && p.subject !== 'ทุกกลุ่มสาระ' ? `<span class="chip">${esc(p.subject)}</span>` : ''}${p.status === 'open' ? '<span class="chip live">● กำลังคุย</span>' : ''}</span>
+      <b>${esc(p.title)}</b>
+      <p>${esc(p.summary || (p.status === 'open' ? 'วงนี้ยังเปิดอยู่ เข้าร่วมได้ที่แท็บวงที่เปิดอยู่' : 'ยังไม่มีสรุปผล'))}</p>
+      <span class="meta"><span>${new Date(p.createdAt).toLocaleDateString('th-TH', {day:'numeric', month:'short', year:'2-digit'})} · ${esc(p.hostName)}</span><span class="sp"></span><span>👥 ${n}</span><span>💬 ${p.msgCount || 0}</span></span></button>`;
+  },
+  renderArchDetail(p){
+    const body = $('#plcBody');
+    const mine = NET.account && p.hostId === NET.account.id;
+    const people = String(p.participants || '').split(',').map(x => x.trim()).filter(Boolean);
+    const dt = d => new Date(d).toLocaleString('th-TH', {day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'});
+    body.innerHTML = `<div id="archBox"><button class="btn ghost sm" type="button" id="aBack">← กลับไปที่คลังสรุป</button>
+      <article class="arch-detail">
+        <span class="chips"><span class="chip">${p.mode === 'voice' ? '🎙️ คุยด้วยเสียง' : '💬 พิมพ์สนทนา'}</span><span class="chip">${esc(p.subject)}</span>${p.status === 'open' ? '<span class="chip live">● กำลังคุย</span>' : ''}</span>
+        <h3>${esc(p.title)}</h3>
+        <dl><dt>ผู้เปิดวง</dt><dd>${esc(p.hostName)}</dd><dt>วันที่</dt><dd>${dt(p.createdAt)}${p.closedAt ? ' – ' + new Date(p.closedAt).toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'}) + ' น.' : ''}</dd>
+          ${p.detail ? `<dt>ประเด็น</dt><dd>${esc(p.detail)}</dd>` : ''}<dt>ผู้ร่วมวง</dt><dd>${people.length ? people.map(x => `<span class="chip">${esc(x)}</span>`).join(' ') : '-'}</dd><dt>ข้อความในวง</dt><dd>${p.msgCount || 0} ข้อความ</dd></dl>
+        <h4>สรุปผลการแลกเปลี่ยน</h4>
+        <div id="aSumBox">${p.summary ? `<p class="arch-sum">${linkify(p.summary)}</p>` : '<p class="lead">ยังไม่มีสรุปผล</p>'}</div>
+        <div class="row">${mine && p.status === 'closed' ? '<button class="btn ghost sm" type="button" id="aEdit">✏️ แก้ไขสรุป</button>' : ''}${SESSION.token ? '<button class="btn ghost sm" type="button" id="aLog">📜 ดูบันทึกการคุยทั้งหมด</button>' : ''}${this.archLink() ? '<button class="btn ghost sm" type="button" id="aShare">🔗 คัดลอกลิงก์สรุปนี้</button>' : ''}</div>
+        <div id="aLogBox"></div></article></div>`;
+    $('#aBack').onclick = () => { this.arch.view = 'list'; this.renderArchive(); };
+    if ($('#aShare')) $('#aShare').onclick = async () => { const u = this.archLink(p.id); try { await navigator.clipboard.writeText(u); toast('คัดลอกลิงก์แล้ว', 'good'); } catch(e){ toast(u); } };
+    if ($('#aLog')) $('#aLog').onclick = async () => {
+      const lb = $('#aLogBox'); lb.innerHTML = '<div class="loading" style="padding:8px">กำลังโหลด…</div>';
+      try { const msgs = await API.getPlcLog(p.id); lb.innerHTML = `<div class="arch-log">${msgs.length ? msgs.map(m => `<div class="rt-line"><b>${esc(m.name)}</b>: ${linkify(m.text)} <small>${new Date(m.t).toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'})}</small></div>`).join('') : '<div class="empty-q">ไม่มีข้อความ</div>'}</div>`; }
+      catch(e){ lb.innerHTML = `<div class="empty-q">${esc(e.message)}</div>`; }
+    };
+    if ($('#aEdit')) $('#aEdit').onclick = () => {
+      $('#aSumBox').innerHTML = `<textarea class="txt" id="aSum" maxlength="3000" style="min-height:140px">${esc(p.summary || '')}</textarea><div class="row" style="margin-top:8px"><button class="btn sm" type="button" id="aSave">บันทึกสรุป</button><button class="btn ghost sm" type="button" data-mic-for="aSum">🎤 พูดเพิ่ม</button></div>`;
+      bindVoiceTyping(body);
+      $('#aSave').onclick = async () => {
+        const v = $('#aSum').value.trim(); $('#aSave').disabled = true;
+        try { await API.updatePlcSummary({id:p.id, summary:v}); p.summary = v; DATA.set('archive', DATA.get('archive')); toast('บันทึกสรุปแล้ว', 'good'); this.renderArchDetail(p); }
+        catch(e){ $('#aSave').disabled = false; toast('บันทึกไม่สำเร็จ: ' + e.message, 'bad'); }
+      };
+    };
   },
   renderLobbyLists(){
     const box = $('#plcOpen'); if (!box) return;
@@ -4067,7 +4305,7 @@ const PLC = {
     bindVoiceTyping(b);
     $('#pcGo').onclick = async () => {
       $('#pcGo').disabled = true;
-      try { await API.closePlc({id:this.room, summary:$('#pcSum').value.trim(), participants:names}); closeModal('#mSt'); this.leave(true); toast('ปิดวงและบันทึกสรุปแล้ว ขอบคุณทุกคนที่ร่วมแลกเปลี่ยน', 'good'); }
+      try { await API.closePlc({id:this.room, summary:$('#pcSum').value.trim(), participants:names}); closeModal('#mSt'); this.leave(true); this.loadArchive(true); toast('ปิดวงและบันทึกสรุปแล้ว ขอบคุณทุกคนที่ร่วมแลกเปลี่ยน', 'good'); }
       catch(e){ $('#pcGo').disabled = false; $('#pcErr').hidden = false; $('#pcErr').textContent = 'ปิดวงไม่สำเร็จ: ' + e.message; }
     };
   }
@@ -4098,6 +4336,7 @@ initPreview();
 loop();
 SESSION.token = store.get('tok', null);
 (async () => {
+  if (API.mode !== 'local') DATA.boot();   // อุ่นข้อมูลไว้ระหว่างที่ครูกำลังล็อกอิน
   await netDetect();
   if (NET.kind === 'gas' && SESSION.token){
     try { const r = await API.resume(); r.token = SESSION.token; await afterLogin(r); return; }
